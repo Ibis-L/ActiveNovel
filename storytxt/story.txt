@@ -1,0 +1,792 @@
+# THE VISCOUNT'S VIGIL
+### Complete Game Script — All Routes, Dialogue & Endings
+
+---
+
+# PROLOGUE — THE DREAM
+
+*Black. Silence. Then fragments, like broken glass catching light.*
+
+*A hall full of candlelight and laughter. A glass of deep red wine, held up in a toast.*
+*Then — a hand, gloved in black, passing behind a table. Too quick. Too careful.*
+*A woman's face, half-turned, smiling at someone you can't see.*
+*The glass at her lips.*
+*And then — nothing. Just the sound of something shattering.*
+
+*And her gasp.*
+
+*You wake.*
+
+---
+
+*Your room. Dawn light. You sit up slowly, pressing your fingers to your temples. The visions have come before — your grandmother called them the Sight, said the bloodline carried it like a scar. They are never clear. They are never wrong.*
+
+*You dress without a word to your valet. Today you are expected at the Grand Duke's estate. The peace treaty will be signed tonight. They say it ends ten years of war.*
+
+*You say nothing about what you saw.*
+
+*But you don't stop seeing it.*
+
+---
+
+# ACT 0 — THE CARRIAGE
+*Two hours from the estate. Your coachman, ALDOUS, drives. You can speak to him or ride in silence.*
+
+**[Player choice — open the window and speak, or stay silent]**
+
+**[STAY SILENT]**
+→ You watch the road. Farmland, then forest, then the lights of the estate emerging through the trees as dusk falls. Nothing to note — but you arrive at the estate having learned nothing of the world outside your own head. *(Minor mechanical note: silent players start Act 2 at Friendly Level 0 with no pre-knowledge of any house. Talkative players start at FL 1 with basic context.)*
+
+**[SPEAK TO ALDOUS]**
+> **You:** "Aldous. What do you know about tonight?"
+
+> **Aldous:** "What every man knows, my lord. Ten years, four campaigns, more funerals than I've attended weddings. And tonight they sign a paper that says it's over." *(a pause)* "There's some who aren't celebrating, mind."
+
+**[Player choice:]**
+
+A) **"Who?"**
+→ Aldous: "House Marrow lost their lord at the Verenmark crossing. His daughter — Lady Brienne — she's been named heir now, young thing. They say she's holding it together, but the house is bitter. Publicly against the peace, the whole lot of them." *(Evidence Log: House Marrow — publicly anti-peace, lost their lord in the war, heir is Lady Brienne.)*
+
+B) **"And the Duke's family — are they well?"**
+→ Aldous: "The Duke has a daughter, Lady Isolde. She's to be the living symbol of the peace — word is she may wed the foreign prince who comes with the treaty. Lovely girl, by all accounts." *(Evidence Log: Lady Isolde — Duke's daughter, symbolic figure of the peace treaty, possible political marriage.)*
+
+C) **"How long until we arrive?"**
+→ Aldous: "An hour, perhaps a little less. The road's clear tonight, my lord."
+
+D) **"Tell me about the Duke."**
+→ Aldous: "Grand Duke Aldric's kept this region together through the war. Hard man when he needs to be — they say he ordered some brutal calls in the early campaigns. Lost men over it. But the peace is his legacy now. He'll protect it." *(Evidence Log: Duke Aldric — ordered costly battle decisions during the war, deeply invested in the peace treaty.)*
+
+*All four can be asked in any order. When you've heard enough, or said nothing:*
+
+> **Aldous:** "There she is, my lord."
+
+*The estate appears — lit from every window, carriages still arriving on the long drive. You hear music. Somewhere inside, two hundred nobles are celebrating the end of a war.*
+
+*You see a woman's face. Smiling. A glass at her lips.*
+
+*You blink. Just the gate. Just the lanterns.*
+
+---
+
+# ACT 1 — ARRIVAL
+*The carriage stops. The door is opened not by a footman but by the Head Butler himself — REYNARD, late fifties, silver-haired, impeccably composed. A mark of personal attention.*
+
+> **Reynard:** "Lord Viscount. His Grace will be glad you've come. I'll see you through to the hall personally." *(a measured bow)* "Was the road kind to you tonight?"
+
+**[Player choice 1:]**
+
+**A) "Pleasant enough. Tell me, Reynard — how long have you served the Duke?"**
+*(Warm, builds Trust. Unlocks backstory thread — Reynard Friendly Level +1)*
+→ **Reynard:** "Thirty-one years, my lord. Since the Duke was little older than you." *(something flickers, controlled)* "Long enough to have buried more of his men than I care to count." *(a breath)* "Forgive me. Tonight is meant to be happy."
+→ *(Aldous's earlier comment about the Duke's costly orders now resonates — though the player doesn't know why yet. Reynard moves on before it can be pressed.)*
+
+**B) "Long enough. Where is the Duke? I'd like to see him before the evening begins."**
+*(Direct, neutral. No Trust gained or lost.)*
+→ **Reynard:** "His Grace is receiving in the east hall, my lord. I can place you in the line — though you'll be one of many tonight."
+→ *(Routes to Duke station during Act 2, public setting only — harder to get private audience without Trust buildup.)*
+
+**C) "I had an unsettling dream on the way here. Strange, for a celebration."**
+*(Risky — reveals vulnerability, but is honest.)*
+→ **Reynard:** *(the bow lingers a half-second too long)* "Dreams can be like that before a grand occasion, my lord. The occasion perhaps weighing on you." *(his eyes are unreadable)* "I hope the evening puts you at ease."
+→ *(Flags REYNARD ALERT: Aware. Invisible to player. If the toast confrontation later tries to raise a 'dream' as evidence, Reynard uses this moment to discredit you.)*
+
+    **[Push further: "It felt like a warning. A death."]**
+    → **Reynard** *(very even, very quiet)*: "Then I hope, my lord, that you are cautious tonight. For your own sake." *(This line reads as concern on a first playthrough. On replay: it is a warning.)*
+    → *(Flags REYNARD ALERT: Threatened. Increases chance of being reported to Vantrells mid-evening if player continues to press.)*
+
+**[Player choice 2 — the walk inside:]**
+
+*As Reynard leads you toward the entrance hall, he speaks without being asked:*
+
+> **Reynard:** "The gift-wine from the eastern court arrived this afternoon. A fine gesture for the signing. His Grace has asked it be treated with particular care until the toast."
+
+*(Planted clue — first mention of the ceremonial wine. Flagged in Evidence Log only if player actively asks about it.)*
+
+**D) "Oh? Particular how?"**
+*(Requires no prior Trust, but with Reynard FL 0, he gives the surface answer.)*
+→ **Reynard:** "The delegation requested it remain sealed until the moment — ceremonial, my lord. It would be poor form to open it early." *(True. But he doesn't mention he personally reassigned the two cellar staff who would normally handle it tonight.)*
+→ *(Evidence Log: Ceremonial wine from eastern court — to be kept sealed until the toast. Reynard mentioned it unprompted.)*
+
+**E) *(Say nothing — simply nod.)*
+→ *(No Trust change. Clue not flagged. Player must learn about the wine elsewhere — e.g., kitchen station.)*
+
+---
+
+### EASTER EGG — PASSPHRASE (Any Reynard encounter after overhearing it)
+
+*If the player has already overheard the passphrase somewhere in Act 2:*
+
+> **Player:** "The harvest was good this year."
+
+> **Reynard:** *(A pause. Something recalibrates behind his eyes.)* "...Better than the war years." *(quieter)* "I didn't expect this, my lord. Walk with me — there are people who will want to know you're aware of things."
+
+→ *(Branches to ENDING E path — the darkest shortcut through the game.)*
+
+---
+
+# ACT 2 — THE PARTY
+
+## THE OPENING CROWD — WHERE EVERYTHING BEGINS
+
+*You enter the main hall. It is enormous and loud and bright. Guests cluster in groups near long tables, near the fireplace, near the windows looking out over the dark garden. Servants move with trays. Somewhere, a string quartet plays.*
+
+*You are greeted by a minor lord you vaguely know — LORD FENWICK, a pleasant, well-connected gossip of about fifty, exactly the kind of man who knows everyone and notices everything without being remarkable enough for anyone to guard their words around.*
+
+> **Lord Fenwick:** "Viscount! Splendid, you made it. Come, come — dreadful journey, was it? You look like you've seen a ghost. Wine?"
+
+**[Player choice — entering the crowd]**
+
+**A) Accept the wine and fall into conversation.**
+*(Gains Fenwick Friendly Level +1 immediately. Opens the rumor thread fastest.)*
+
+**B) Decline the wine but stay and talk.**
+*(Neutral. Fenwick is unbothered. Opens rumor thread at normal speed.)*
+
+**C) "Perhaps later — I'd like to find the Duke first."**
+*(You can always come back. Fenwick is not offended but you lose the easiest early-game information channel. Duke station unlocked directly.)*
+
+---
+
+## THE CROWD CONVERSATION SYSTEM
+
+*You can stay in the general crowd as long as you wish. Every exchange costs roughly 10-15 minutes of game-clock. Leaving for a specific station pauses this thread — you can return.*
+
+*FRIENDLY LEVEL (FL) with the crowd tracks how at-ease people are with you. It starts at 0 (or 1 if you talked to Aldous). Higher FL unlocks deeper topics and more candid answers. You raise it by asking warm, interested questions, agreeing with small talk, sharing minor things about yourself — or lower it by being cold, dismissive, or pressing too hard too fast.*
+
+---
+
+**[Fenwick's thread — the main crowd hub]**
+
+**Opening:** Fenwick raises his glass toward the hall at large.
+
+> **Fenwick:** "Remarkable, isn't it? Ten years. I remember the first campaign — thought it would be over in a season. And now here we are." *(genuine)* "His Grace has done something real, I think."
+
+**[Player choice:]**
+
+**1) "Everyone seems glad it's over."**
+*(Casual, warm. FL check: always available.)*
+→ **Fenwick:** "Most." *(lowers his voice just a fraction, glances sideways)* "Not all. You've seen them, surely — the Marrow table, far corner. Look at them. Every face in this room is lit up and theirs could be at a funeral." *(shakes his head)* "Lost their lord at the Verenmark crossing. Brienne — the daughter — she's holding the house together but she can't be happy about any of this."
+→ *(HOUSE MARROW STATION UNLOCKED. Evidence Log: House Marrow publicly grieving, anti-peace. Lady Brienne Marrow — heir, present tonight.)*
+
+**2) "Who here actually supported the war effort most?"**
+*(Slightly pointed — requires FL 1 for Fenwick to answer candidly.)*
+→ *(FL 0):* **Fenwick:** "Ha — loaded question at a peace celebration. Ask me after another glass."
+→ *(FL 1+):* **Fenwick:** "Honestly? House Vantrell made a fortune during the war. Arms — supply contracts, the whole chain. Cassian Vantrell is all smiles tonight, peace-champion to the crowd —" *(leans in)* "but his family's income just got carved in half. You'd never know it from his face, of course. Remarkable man, Cassian." *(said in a tone that isn't entirely a compliment)*
+→ *(HOUSE VANTRELL STATION UNLOCKED. Evidence Log: Vantrell — arms dealers, major war profiteers. Now publicly pro-peace, but financially damaged by it. Cassian Vantrell is the head.)*
+
+**3) "And the foreign delegation — what do people make of them?"**
+*(Requires FL 1.)*
+→ **Fenwick:** "Nervous lot. Well — Demir especially. The prince's aide. Every time someone gets too close he looks like he's swallowed something." *(amused)* "I caught him whispering to that military man they brought — some commander — out near the east corridor earlier. Stopped the moment they saw me. Very suspicious, if you like that sort of thing." *(cheerfully)* "Personally I assume it's something embarrassing rather than sinister. Men like Demir always have embarrassing things to hide."
+→ *(FOREIGN DELEGATION STATION UNLOCKED. Evidence Log: Counselor Demir — nervous, caught in hushed conversation with a military commander. Stopped when noticed.)*
+
+**4) "I heard Lady Isolde may be central to the treaty arrangement."**
+*(Requires FL 1. Humanizes the real victim before the player knows she's the target.)*
+→ **Fenwick:** "Central is an understatement — she's the seal on the envelope, so to speak. If the political marriage goes ahead, the peace is bound by blood. Lovely girl, Isolde. Bright. I do hope she's happy about it — no one's asked her, but that's how these things go." *(a brief, genuine sadness)* "She's here tonight, of course. Southeast end of the hall."
+→ *(LADY ISOLDE STATION ACCESSIBLE — always technically open but now emotionally flagged. Evidence Log: Lady Isolde — central to peace treaty, political marriage likely, present tonight.)*
+
+**5) "What do you know about the Duke himself?"**
+*(Requires FL 2 for the candid version.)*
+→ *(FL 0-1):* **Fenwick:** "A great man. Tonight is his legacy." *(stops there)*
+→ *(FL 2+):* **Fenwick:** *(quieter)* "He's done great things. He's also made hard calls. There are men — families — who lost people because of orders he gave. He knows it. I think it keeps him awake." *(finishes his glass)* "The peace is partly genuine and partly penance, if you ask me. Don't tell him I said that."
+→ *(Evidence Log: Duke Aldric — costly battle orders during the war. Peace treaty may be partly driven by guilt. Has enemies among the bereaved.)*
+
+**[After FL reaches 2 with the crowd — automatic line, not a choice]**
+
+*A moment of lull in the conversation. Someone across the hall laughs too loudly. Fenwick glances over.*
+
+> **Fenwick:** *(almost to himself)* "The funny thing is, the people loudest about peace in this room had the most to gain from the war. And the ones who lost the most are sitting in silence." *(nods toward the Marrow table)* "History is perverse that way."
+
+*(This line plants the core thematic inversion — the "loudest peacekeepers" being the real conspirators — without pointing at anyone directly.)*
+
+---
+
+## STATION 1: HOUSE MARROW TABLE
+*Unlocked after Fenwick mentions them. Far corner of the hall — quieter, darker, as if the festivity stops at the edge of their table.*
+
+*Lady Brienne Marrow sits at the centre. She is perhaps 26, composed, wearing black that is just within the acceptable range for a celebration. Two older retainers flank her. She looks up as you approach — not hostile, but measuring.*
+
+> **Brienne:** "Viscount. I wondered if anyone would bother with our corner tonight." *(a dry half-smile)* "Sit, if you like. You're not obliged to be cheerful."
+
+**[She is warm but controlled. Friendly Level with Brienne begins at 1 automatically — she recognises you from before the war, perhaps, or simply reads you as sincere.]*
+
+**[Player choice:]**
+
+**A) "I'm sorry about your father."**
+*(Simple, genuine. FL +1 with Brienne immediately.)*
+→ **Brienne:** *(a pause — then something loosens slightly)* "Thank you. Most people tonight would rather not mention him. As if grief is bad manners at a celebration." *(quietly)* "He died taking an order he thought was wrong. He took it anyway. That's the kind of man he was."
+→ *(Evidence Log: Lord Marrow (deceased) — died following an order he believed was wrong. Brienne knows this.)*
+
+**B) "You don't seem thrilled about the peace."**
+*(Direct — requires nothing, but lowers FL if Brienne is still at 0.)*
+→ *(FL 1+):* **Brienne:** "I'm thrilled about the dying stopping. I'm less thrilled about the manner of it." *(drily)* "We were told ten years that the cause was worth every cost. Now the cause is a piece of paper and a political marriage and everyone is dancing. Forgive me for finding the transition abrupt."
+
+**C) "How is House Marrow managing?"**
+*(Requires FL 1. Practical, shows you care about her specifically.)*
+→ **Brienne:** "We're standing. That's the current aspiration." *(a moment)* "Our income was largely military contracts. Supply, logistics — not arms, we weren't Vantrell — but tied to the campaign nonetheless. With the peace, that ends. I'm currently redesigning a house economy from scratch while running a funeral that lasted a year." *(FL +1 if responded to with something other than empty sympathy)*
+
+**D) "Tell me about the Verenmark crossing — if you want to."**
+*(Requires FL 2. This unlocks the key detail.)*
+→ **Brienne:** *(still, for a moment)* "My father's unit was ordered to hold the crossing for three days. Command said reinforcements were coming. They didn't come." *(measured, clearly rehearsed into calmness)* "On the fourth day, what was left of his unit pulled back. He didn't." *(beat)* "The order came from above the field commanders. From this house, actually." *(she doesn't look at the Duke's table — but you notice she doesn't look away from it either.)*
+→ *(Evidence Log: Lord Marrow's death — ordered to hold the Verenmark crossing with no reinforcements. Order came from the Duke's level of command. Brienne knows. She's controlled but not healed.)*
+
+**[Mid-conversation — the planted red herring against Brienne]**
+
+*After any exchange at FL 1+, one of the older retainers at the table mutters something to the other — not quietly enough:*
+
+> **Retainer:** "...can't believe they put her within twenty feet of Vantrell after what his supply chain cost our—" *(stops when he sees you listening)*
+
+*(This plants the idea that something in this table's world connects to danger — vague enough to feel ominous, accurate enough to be misleading. The player can follow up:)*
+
+**E) "Within twenty feet of Vantrell — what did you mean by that?"**
+→ **Brienne:** *(overrides the retainer smoothly)* "Old argument. Supply contracts during the campaign. Vantrell's chain cut our division off from materials twice. Men died over it. It's old business." *(she watches you)* "Why? Is it relevant to something?"
+→ *(If player says yes → FL check: if FL 2+ with Brienne, she leans in rather than pulling back: "Is there something you know that I don't, Viscount?" — opens the possibility of a warning conversation later. If FL 0-1, she closes up: "I didn't think so.")*
+
+**[The false threat against Brienne — planted mid-Act 2, unlocked only after visiting Vantrell table]**
+
+*If the player has already visited the Vantrell table and noted Ophelia's cold manner toward Brienne when they were in the same eyeline: a servant approaches Brienne with a note. She reads it, folds it, gives no reaction.*
+
+**F) "Bad news?"**
+→ *(If Brienne FL 2+):* **Brienne:** *(considers, then shows you — it reads: "Leave before midnight. For your health.")* "Anonymous." *(a breath)* "I've received three of these since my father died. I stopped flinching." *(Evidence Log: Threat note received by Lady Brienne Marrow — anonymous, third received, advising her to leave before midnight.)*
+
+*(This is a genuine-seeming threat against Brienne — planted by the Vantrells as misdirection, to focus any investigation on her rather than Isolde. The player who's been building rapport with Brienne will feel urgency here.)*
+
+---
+
+## STATION 2: HOUSE VANTRELL TABLE
+*Unlocked after Fenwick mentions them. Centre-left of the hall — well-lit, animated, the most comfortable table in the room. LORD CASSIAN VANTRELL, mid-forties, wide shoulders, warm face, is holding court. His sister LADY OPHELIA VANTRELL, a few years younger, sits slightly apart — elegant, quieter, and watching everything.*
+
+*Cassian sees you approaching and opens his arms as if you're an old friend regardless of whether you are.*
+
+> **Cassian:** "Viscount! Come, sit — we were just celebrating. The war is over! Can you believe it?" *(genuinely warm-seeming)* "What can I get you?"
+
+**[Cassian is performatively open. Ophelia does not perform.]*
+
+**[Player choice — opening:]**
+
+**A) "I can believe it. Ten years is a long time."**
+*(Goes along with his warmth. FL +1 with Cassian.)*
+→ **Cassian:** "Too long. Terrible for everyone — everyone. We did what we could to support the campaign, of course, but I'll be glad to see the industry pivot to peacetime. Build things instead of — well." *(waves a hand)* "You know."
+→ *(His pivot away from "arms" is smooth but present. Ophelia doesn't react.)*
+
+**B) "House Vantrell was heavily involved in the war effort, I understand."**
+*(Direct. Costs FL with Cassian if he's still at 0, but unlocks different lines.)*
+→ **Cassian:** *(easy laugh)* "The supply chain, yes. Someone has to keep armies moving. Not glamorous work, but necessary." *(a pause — very brief)* "Ancient history tonight, though, surely."
+→ **Ophelia** *(without looking up from her glass)*: "Supply chain is the polite way to put it."
+→ **Cassian** *(smoothly, to you)*: "My sister has a gift for precision."
+→ *(Evidence Log: Vantrell — war supply chain including arms. Ophelia confirmed it more bluntly than Cassian wanted.)*
+
+**C) "Lord Vantrell — I have to ask. The peace must cut into your income significantly."**
+*(Requires FL 1 to not offend. Requires FL 2 to get the real answer.)*
+→ *(FL 0):* **Cassian:** *(still smiling, but cooling slightly)* "An interesting question for a celebration, Viscount. Another time, perhaps."
+→ *(FL 1):* **Cassian:** "It will require adjustment, yes. But peace opens other markets. Trade agreements, construction. We're optimistic." *(too polished)*
+→ *(FL 2+):* **Cassian** *(the smile holds but something behind it shifts)*: "Between us, Viscount — it will be a difficult few years. But one adapts." *(Ophelia looks at you for the first time, briefly)* "One always adapts."
+→ *(FL 2+ Evidence Log: Vantrell income is significantly impacted by the peace. Cassian's adjustment speech is rehearsed. Ophelia watched you when you pushed.)*
+
+**[Key Ophelia thread — requires addressing her directly]**
+
+*Ophelia does not initiate. She observes. The player must turn to her specifically.*
+
+**D) "Lady Ophelia — you've been quiet."**
+→ *(FL 0 with Vantrell):* **Ophelia:** "I've been listening. It's more useful." *(back to her glass)*
+→ *(FL 1+):* **Ophelia:** *(a measured look)* "I find large gatherings more interesting from the outside. You notice more." *(a pause)* "You've been moving through the room carefully tonight, Viscount. More carefully than most."
+
+**[Push back: "Is that a compliment?"]**
+→ **Ophelia:** "It's an observation." *(a small, genuine smile that doesn't touch whatever she's thinking)* "This estate runs on careful people. Reynard especially — thirty years and the man still notices if a fork is placed wrong." *(seemingly idle)* "He was down in the cellars this afternoon, I believe. Very particular about the wine arrangements."
+→ *(Evidence Log: Ophelia mentions Reynard's cellar activity this afternoon — presented as idle conversation, but she's the one who brought it up. If player already knows about the wine from Reynard, this is a second flag.)*
+
+**E) "What do you make of House Marrow?"** *(Requires FL 1)*
+→ **Ophelia:** "Grief is difficult. It makes people... imprecise." *(coolly)* "Lady Brienne is carrying more than she should."
+→ *(If Brienne threat note already found):* "She received a note tonight, didn't she? I noticed her face when she read it." *(Ophelia says this without apparent interest — but she noticed. The player should find this unsettling if they're paying attention.)*
+→ *(Evidence Log: Ophelia observed Brienne receive the threat note and noticed her reaction. She brings it up voluntarily.)*
+
+---
+
+## STATION 3: FOREIGN DELEGATION
+*Unlocked after Fenwick mentions Demir. Near the east corridor entrance. COUNSELOR YUSUF DEMIR, a lean man of about forty in eastern court dress, stands with a MILITARY COMMANDER — GENERAL ALDUS KAVIR — broad, formal, saying little. Demir is talking too quickly.*
+
+*They stop when you approach.*
+
+> **Demir:** "Lord Viscount." *(a formal bow, slightly too deep — overcompensating)* "A wonderful evening." *(he clearly wants this conversation to be over.)*
+
+**[Kavir says almost nothing unprompted. Demir is nervous but not malicious.]*
+
+**[Player choice:]**
+
+**A) "Counselor — is everything all right? You seem troubled."**
+*(Blunt. Works better at FL 1.)*
+→ *(FL 0):* **Demir:** "I'm perfectly well, my lord. Please excuse me—"
+→ *(FL 1+):* **Demir:** *(stiffens, then deflates slightly)* "I apologise if I seem distracted. There are... matters I need to ensure remain private until after the signing. You understand. Diplomatic." *(glancing at Kavir, who gives nothing away)*
+→ *(Evidence Log: Demir — has 'private matters' that must stay secret until after the signing. Clearly stressed. Deflects when pressed.)*
+
+**B) "General Kavir — how do you find the estate?"**
+*(Turning to the silent one. He opens slightly when directly addressed.)*
+→ **Kavir:** "Very fine." *(a pause)* "We have... similar estates in the east. This reminds me of them." *(and then, perhaps too candidly — this man is a soldier, not a courtier)* "I'll be glad when the evening is over. Court functions are not my strength."
+→ *(Follow up: "Was the campaign your strength?")*
+→ **Kavir:** "War never was a strength. It was a necessity. I hope not to repeat it." *(quietly, and he means it)*
+
+**C) "I couldn't help but notice you both seemed deep in conversation earlier."** *(Requires FL 1)*
+→ **Demir:** *(the nervousness spikes, then he catches it)* "Nothing of consequence, my lord. A private matter regarding the — regarding the Prince's arrangements for after the signing. Nothing that concerns the treaty itself, I assure you."
+→ *(Follow up at FL 2: "The Prince's affairs?"):*
+→ **Demir:** *(miserable)* "Please. I am asking you, as one — as a gentleman. There are things that cannot come out tonight. The marriage is delicate enough. If word reached Lady Isolde's family that — " *(stops himself)* "Forgive me. I've said too much."
+→ *(Evidence Log: Demir — secret relates to the Prince personally. Affects the marriage/treaty arrangement. Demir is desperate for it to stay hidden, not malicious. Whatever it is, it has nothing to do with murder.)*
+
+**[The planted red herring against Brienne — the General's line]**
+
+*If the player lingers or asks about the political landscape:*
+
+> **Kavir:** *(to Demir, gruffly, not quite quietly enough)* "At least Vantrell isn't the problem tonight. It's that Marrow woman I'd worry about — her house was a pain in the flank for the entire third campaign, and now they're here glaring at everyone."
+
+*(To the player, if they react:)*
+
+> **Kavir:** "Military perspective, my lord. Grudges run long in families that bleed for the cause. She's not dangerous — probably. But if something went wrong tonight, I know where I'd look first."
+
+*(Evidence Log: General Kavir — suspects House Marrow would be most likely to act if anything went wrong tonight. Points toward Brienne specifically.)*
+
+---
+
+## STATION 4: LADY ISOLDE
+*The real victim. Always accessible — southeast end of the hall, near a group of young courtiers. She's easy to approach. She's laughing when you arrive.*
+
+> **Isolde:** *(turning to you)* "Oh — Viscount! I was hoping to meet you properly tonight. They say you've been on your own little investigation of the room." *(a teasing warmth)* "What have you concluded?"
+
+**[Isolde is perceptive. She reads people well. She knows something about tonight is formal and strange, but she's choosing lightness.]*
+
+**[Player choice:]**
+
+**A) "That you seem the only one who's actually enjoying herself."**
+*(Warm, earns instant FL +1 with Isolde.)*
+→ **Isolde:** "I've decided to enjoy it deliberately. As an act of will." *(a small, real smile)* "It is a good thing, the peace. Whatever the rest of it costs me." *(the last phrase is quiet, almost to herself.)*
+→ *(Follow up: "What does it cost you?"):*
+→ **Isolde:** "A marriage I didn't choose to a man I haven't met. But —" *(straightens slightly)* "people have paid higher prices for less important things this last decade. I'm quite aware of that."
+→ *(Evidence Log: Isolde — aware of and accepting her role in the peace arrangement. Perceptive about the room.)*
+
+**B) "I'd like to tell you something — privately. Something I believe may concern you."**
+*(Direct — can be done at any FL level, but Isolde's response changes.)*
+→ *(FL 0):* **Isolde:** *(measured)* "That's a rather alarming opening, Viscount. You'll need to do better than that." *(she doesn't dismiss you, but wants more before she trusts you)*
+→ *(FL 1+):* **Isolde:** *(stills, eyes sharpening)* "Then let's walk." *(she moves toward a quieter corner — player can now warn her about a threat against her life, though the specifics available depend on Evidence Log depth)*
+    - *(Evidence Log empty → Warning vague → Isolde concerned but uncertain, doesn't act, doesn't dismiss)*
+    - *(Evidence Log: wine + Reynard → Warning specific → Isolde takes it seriously, agrees to avoid the toast if possible → gives player a major advantage at climax)*
+    - *(Evidence Log: Brienne's threat note seen → Warning mixed → Isolde asks "Me specifically, or Lady Brienne?" → moment of choice for the player about where the real danger is)*
+
+**C) "Are you close to Lady Brienne Marrow?"**
+*(Requires FL 1. Links the two women — important for Ending C emotional weight.)*
+→ **Isolde:** "We were, before the war. It's been... complicated. Her father and mine ended up on opposite sides of several decisions." *(simply)* "I'd like to repair it. Tonight, perhaps." *(a glance toward the Marrow table)*
+→ *(Evidence Log: Isolde and Brienne — formerly close, estranged during the war over their fathers' decisions. Isolde wants to reconcile.)*
+
+---
+
+## STATION 5: THE DUKE
+*Grand Duke ALDRIC is at the centre of the hall, currently working the receiving line. He's in his late fifties, silver at the temples, a formal manner softened by what reads as genuine relief tonight.*
+
+*If player sought the Duke in Act 1 (Choice B with Reynard): you were placed in the public receiving line and got a brief, formal greeting — no private access without further effort.*
+
+*If player built reputation through Act 2: you can request a few private words during a lull.*
+
+**[Private audience requires: either FL 2 overall + Evidence Log item about the Duke from Aldous, OR having asked Reynard to arrange it specifically in Act 1 (Choice A with Reynard gets Reynard to mention you specifically to the Duke's aide — small social flag that earns the private moment).]*
+
+**[Public meeting — brief, formal:]**
+
+> **Duke Aldric:** "Viscount. Glad you're here. A night to remember, yes?" *(moves on within a few exchanges)*
+
+*In public, you can only raise one substantial item without seeming rude:*
+
+**P1) Mention suspicion about the wine — public setting**
+→ **Duke:** *(quietly, firmly)* "Viscount, this is not the moment for— please. Come see me later." *(won't act publicly, but notes it — Evidence Log: Duke aware of your concern, not yet convinced.)*
+
+**P2) Mention suspicion about House Marrow — public setting**
+→ **Duke:** *(sighs, quiet)* "Lady Brienne is grieving. She is not a threat. I would ask you not to make this evening harder for her." *(closes the subject)*
+
+---
+
+**[Private audience:]**
+
+> **Duke Aldric:** *(quieter, genuine)* "I don't get many moments tonight. What's on your mind, Viscount? You look like a man with something to say."
+
+**[Player choice:]**
+
+**A) "The wine from the eastern court. I have reason to think something may be wrong with it."**
+*(Requires Evidence Log: wine mentioned by Reynard + Reynard cellar activity from Ophelia, OR second vision. Without these, the Duke dismisses it as anxiety.)*
+→ *(No evidence):* **Duke:** "The wine arrived sealed and was handled by Reynard personally. If you're anxious about the evening, I understand — but I won't insult our guests on a feeling."
+→ *(With evidence):* **Duke** *(stills)*: "You're certain?" *(and he believes you — now needs to act without causing a scene. He quietly orders the wine held until "inspected" — reframes it as tradition. This doesn't solve who, but removes the immediate method. Player still needs to find culprits for a full ending.)*
+
+**B) "I need to tell you about Reynard." (High-risk — read carefully)**
+*(Requires very high evidence — Reynard cellar reassignment + kitchen staff illness + Ophelia noting Reynard + second vision, at minimum. Without all four, the Duke will not believe you.)*
+→ *(Insufficient evidence):* **Duke:** "Reynard has served me for thirty years, Viscount. I won't hear this without proof." *(Trust with Duke -1)* "Choose your next words carefully."
+→ *(Sufficient evidence):* **Duke:** *(long silence)* "...He was at the crossing. He lost his boy at the crossing." *(quietly, to himself as much as you)* "I always wondered—" *(he catches himself, looks at you)* "I'll handle this discreetly. You've done right by telling me." *(Duke now has guards watching Reynard — changes Act 3 available options.)*
+→ *(CRITICAL WARNING: If you raise Reynard without the evidence threshold met, the Duke tells Reynard you accused him. Reynard has you quietly removed and detained — ENDING D triggered.)*
+
+**C) "I believe House Vantrell may have something to do with whatever is planned tonight."**
+*(Requires Evidence Log: Vantrell income damaged by peace + Ophelia's cellar comment + at least one more supporting clue.)*
+→ *(Insufficient evidence):* **Duke:** "Cassian Vantrell is one of my strongest supporters tonight. I'd be very careful with that suggestion."
+→ *(Sufficient evidence):* **Duke:** *(controlled surprise)* "Cassian." *(thinks)* "All right. I'll have him watched. Quietly." *(doesn't act openly, but now suspects. Changes Act 3: Cassian is slightly more watched, slightly harder to maneuver.)*
+
+**D) "I've been having visions. Since last night. I believe someone will die here tonight."**
+*(The honest, vulnerable option. Depends entirely on how much the Duke respects you — FL with Duke check.)*
+→ *(FL 0):* **Duke:** "Viscount, I say this with no disrespect — please take care of yourself tonight. The evening is long." *(dismisses kindly but firmly)*
+→ *(FL 2+ AND Aldous clue about Duke's guilt logged):* **Duke:** *(something shifts in him — he's a man with enough ghosts to not entirely dismiss this)* "What did you see?" *(genuine, quiet — you have his full attention. Evidence Log unlocks: Duke is open to the possibility. Trust with Duke +2. Most options now available in Act 3.)*
+
+---
+
+## STATION 6: KITCHEN & CELLAR
+*Always open. Down a servants' corridor off the east end of the hall. The kitchens are busy, loud, warm. The cellar is quieter — stone steps, rack upon rack of bottles.*
+
+*HEAD COOK MRS. ALWEN — stout, efficient, welcoming to a lord who doesn't condescend.*
+
+> **Mrs. Alwen:** "My lord! Is something wrong — has a dish not come up right?"
+
+**[Player choice:]**
+
+**A) "Everything's wonderful. I'm just curious — all this preparation for one evening."**
+*(Warm, conversational. Earns FL with kitchen staff.)*
+→ **Mrs. Alwen:** "Twenty-two years I've run this kitchen and tonight was something special." *(proud)* "The eastern delegates had food preferences we'd never worked with — Mr. Reynard briefed us himself. Very specific about the wine not entering the kitchen under any circumstances, too." *(said without suspicion — she saw nothing wrong with it)*
+→ *(Evidence Log: Reynard gave very specific orders keeping the eastern wine away from kitchen staff — they couldn't inspect or taste it.)*
+
+**B) "Two of Reynard's cellar staff are ill tonight, I heard?"**
+*(Requires knowing about the reassignment — from Reynard in Act 1 or Ophelia. Otherwise Mrs. Alwen looks confused.)*
+→ *(If properly contextualized):* **Mrs. Alwen:** *(frowning slightly)* "Willem and Dorse, yes. Came over poorly just this afternoon. Very sudden." *(a pause)* "I'll be honest with you, my lord — Willem had half a meat pie at lunch and was perfectly fine, and then by four o'clock he couldn't stand. Same with Dorse." *(hesitant)* "I didn't say anything because I don't like to imply things. But the timing was odd."
+→ *(Evidence Log: Two cellar staff fell suddenly ill this afternoon. Mrs. Alwen finds the timing suspicious but didn't report it. They were the people who would normally have handled the eastern wine.)*
+
+**C) *(Enter the cellar itself, uninvited but possible.)*
+→ *The eastern wine is there — a specific rack near the far wall, separated from the others. You can:*
+    - **Examine the seal** *(requires nothing)*: the wax seal has been reapplied — slightly different color than the official eastern court description on the accompanying letter. Not obviously wrong unless you know what to look for. *(Evidence Log at careful inspection: Eastern wine seal appears to have been resealed — possible tampering. Not confirmed without a second source.)*
+    - **Find Reynard's cellar log**: he moved two bottles from a different rack to a prominent position. The dates don't match the delivery. *(Evidence Log: Reynard manually repositioned wine bottles — specific ones moved to the serving rack the night of the toast.)*
+
+---
+
+## STATION 7: THE BALCONY
+*Always open. A set of tall windows at the west end of the hall lead to a stone balcony overlooking the garden. It's quieter here — one or two guests smoking, or just needing air.*
+
+**[Standard visit — no vision:]**
+*You look out over the garden. Lanterns in the hedge-rows. Distant silhouettes. Voices drifting up. You think of the dream. Nothing new comes.*
+
+**[The Second Vision — triggered by arriving at the balcony during the RANDOM WINDOW]**
+
+*The vision window opens at a random point in Act 2 (roughly 30-40 minutes into the clock, adjusted for pacing). If the player is at ANY other station when it opens, it closes silently after 10 minutes. If the player happens to be at the balcony:*
+
+> *The lanterns blur. For a moment the garden is lit differently — afternoon light, not night. You see the cellar door from the outside. A figure you know now but didn't know in the dream — Reynard — carrying something wrapped in cloth, moving quickly, not looking up. Behind him, the door is held open by a gloved hand — a woman's ring on one finger. A ring you'd recognise if you'd noticed it. Then the chill comes back and it's night again and someone is asking if you're all right.*
+
+*(Evidence Log: Vision — Reynard, the cellar, the afternoon. A woman with a distinctive ring held the door. This vision is ONLY available at the right time window. Checking Ophelia's ring now confirms it matches — but only if you saw the vision first.)*
+
+*(This is the most powerful single clue in the game. It directly ties Reynard and Ophelia. Without it, the player must build the case from five smaller pieces; with it, two pieces do the same work.)*
+
+---
+
+# ACT 3 — THE TOAST
+
+*The hall's noise gradually restructures. The string quartet finishes. Duke Aldric moves to the front of the room. Reynard stands near the side table where the eastern wine has been poured into a ceremonial decanter — several glasses already set out.*
+
+*The clock is now at the critical window. Whatever the player does, the toast will happen in four exchanges unless interrupted.*
+
+> **Duke Aldric:** "Friends. Guests. After ten years — tonight we sign. And then we drink, as people who will not fight each other again." *(genuine warmth, and the room responds to it)*
+
+---
+
+**[THE TOAST CONFRONTATION — Evidence determines available options]**
+
+**[OPTION 1 — Requires: wine seal irregularity + Reynard cellar log + Mrs. Alwen illness clue (3 minimum evidence items)]**
+
+> *You step forward.*
+
+> **You:** "Your Grace — stop. That wine should not be poured."
+
+> *(The room goes quiet. Reynard's face does not change.)*
+
+> **Reynard** *(measured, calm, public-facing)*: "My lord Viscount has had an anxious evening, Your Grace. He raised concerns about a dream he'd had, when he arrived." *(to the room — warm, explanatory)* "I believe the occasion has weighed on him."
+
+> *(If you told Reynard about your dream in Act 1 — he is using it against you now. If you didn't, he tries the same line and the Duke frowns at Reynard: "He said nothing of a dream to me, Reynard." — slight advantage.)*
+
+**[Player choice — counter-move:]**
+
+**1A. "I'm not speaking about a dream. Two of your cellar staff fell mysteriously ill this afternoon, Reynard — the same two who would normally have handled this wine."**
+*(Requires: Mrs. Alwen's testimony logged)*
+→ **Reynard:** "Men fall ill, my lord. I'm sorry it seems suspicious to you."
+→ **Cassian Vantrell** *(stepping smoothly forward)*: "Your Grace, I understand the Viscount's concern — but surely this is an unfortunate coincidence, not grounds to insult our guests from the eastern court? Refusing their gift at the moment of signing—" *(he lets that land)*
+→ **Eastern Delegate in crowd, uncomfortable**: "...Is something wrong with the wine?"
+→ *(Now the Duke is caught between diplomatic incident and potential danger. If Trust/Evidence high enough: Duke orders the wine held, citing "a precautionary tradition." If not: Duke apologises and the toast proceeds — FINAL WINDOW: option 3 below.)*
+
+**1B. "The seal on that wine was reapplied. It was tampered with before it arrived here tonight."**
+*(Requires: wine seal clue from cellar)*
+→ **Reynard**: "A resealed bottle, my lord, is not—"
+→ **Cassian:** "Even if that were true — which I doubt — it could have happened in transit. You're accusing this house and our guests of murder at the signing of a peace treaty."
+→ *(If the Duke has Trust with you: he orders a proper inspection before the toast — wine is held. If not: the diplomatic argument wins, toast proceeds.)*
+
+**1C. "Ophelia Vantrell was seen near the cellar with Reynard this afternoon. And she has been watching Lady Brienne's movements all night."**
+*(Requires: second vision + Ophelia ring confirmed OR both Ophelia cellar comment + Ophelia watching Brienne's note)*
+→ **Ophelia** *(for the first time tonight, showing something)*: "I was not—"
+→ **Cassian:** *(the warmth, just for a moment, is not quite there)* "My lord, my sister—"
+→ **Duke:** *(looking between them — something in Cassian's recovery catches him)* "Reynard. Hold the wine." *(quiet command. The room tenses.)*
+
+---
+
+**[OPTION 2 — Lower evidence threshold: second vision OR wine + Reynard clue only]**
+
+> **You:** "Your Grace. I need you to trust me for one moment. Please don't drink yet."
+
+> **Duke:** *(caught off guard, he looks at you — then at Reynard)*
+
+> **Reynard:** "His Grace has a full room of guests, my lord. Perhaps—"
+
+> **Duke** *(overriding Reynard — if Trust with Duke is high)*: "Reynard." *(a careful look)* "Why is the Viscount concerned about the wine?" *(to you, not to Reynard — this matters)*
+
+> *(If Trust low: "Viscount, I appreciate your concern, but I won't hold a room of two hundred people on—" and toast proceeds — FINAL WINDOW.)*
+
+---
+
+**[OPTION 3 — Physical interception — available at any evidence level]**
+
+*You move. Not words — you cross the distance between you and the table where Isolde's glass is about to be raised and put yourself between her and it.*
+
+> **Isolde:** *(freezes — looks at you)*
+
+*(Here, her Trust with you matters entirely:)*
+
+→ *(High Trust — warned her earlier, built rapport)*: "Viscount—" *(she holds. Doesn't drink. Waits.)* "All right. Talk."
+→ *(Low Trust)*: A guard puts a hand on your arm. The room reads it as an assault. Duke's aide calls for the guard to remove you.
+→ *(ENDING D if guards take you and no one intervenes — dungeon, investigation over.)*
+→ *(Unless: Brienne Marrow is watching — at FL 2+ with Brienne, she stands up and says "Let him speak." Her intervention holds the room for one more exchange.)*
+
+---
+
+**[OPTION 4 — No evidence — last resort]**
+
+> **You:** "Please. I'm asking. Something is wrong tonight. Don't drink the wine."
+
+> **Cassian Vantrell** *(gently, for the crowd)*: "My lord, we're all moved that you care so deeply — but a feeling is not grounds to halt a peace treaty signing." *(an easy, sympathetic smile that does not reach his eyes)*
+
+> *(The Duke looks at you. You have nothing. He shakes his head slightly. The toast proceeds.)*
+
+→ *(LAST SECOND OPTION: If Isolde's Trust is high — she meets your eyes from across the room, sets down her glass without drinking, and claims a headache. She doesn't know why you warned her, but she trusts you. This is the minimum-evidence path to a partial save — ENDING B variant.)*
+
+---
+
+**[AFTER THE WINE IS STOPPED — OPHELIA'S TELL]**
+
+*With the immediate crisis paused, you watch the room. Cassian is talking fast — managing the crowd, redirecting attention, perfectly composed. You look past him.*
+
+*Ophelia Vantrell has taken one half-step toward the corridor. Not fleeing — just adjusting. But her hand moves, without her seeming to notice, toward a servant who is about to lift one of the wine glasses — and she just barely stops herself.*
+
+*(Prompt: "You notice Lady Ophelia's hand reach, then freeze.")*
+
+**[Player choice:]**
+
+**Name Ophelia publicly:** → Duke has her detained. She and Cassian both exposed. **ENDING A.**
+
+**Don't notice / don't act:** → Ophelia exits quietly. Cassian is arrested later on Reynard's testimony. Ophelia is never caught. **ENDING B.**
+
+---
+
+**[REYNARD'S FINAL MOMENT]**
+
+*After the toast crisis is resolved — in any good ending — you can choose to cross to Reynard before the guards do. He is standing very still.*
+
+> **You:** "Why, Reynard? Thirty-one years."
+
+> **Reynard:** *(the composure goes, not dramatically — it just... stops)* "My son held the Verenmark crossing for four days. Command said reinforcements were coming." *(quiet)* "They weren't coming. They were never coming. He knew that by the third day. He held anyway because those were his orders." *(looks at you)* "His Grace gave that order."
+
+*(beat)*
+
+> **Reynard:** "I didn't want the girl hurt. I told them — not her, not the daughter. I didn't understand until too late what Vantrell actually wanted." *(a long breath)* "By then I was already part of it."
+
+**[Player choice:]**
+
+**"You could still stop this. Testify against the Vantrells — tell the Duke everything."**
+*(Requires: Trust with Reynard built in Act 1 — the "thirty-one years" question.)*
+→ **Reynard:** *(long silence. Then, quietly)*: "He'll never forgive me."
+→ **You:** "He'll have to live with what he ordered too. Maybe that's the point."
+→ **Reynard:** *(nods, once. Turns to the Duke himself and begins to speak.)*
+→ *(Adds weight to ENDING A — Reynard's testimony seals the case. His fate is left deliberately ambiguous: arrested, but the Duke's face says he understood why, even as it destroys him.)*
+
+**"You should have come to me sooner."**
+*(Neutral response — Reynard nods, says nothing, submits to arrest. Functional but cold. ENDING A/B resolve normally.)*
+
+**"You'll hang for this."**
+*(Harsh — Reynard closes up, says nothing more. Guards take him. ENDING A resolved without the emotional coda.)*
+
+---
+
+# ACT 4 — ENDINGS
+
+## ENDING A: FULL VICTORY
+**Conditions:** Wine stopped + Ophelia's tell noticed and named + sufficient evidence for Reynard to either be confronted by the Duke or testify + Cassian exposed.
+
+*The party ends quietly — no toast, the wine quietly removed for examination, a physician confirming the poison before dawn. The treaty is signed anyway — an hour late, everyone slightly shaken, but it is signed.*
+
+*Cassian Vantrell is taken into custody by morning. Ophelia with him. Reynard — arrested, but the Duke speaks to him alone for a long time before the guards are called.*
+
+*The war profiteers are exposed in daylight as having funded murder to restart a war they lost income from. The peace, if anything, is more solid for having been tested.*
+
+> **Isolde** *(finding you before you leave)*: "I didn't know who you were, when you warned me. I almost didn't listen." *(simply)* "Thank you."
+
+*The Sight doesn't show you death that night. First time in weeks.*
+
+---
+
+## ENDING B: PYRRHIC VICTORY
+**Conditions:** Wine stopped + Isolde saved + Cassian and/or Reynard caught, but Ophelia escapes.
+
+*The treaty is signed. Isolde is safe. Cassian maintains his innocence through an expensive legal defense — and without Ophelia's testimony, the evidence is circumstantial enough to make it complicated. He may never face full justice.*
+
+*Somewhere, Ophelia Vantrell is on a road out of the country.*
+
+> *You watch the Duke sign the treaty and think: this is a victory. Partial. Enough.*
+
+> *Enough for now.*
+
+---
+
+## ENDING C: THE WRONG TARGET
+**Conditions:** Player heavily committed to protecting Brienne Marrow based on the threat note + Kavir's comment + decoy evidence, without building a case against Vantrell or the wine.
+
+*You spent the night at Brienne's side. You warned her of the threat, stayed close, made sure she was never alone. She is alive, and grateful, and a little touched by the devotion.*
+
+*At midnight, a glass shatters on the far side of the hall.*
+
+*Isolde.*
+
+*The poison worked slowly — she hadn't drunk much, so she survives, barely, but the treaty signing is postponed indefinitely. The foreign delegation leaves under the shadow of accusation. No one is caught. The peace — fragile at the best of times — is on ice.*
+
+> *You sit with Brienne in the early hours while physicians work on Isolde across the estate.*
+
+> **Brienne:** "You protected me all night." *(quietly)* "I didn't know what from."
+
+> *You didn't either. Not the right thing.*
+
+---
+
+## ENDING D: THE DUNGEON
+**Conditions:** Accused Reynard without evidence threshold + Duke informed → OR physical interception with low Isolde Trust and no Brienne intervention.
+
+*Reynard moves quickly and efficiently. He has you detained — not violently, not publicly. You are accused of attempting to disrupt the peace treaty signing, possibly at the behest of hostile foreign parties. The Duke is regretful but firm.*
+
+*You are held in a cellar room for six hours.*
+
+*You hear the toast from below. Then, later, a physician's footsteps on the floor above. Running.*
+
+> *In the dark, you put your head in your hands.*
+
+> *The vision was real. You just couldn't stop it alone.*
+
+---
+
+## ENDING E: THE EASTER EGG — TURNED
+**Conditions:** Passphrase used with Reynard → followed the conspiracy path inward.
+
+*Reynard takes you through a servants' passage to a small room where Cassian Vantrell and Ophelia are waiting. They look at you — then at Reynard.*
+
+> **Cassian:** *(after a moment)* "Well. An unexpected asset." *(the warmth is entirely gone now — this is the real man)* "And what do you want, Viscount? Everyone wants something."
+
+**[Player choice:]**
+
+**E1 — Play along, gather everything, then expose them:**
+→ *You spend an hour in the room. You learn everything — names, method, the exact location of the poison, who among the staff is complicit. You have more evidence than any investigation could have assembled in a week.*
+→ *When you leave, you go directly to the Duke. With everything.*
+→ *Ending A, but with a unique coda: Cassian's face when he realizes you were never with them.*
+→ **Cassian:** *(as guards take him)* "I misjudged you."
+→ **You:** "Yes."
+
+**E2 — Try to turn Reynard from inside:**
+→ *You look at Reynard across the room. You know why he's here. You know what he lost. The Vantrells don't know you know that.*
+→ *You play along until you get a private moment with Reynard. Then:*
+→ **You:** "They're using you. When this goes wrong — and it will go wrong — you're the one who touched the wine. You're the one they'll hand to the executioner."
+→ **Reynard:** *(very still)*
+→ **You:** "Your son died following someone else's orders. Are you going to do the same?"
+→ *Long silence. The longest in the game.*
+→ **Reynard:** *"...Get out of this room. I'll handle it from here."*
+→ *He does. Quietly, efficiently, at the last possible moment, he moves the wine to a different rack and tells the Vantrells there's a problem in the cellar — buying enough time for the Duke to be warned properly.*
+→ *The Vantrells are caught in the morning trying to leave. Reynard turns himself in before dawn.*
+→ *The most bittersweet ending. The peace survives. Reynard's reasons were never wrong, only his method.*
+
+**E3 — You choose to go through with it:**
+→ *You stay. You watch.*
+→ *Isolde drinks.*
+→ *She doesn't die — the dose was non-lethal by design (to be blamed on the eastern court) but she collapses. The treaty is suspended.*
+→ *You leave with the Vantrells in the chaos. You got what you came for — or you tell yourself that. The war might start again. You tell yourself you'll stop it another way.*
+→ *(Darkest ending. No redemption arc. Available — because some players will want to know what's behind the door if you walk through it.)*
+
+---
+
+## ENDING F: TOTAL FAILURE
+**Conditions:** Insufficient evidence gathered, no action taken at the toast, or too many wrong moves.
+
+*The toast happens. Isolde collapses. The foreign delegation is immediately suspected — the wine, after all, came from them. The Prince's aide, Demir, is arrested. He is not guilty and he knows it and no one believes him.*
+
+*You stand in a room full of broken glass and broken things and you know exactly what happened and you have nothing that anyone will listen to.*
+
+*The peace lasts eight days.*
+
+*House Vantrell announces its support for "justice" and begins reestablishing its supply contracts within the month.*
+
+> *You leave the estate before dawn. The Sight doesn't give you another vision for a long time.*
+
+> *It doesn't need to.*
+
+---
+
+## ENDING G: SELF-SACRIFICE
+**Conditions:** No strong evidence case + no way to stop the toast + Isolde's Trust is high + player is physically at the toast table.
+
+*You can't prove anything. You can't stop the room. The Duke is speaking and the glasses are being lifted and you are looking at Isolde's glass and you make the only calculation you have left.*
+
+*You reach across, lift her glass, and drink it.*
+
+> **Isolde:** "What— what are you—"
+
+*You say nothing. You wait.*
+
+*The poison, as it happens, is slow — it was designed to look natural, to strike hours later. You won't know tonight whether you've killed yourself or simply made a very theatrical point.*
+
+> *The physician keeps you in a room for three days. The Vantrells, rattled by the disruption, make a mistake. Ophelia tries to retrieve the original wine from the cellar and is found there by two servants who report it.*
+
+> *You survive. The case is made by others, in your absence.*
+
+> *When Isolde visits you before you're well enough to leave:*
+
+> **Isolde:** "You didn't even know if it would work."
+
+> **You:** "No."
+
+> **Isolde:** "That was either very brave or very stupid."
+
+> **You:** *(after a moment)* "I've been told I'm not always the best at telling the difference."
+
+---
+
+# EVIDENCE LOG — MASTER LIST
+*(For implementation reference — what player collects and from where)*
+
+| # | Clue | Source | Unlocks |
+|---|------|---------|---------|
+| 1 | House Marrow — publicly anti-peace, Lady Brienne is heir | Aldous / Fenwick | Marrow table station |
+| 2 | Lady Isolde — central to treaty, political marriage | Aldous / Fenwick | Isolde station emotional weight |
+| 3 | Duke Aldric — costly battle orders, peace = penance | Aldous (FL) / Fenwick (FL 2) | Duke private audience options |
+| 4 | Vantrell — war profiteers, income damaged by peace | Fenwick (FL 1) | Vantrell station |
+| 5 | Demir / Foreign delegation — nervous, private secret | Fenwick (FL 1) | Delegation station |
+| 6 | Lord Marrow's death — ordered to hold crossing, order from Duke's level | Brienne (FL 2) | Contextualises Reynard motive |
+| 7 | Threat note to Brienne — anonymous, third received | Brienne (FL 2 + Vantrell visited) | Red herring against Brienne |
+| 8 | Cassian — income speech is rehearsed, Ophelia confirmed arms | Vantrell table | Strengthens Vantrell suspicion |
+| 9 | Ophelia watched Brienne receive note | Ophelia (FL 1+) | Implicates Ophelia in misdirection |
+| 10 | Ophelia mentioned Reynard's cellar activity | Ophelia (FL 1+) | Links Reynard + Ophelia |
+| 11 | Demir's secret = personal/Prince scandal, not murder | Delegation (FL 2) | Clears delegation as suspects |
+| 12 | General Kavir suspects Marrow | Kavir | Red herring against Brienne |
+| 13 | Ceremonial wine — Reynard said keep sealed, first mention | Reynard Act 1 | Wine as method |
+| 14 | Reynard kept wine out of kitchen entirely | Mrs. Alwen | Confirms Reynard controlled access |
+| 15 | Cellar staff fell mysteriously ill | Mrs. Alwen (contextualized) | Reynard cleared the handlers |
+| 16 | Wine seal was reapplied — tampering | Cellar examination | Direct tampering evidence |
+| 17 | Reynard repositioned specific wine bottles | Cellar log | Proves Reynard handled the wine |
+| 18 | Second vision — Reynard + woman with ring at cellar | Balcony (random time window) | Links Reynard + Ophelia directly; ring confirms Ophelia |
+| 19 | Duke — battle order guilt | Duke private (FL 2+) | Explains Reynard's motive if confronted |
+| PASSPHRASE | "The harvest was good this year" | Overheard mid-Act 2, speaker unclear | Easter Egg path |
+
+---
+
+# IMPLEMENTATION NOTES
+
+**Friendly Level system:** Each NPC tracks 0–3. Raise by: genuine questions, following up, not pushing too hard. Lower by: dismissiveness, early accusations, pressing without rapport. Displayed internally, not to player.
+
+**Clock system:** Act 2 runs approximately 90 real minutes in-game. Each station visit costs 10–20 minutes. The balcony vision window is randomised within a 20-minute slot in the middle of Act 2. Toast triggers at the clock limit regardless.
+
+**Evidence Log:** Shown to player as a growing list of notes, diary-style — in the Viscount's voice, not clinical. E.g. "Reynard mentioned the wine before I'd asked. He didn't mention touching it." rather than "CLUE: WINE."
+
+**Trust ≠ Evidence:** Duke will not act on Trust alone. Evidence alone without Duke's Trust means he might believe you but act too late or too cautiously. Both together is the optimal path.
+
+**Reynard as tragic figure, not villain:** All of his dialogue should read as a loyal man who made one catastrophic decision and then couldn't undo it. On replay, every act of his reads differently — but on a first play, he should feel like the steadiest person in the building.

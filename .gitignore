@@ -1,0 +1,11 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.class
+
+# Environment and secrets
+.env
+.env.local
+
+# Local test / temporary files
+test_*.json

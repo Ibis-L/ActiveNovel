@@ -1,0 +1,114 @@
+{
+  "current_act": "act3",
+  "current_scene": "party_floor",
+  "game_clock": 20,
+  "evidence_log": [],
+  "npc_states": {
+    "reynard": {
+      "npc_id": "reynard",
+      "name": "Reynard",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "conversation_history": [],
+      "flags": {}
+    },
+    "fenwick": {
+      "npc_id": "fenwick",
+      "name": "Lord Fenwick",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "conversation_history": [],
+      "flags": {}
+    },
+    "brienne": {
+      "npc_id": "brienne",
+      "name": "Lady Brienne",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "conversation_history": [],
+      "flags": {}
+    },
+    "cassian": {
+      "npc_id": "cassian",
+      "name": "Lord Cassian",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "conversation_history": [],
+      "flags": {}
+    },
+    "ophelia": {
+      "npc_id": "ophelia",
+      "name": "Lady Ophelia",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "conversation_history": [],
+      "flags": {}
+    },
+    "demir": {
+      "npc_id": "demir",
+      "name": "Counselor Demir",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "conversation_history": [],
+      "flags": {}
+    },
+    "kavir": {
+      "npc_id": "kavir",
+      "name": "General Kavir",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "conversation_history": [],
+      "flags": {}
+    },
+    "isolde": {
+      "npc_id": "isolde",
+      "name": "Lady Isolde",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "conversation_history": [],
+      "flags": {}
+    },
+    "duke": {
+      "npc_id": "duke",
+      "name": "Duke Aldric",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "conversation_history": [],
+      "flags": {}
+    },
+    "mrs_alwen": {
+      "npc_id": "mrs_alwen",
+      "name": "Mrs Alwen",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "conversation_history": [],
+      "flags": {}
+    }
+  },
+  "flags": {
+    "prologue_done": true
+  },
+  "player_choices": [
+    "act0_silent"
+  ],
+  "unlocked_stations": [
+    "kitchen",
+    "balcony"
+  ],
+  "data": {
+    "vision_window_open": 58,
+    "vision_window_close": 78,
+    "vision_window_set": true,
+    "passphrase_counter": 0
+  }
+}
