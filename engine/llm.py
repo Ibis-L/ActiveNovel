@@ -1,8 +1,9 @@
 # ─────────────────────────────────────────────
 #  engine/llm.py
-#  Two functions:
-#    chat()             → NPC dialogue, natural prose
-#    analyze_exchange() → intent analysis, returns JSON dict
+#  Three functions:
+#    chat()                  → NPC dialogue, natural prose
+#    analyze_exchange()      → intent analysis, returns JSON dict
+#    analyze_confrontation() → Act 3 Game Master analyzer
 # ─────────────────────────────────────────────
 
 from __future__ import annotations
@@ -76,12 +77,129 @@ def analyze_exchange(
         return {}
 
 
+# ─────────────────────────────────────────────
+#  Act 3 "Game Master" Confrontation Analyzer
+#  Reads player's free-text during the climax
+#  and extracts what evidence they are citing
+#  and what actions they are attempting.
+# ─────────────────────────────────────────────
+
+_CONFRONTATION_SYSTEM = """You are a game-master analyser for a text-based mystery game called "The Viscount's Vigil".
+The player is in the climax — a public confrontation at a peace treaty signing where they must stop a poisoned toast.
+Read the player's message and return a JSON object.
+
+EVIDENCE MAP (these are the real clues that can exist in the game):
+  "wine_seal"      — player mentions the wine seal was tampered with / resealed
+  "cellar_staff"   — player mentions the cellar staff being made ill / removed
+  "cellar_log"     — player mentions the cellar log / bottles were moved by Reynard
+  "ophelia_cellar" — player names Ophelia Vantrell + Reynard + cellar together
+  "vision"         — player cites their personal prophetic vision/dream as reason
+  "illness"        — player mentions cellar staff fell mysteriously ill
+  "vantrell_income"— player accuses Vantrells of needing the war / income motive
+  "kitchen_orders" — player mentions Reynard ordered wine kept from the kitchen
+
+ACTIONS:
+  "physical_intercept" — player physically moves to block Isolde from drinking (e.g. "I step between", "I grab the glass", "I move to her")
+  "drink_sacrifice"    — player drinks the wine themselves to save Isolde
+
+Rules:
+- Return ONLY valid JSON. No explanation, no markdown.
+- evidence_cited: array of strings from the EVIDENCE MAP above (only clues explicitly mentioned or clearly implied)
+- action: one of "physical_intercept", "drink_sacrifice", or null
+- persuasion_strength: integer 0-3 (0=rambling/vague, 1=weak/general, 2=clear argument, 3=compelling/specific)
+- targets_reynard: boolean — player is directly naming/accusing Reynard by name
+- targets_vantrell: boolean — player is directly naming/accusing the Vantrells by name"""
+
+_CONFRONTATION_SCHEMA = """{
+  "evidence_cited": ["array of clue keys from evidence map, empty if none"],
+  "action": "physical_intercept | drink_sacrifice | null",
+  "persuasion_strength": "integer 0-3",
+  "targets_reynard": "boolean",
+  "targets_vantrell": "boolean"
+}"""
+
+
+def analyze_confrontation(player_msg: str, evidence_log: list) -> dict:
+    """
+    Act 3 Game Master analysis.
+
+    Reads the player's free-text confrontation message.
+    Cross-references evidence_cited against the actual evidence_log
+    to verify the player legitimately discovered those clues.
+
+    Returns:
+        verified_evidence  : list[str] — clues cited AND confirmed in log
+        phantom_evidence   : list[str] — clues cited but NOT in log (bluffing)
+        action             : str | None
+        persuasion_strength: int 0-3
+        targets_reynard    : bool
+        targets_vantrell   : bool
+    """
+    prompt = (
+        f'Player said during the climax confrontation: "{player_msg}"\n\n'
+        f"Return JSON:\n{_CONFRONTATION_SCHEMA}"
+    )
+
+    raw = chat(
+        system_prompt=_CONFRONTATION_SYSTEM,
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.0,
+    )
+
+    parsed: dict = {}
+    if not raw.startswith("[ERROR"):
+        try:
+            clean = raw.strip()
+            if "```" in clean:
+                parts = clean.split("```")
+                clean = parts[1] if len(parts) > 1 else parts[0]
+                if clean.startswith("json"):
+                    clean = clean[4:]
+            parsed = json.loads(clean.strip())
+        except (json.JSONDecodeError, IndexError, ValueError):
+            parsed = {}
+
+    cited    = parsed.get("evidence_cited", [])
+    ev_text  = "\n".join(evidence_log).lower()
+
+    # Cross-reference: which cited clues are actually in the player's log?
+    # Each key has a set of terms that must appear in the evidence log.
+    _VERIFY = {
+        "wine_seal":       ["wine seal", "resealed", "reapplied"],
+        "cellar_staff":    ["cellar staff", "fell ill", "suddenly ill", "incapacitated"],
+        "cellar_log":      ["cellar log", "repositioned", "moved those bottles", "moved wine"],
+        "ophelia_cellar":  ["ophelia"],
+        "vision":          ["vision", "balcony"],
+        "illness":         ["ill", "incapacitated", "sick"],
+        "vantrell_income": ["vantrell", "income", "war profit", "supply"],
+        "kitchen_orders":  ["kitchen", "sealed", "kept away"],
+    }
+
+    verified = []
+    phantom  = []
+    for clue in cited:
+        terms = _VERIFY.get(clue, [])
+        if any(t in ev_text for t in terms):
+            verified.append(clue)
+        else:
+            phantom.append(clue)
+
+    return {
+        "verified_evidence":   verified,
+        "phantom_evidence":    phantom,
+        "action":              parsed.get("action"),
+        "persuasion_strength": parsed.get("persuasion_strength", 0),
+        "targets_reynard":     parsed.get("targets_reynard", False),
+        "targets_vantrell":    parsed.get("targets_vantrell", False),
+    }
+
+
 def _ollama(system: str, messages: list, temperature: float) -> str:
     payload = {
         "model": config.OLLAMA_MODEL,
         "messages": [{"role": "system", "content": system}] + messages,
         "stream": False,
-        "options": {"temperature": temperature, "num_predict": 300},
+        "options": {"temperature": temperature, "num_predict": 500},
     }
     try:
         r = requests.post(f"{config.OLLAMA_URL}/api/chat", json=payload, timeout=90)
@@ -106,7 +224,7 @@ def _groq(system: str, messages: list, temperature: float) -> str:
         "model": config.GROQ_MODEL,
         "messages": [{"role": "system", "content": system}] + messages,
         "temperature": temperature,
-        "max_tokens": 300,
+        "max_tokens": 500,
     }
     try:
         r = requests.post(

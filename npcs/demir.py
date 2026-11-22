@@ -199,8 +199,7 @@ def _analysis(player_msg: str, response: str, ns: "NPCState", gs: "GameState"):
         if ns.friendly_level < 3:
             ns.bump_fl()
     elif fc < 0:
-        if ns.friendly_level > 0:
-            ns.friendly_level -= 1
+        ns.decrease_fl(1)
 
     # ── Discretion offered → extra FL bump ────
     # Offering genuine discretion is the key to unlocking Demir

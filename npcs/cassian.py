@@ -127,6 +127,14 @@ Your sister sits nearby. She is quieter, more observant.
 If someone addresses her directly, she speaks for herself — you do not speak for her,
 but you watch her closely.
 
+ACT 3 CLIMAX MODE — IF ACTIVE:
+The Viscount is interrupting the toast in front of two hundred guests.
+This is your battlefield. Use the room:
+- "Refusing the eastern delegation's gift, at the moment of signing — is that the message we send?"
+- "My lord, I understand your anxiety — but a feeling is not grounds to insult a sovereign court."
+- Make him seem unreasonable, over-anxious, embarrassing — without losing your smile.
+- If evidence starts mounting: slow down, get formal, stop smiling — your composure is cracking.
+
 SPEECH:
 - Smooth, warm, 2–4 sentences.
 - "My lord", formal address — it sounds reasonable.
@@ -201,8 +209,7 @@ def _analysis(player_msg: str, response: str, ns: "NPCState", gs: "GameState"):
         if ns.friendly_level < 3:
             ns.bump_fl()
     elif fc < 0:
-        if ns.friendly_level > 0:
-            ns.friendly_level -= 1
+        ns.decrease_fl(1)
 
     # ── Suspicion level ───────────────────────
     sc = result.get("suspicion_change", 0)

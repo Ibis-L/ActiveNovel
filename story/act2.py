@@ -117,7 +117,7 @@ def _station_talk(
     """
     D.system_msg(
         "Press Enter on a blank line to walk away. "
-        "Type 'log' to check evidence."
+        "Type 'log' to check evidence | 'help' for commands."
     )
 
     def _word_count(n: NPC) -> int:
@@ -139,6 +139,13 @@ def _station_talk(
             continue
         if cmd == "time":
             D.system_msg(f"The time is {gs.get_time_str()}.")
+            continue
+        if cmd == "help":
+            D.system_msg("Dialogue commands:")
+            D.system_msg("  • Type naturally to question, advise, joke with, or observe this character.")
+            D.system_msg("  • 'log'  — view your collected evidence")
+            D.system_msg("  • 'time' — check current clock")
+            D.system_msg("  • Enter (blank) — step away from the conversation")
             continue
 
         # Route to partner if named
@@ -209,10 +216,81 @@ def _fenwick_opening(gs: GameState):
 #  Station Menu
 # ═══════════════════════════════════════════════
 
+def _ambient_narration(gs: GameState):
+    """Dynamic world descriptions as evening progresses toward the toast."""
+    clock = gs.game_clock
+    if 30 <= clock < 60 and not gs.get_data("ambient_30"):
+        gs.set_data("ambient_30", True)
+        D.narrate(
+            "Another wave of carriage arrivals sweeps into the grand vestibule. "
+            "Laughter swells near the hearth. A crystal flute catches the chandeliers."
+        )
+    elif 60 <= clock < 90 and not gs.get_data("ambient_60"):
+        gs.set_data("ambient_60", True)
+        D.narrate(
+            "The quartet modulates into a slower, solemn minuet. Footmen begin clearing silver plates. "
+            "Across the hall, Reynard glances at his pocket watch, his face impassive."
+        )
+    elif 90 <= clock < 120 and not gs.get_data("ambient_90"):
+        gs.set_data("ambient_90", True)
+        D.narrate(
+            "Candelabras burn lower, casting longer shadows against the heraldic tapestries. "
+            "Small clusters of dignitaries converse in lowered voices. The air feels charged."
+        )
+    elif 120 <= clock < 150 and not gs.get_data("ambient_120"):
+        gs.set_data("ambient_120", True)
+        D.narrate(
+            "Two servants set velvet cloth over the dais table. The ceremonial decanters "
+            "are carried from the private buttery. The hour of the treaty draws near."
+        )
+
+
+def _show_contextual_hints(gs: GameState):
+    """Offer non-restrictive atmospheric thoughts to guide player intuition."""
+    hints_shown = 0
+    max_hints = 2
+
+    if not gs.get_flag("wine_mentioned_act1") and hints_shown < max_hints:
+        if "kitchen" in gs.unlocked_stations and gs.station_visits("kitchen") == 0:
+            D.contextual_hint("The kitchens might shed light on how the ceremonial feast and drinks are handled.")
+            hints_shown += 1
+
+    if gs.get_flag("wine_mentioned_act1") and not gs.get_flag("wine_seal_discovered") and hints_shown < max_hints:
+        if gs.station_visits("kitchen") > 0:
+            D.contextual_hint("The eastern gift wine... Mrs. Alwen mentioned it bypassed the kitchen. The cellar holds the bottles.")
+            hints_shown += 1
+
+    if gs.get_flag("balcony_vision_seen") and not gs.get_flag("ophelia_ring_asked") and hints_shown < max_hints:
+        if "vantrell" in gs.unlocked_stations:
+            D.contextual_hint("The silver ring with the red stone from the vision — look closely at the nobles' hands.")
+            hints_shown += 1
+
+    if gs.station_visits("vantrell") > 0 and gs.station_visits("marrow") == 0 and hints_shown < max_hints:
+        if "marrow" in gs.unlocked_stations:
+            D.contextual_hint("House Marrow sits in near-mourning at the periphery. Their perspective on the war may clarify the stakes.")
+            hints_shown += 1
+
+    if gs.evidence_score() >= 3 and "duke" in gs.unlocked_stations and hints_shown < max_hints:
+        if gs.station_visits("duke") == 0:
+            D.contextual_hint("You have gathered tangible evidence. Grand Duke Aldric has the authority to intervene.")
+            hints_shown += 1
+
+    if gs.get_flag("isolde_warned") and not gs.get_flag("isolde_will_avoid_wine") and hints_shown < max_hints:
+        D.contextual_hint("Isolde was troubled by your warning, but without deeper trust or specific details, she may hesitate.")
+        hints_shown += 1
+
+    if gs.minutes_to_toast() <= 45 and gs.evidence_score() < 2 and hints_shown < max_hints:
+        D.contextual_hint("Time slips away. If words fail, physical inspection in the cellars could yield concrete proof.")
+        hints_shown += 1
+
+
 def _station_menu(gs: GameState) -> str:
     D.clear()
     remaining = gs.minutes_to_toast()
     D.scene_header("THE PARTY FLOOR", gs.get_time_str())
+    D.status_bar(gs.get_time_str(), len(gs.evidence_log), "Party Floor")
+
+    _ambient_narration(gs)
 
     if remaining > 60:
         D.system_msg(
@@ -232,6 +310,8 @@ def _station_menu(gs: GameState) -> str:
         )
         D.system_msg(f"~{remaining} minutes remaining.")
 
+    D.system_msg("")
+    _show_contextual_hints(gs)
     D.system_msg("")
 
     available = []

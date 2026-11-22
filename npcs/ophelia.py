@@ -220,8 +220,8 @@ def _analysis(player_msg: str, response: str, ns: "NPCState", gs: "GameState"):
     fc = result.get("friendly_change", 0)
     if fc > 0 and ns.friendly_level < 3:
         ns.bump_fl()
-    elif fc < 0 and ns.friendly_level > 0:
-        ns.friendly_level -= 1
+    elif fc < 0:
+        ns.decrease_fl(1)
 
     # ── Suspicion level ───────────────────────
     sc = result.get("suspicion_change", 0)

@@ -199,3 +199,40 @@ def status_bar(time_str: str, evidence_count: int, location: str):
         f"Evidence: [green]{evidence_count}[/green]  ·  "
         f"Location: [white]{location}[/white][/dim]"
     )
+
+
+# ── Atmospheric Feedback & Hints ──────────────
+
+def relationship_change(npc_name: str, attribute: str, direction: str):
+    """Subtle, atmospheric notification when an NPC's feeling shifts."""
+    if direction == "up":
+        icon = "▲"
+        color = "green"
+    elif direction == "down":
+        icon = "▼"
+        color = "yellow"
+    else:
+        return
+
+    hints = {
+        "friendly": {
+            "up": f"  [dim {color}]{icon} {npc_name} seems warmer toward you.[/]",
+            "down": f"  [dim {color}]{icon} {npc_name} has grown cooler.[/]",
+        },
+        "suspicion": {
+            "up": f"  [dim red]▲ {npc_name} watches you more carefully now.[/]",
+            "down": f"  [dim green]▼ {npc_name} seems less guarded.[/]",
+        },
+        "trust": {
+            "up": f"  [dim {color}]{icon} {npc_name} trusts your discretion.[/]",
+            "down": f"  [dim {color}]{icon} {npc_name}'s trust wavers.[/]",
+        },
+    }
+    msg = hints.get(attribute, {}).get(direction, f"  [dim]{icon} Something shifted with {npc_name}.[/]")
+    console.print(msg)
+
+
+def contextual_hint(text: str):
+    """Atmospheric, non-intrusive thought or observation."""
+    console.print(f"  [dim italic grey62]💭 {text}[/]")
+

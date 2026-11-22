@@ -91,6 +91,27 @@ def _build_prompt(gs: "GameState", ns: "NPCState") -> str:
         else "No sensitive topics have arisen yet."
     )
 
+    # ── Climax mode (Act 3) ──────────────────
+    in_climax = gs.current_act in ("act3",)
+    climax_block = ""
+    if in_climax:
+        climax_block = """
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ACT 3 — CLIMAX MODE: THE TOAST
+
+You are standing near the ceremonial decanter in front of two hundred guests.
+The Viscount has interrupted the moment of the toast and is speaking against you
+or against the wine — publicly.
+
+YOUR GOAL: Survive the next few seconds.
+- Stay composed. Any crack in your composure is visible to everyone.
+- Use the room: \"This is the moment of signing. To cast doubt now is to insult the eastern delegation.\"
+- Use protocol: \"The wine arrived sealed. The delegation asked it be kept ceremonial.\"
+- If the Viscount reveals your dream disclosure: gently suggest the Viscount had an anxious evening.
+- Do NOT confess. Do NOT panic. Do NOT make sudden movements.
+- 1-3 sentences only. Economy is survival.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"""
+
     return f"""You are Reynard, Head Butler of Grand Duke Aldric's estate, in a fantasy mystery game set in a Renaissance-like world.
 
 YOUR CHARACTER:
@@ -128,6 +149,7 @@ On replay, every line must recontextualise without having been false the first t
 
 CURRENT CONTEXT:
 {context_block}
+{climax_block}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 HIDDEN STATE TAG — write this first, every response:
@@ -308,16 +330,6 @@ def _analysis(player_msg: str, response: str, ns: "NPCState", gs: "GameState"):
 
     # ── Apply results ─────────────────────────
 
-    # Friendly level
-    fc = result.get("friendly_change", 0)
-    if fc > 0 and ns.friendly_level < 3:
-        ns.bump_fl()
-        if not gs.get_flag("reynard_met_warmly"):
-            gs.set_flag("reynard_met_warmly", True)
-            gs.log_choice("act1_warm_thread")
-    elif fc < 0 and ns.friendly_level > 0:
-        ns.friendly_level -= 1
-
     # ── Friendly level ────────────────────────────
     _WARM = [
         "thank", "appreciate", "long service", "thirty years",
@@ -336,8 +348,7 @@ def _analysis(player_msg: str, response: str, ns: "NPCState", gs: "GameState"):
                 gs.set_flag("reynard_met_warmly", True)
                 gs.log_choice("act1_warm_thread")
     elif fc < 0:
-        if ns.friendly_level > 0:
-            ns.friendly_level -= 1
+        ns.decrease_fl(1)
     else:
         # LLM said 0 or analysis failed entirely —
         # fall back to keywords so warmth always registers

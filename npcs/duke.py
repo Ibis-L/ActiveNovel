@@ -50,14 +50,26 @@ def _build_prompt(gs: "GameState", ns: "NPCState") -> str:
         or gs.get_flag("reynard_met_warmly")
     )
 
-    setting = (
-        "You are in a rare private moment with the Viscount — "
-        "a lull in the receiving line. You have a few minutes."
-        if private else
-        "You are receiving guests publicly. "
-        "You can give the Viscount perhaps two meaningful exchanges "
-        "before you must move on. Warm but formal."
-    )
+    # ── Climax mode (Act 3) ──────────────────
+    in_climax = gs.current_act in ("act3", "ending_a", "ending_b")
+    if in_climax:
+        setting = (
+            "CLIMAX — THE TOAST. You are standing at the front of the hall, "
+            "the entire peace treaty on the line, the room watching. "
+            "The Viscount has interrupted the moment. Every word you say now "
+            "is public and will be remembered. "
+            "You respond proportionally — only what the evidence warrants. "
+            "You are the final authority here and you know it."
+        )
+    else:
+        setting = (
+            "You are in a rare private moment with the Viscount — "
+            "a lull in the receiving line. You have a few minutes."
+            if private else
+            "You are receiving guests publicly. "
+            "You can give the Viscount perhaps two meaningful exchanges "
+            "before you must move on. Warm but formal."
+        )
 
     ev_note = ""
     if ev >= 4:
@@ -205,8 +217,8 @@ def _analysis(player_msg: str, response: str, ns: "NPCState", gs: "GameState"):
     fc = result.get("friendly_change", 0)
     if fc > 0 and ns.friendly_level < 3:
         ns.bump_fl()
-    elif fc < 0 and ns.friendly_level > 0:
-        ns.friendly_level -= 1
+    elif fc < 0:
+        ns.decrease_fl(1)
 
     felt = result.get("evidence_level_felt", "none")
     felt_score = {"none": 0, "weak": 1, "moderate": 2, "strong": 3}.get(felt, 0)

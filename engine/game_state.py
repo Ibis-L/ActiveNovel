@@ -21,9 +21,12 @@ class NPCState:
     friendly_level: int = 0          # 0–3  — how open this NPC is with player
     suspicion_level: int = 0         # 0–3  — how suspicious of player (for Reynard etc.)
     times_spoken: int = 0
+    emotional_state: str = "neutral" # neutral, guarded, warm, alarmed, solemn, etc.
 
-    # Conversation memory (full history, passed to LLM each turn)
+    # Conversation memory
     conversation_history: List[Dict[str, str]] = field(default_factory=list)
+    conversation_summaries: List[str] = field(default_factory=list) # Compressed memories
+    memories: List[str] = field(default_factory=list)               # Salient facts about player
 
     # NPC-specific boolean flags (e.g. "backstory_mentioned", "warned_player")
     flags: Dict[str, bool] = field(default_factory=dict)
@@ -35,10 +38,32 @@ class NPCState:
         return self.flags.get(key, default)
 
     def bump_fl(self, amount: int = 1):
+        old = self.friendly_level
         self.friendly_level = min(3, self.friendly_level + amount)
+        if self.friendly_level > old:
+            from engine import display as D
+            D.relationship_change(self.name, "friendly", "up")
+
+    def decrease_fl(self, amount: int = 1):
+        old = self.friendly_level
+        self.friendly_level = max(0, self.friendly_level - amount)
+        if self.friendly_level < old:
+            from engine import display as D
+            D.relationship_change(self.name, "friendly", "down")
 
     def bump_sl(self, amount: int = 1):
+        old = self.suspicion_level
         self.suspicion_level = min(3, self.suspicion_level + amount)
+        if self.suspicion_level > old:
+            from engine import display as D
+            D.relationship_change(self.name, "suspicion", "up")
+
+    def decrease_sl(self, amount: int = 1):
+        old = self.suspicion_level
+        self.suspicion_level = max(0, self.suspicion_level - amount)
+        if self.suspicion_level < old:
+            from engine import display as D
+            D.relationship_change(self.name, "suspicion", "down")
 
 
 # ── Global Game State ────────────────────────
@@ -153,7 +178,9 @@ class GameState:
     # ═══════════════════════════════════════════
 
     def save(self, path: str = "data/saves/game_state.json"):
-        os.makedirs(os.path.dirname(path), exist_ok=True)
+        dir_name = os.path.dirname(path)
+        if dir_name:
+            os.makedirs(dir_name, exist_ok=True)
         data = asdict(self)
         with open(path, "w") as f:
             json.dump(data, f, indent=2)

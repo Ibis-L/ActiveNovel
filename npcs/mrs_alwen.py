@@ -206,8 +206,7 @@ def _analysis(player_msg: str, response: str, ns: "NPCState", gs: "GameState"):
         if ns.friendly_level < 3:
             ns.bump_fl()
     elif fc < 0:
-        if ns.friendly_level > 0:
-            ns.friendly_level -= 1
+        ns.decrease_fl(1)
     else:
         # Keyword safety net — compliments always register
         if any(w in player_lower for w in _WARM_WORDS) and ns.friendly_level < 3:
