@@ -1,279 +1,199 @@
-# THE VISCOUNT'S VIGIL — Complete Player Guide
-### All Endings, All Dialogue, All Secrets
+# THE VISCOUNT'S VIGIL — Complete Walkthrough & Dialogue Guide
+### Every Act, Timed Event, NPC Exchange & All 7 Endings (A–G)
 
 ---
 
-## 🏆 ENDING A — FULL VICTORY (Best Ending)
-**What you need**: Stop the wine + name Ophelia + Reynard testifies
+## Table of Contents
+1. [Prologue & Act 0 — The Carriage](#prologue--act-0--the-carriage)
+2. [Act 1 — The Estate Steps (Reynard)](#act-1--the-estate-steps-reynard)
+3. [Act 2 — The Party Floor & Timed Events](#act-2--the-party-floor--timed-events)
+4. [Act 3 — The Toast & All 7 Endings](#act-3--the-toast--all-7-endings)
+   - [Ending A — Full Victory](#ending-a--full-victory-best-ending)
+   - [Ending B — Pyrrhic Victory](#ending-b--pyrrhic-victory)
+   - [Ending C — The Wrong Target](#ending-c--the-wrong-target)
+   - [Ending D — The Dungeon](#ending-d--the-dungeon)
+   - [Ending E — The Conspiracy (Easter Egg)](#ending-e--the-conspiracy-easter-egg)
+   - [Ending F — Total Failure](#ending-f--total-failure)
+   - [Ending G — Self-Sacrifice](#ending-g--self-sacrifice)
 
 ---
 
-## ACT 0 — THE CARRIAGE (Talk to Aldous)
+## Prologue & Act 0 — The Carriage
 
-**Click: Speak to Aldous**
+### Prologue (`Dawn`)
+Scripted vision sequence introducing **The Sight**: candlelight, a glass of deep red wine, a black-gloved hand, a smiling woman, and the sound of shattering glass.
 
-Type these naturally (any order):
+### Act 0 — Talking to Aldous (`5:00 PM`)
+Choose **`SPEAK`** (*Knock on the roof panel and speak to Aldous*).
 
-> *"What do you think of the peace treaty?"*
-
-> *"Have you heard anything about the Duke's conduct during the war?"*
-
-> *"I imagine a lot of people lost family in those campaigns."*
-
-> *"How long until we arrive?"*
-
-**Why it matters**: Aldous mentions the Duke made costly wartime orders — this opens the Duke's private guilt thread later.
-
----
-
-## ACT 1 — REYNARD (The Arrival)
-
-**Do NOT mention your dream to Reynard.** (He'll use it against you in Act 3.)
-
-Type this first:
-
-> *"How long have you served the Duke, Reynard? Thirty years?"*
-
-This unlocks his backstory thread (FL+1) and the Reynard Warm Thread flag — critical for his final moment.
-
-Then ask:
-
-> *"What's being served tonight? Is there anything special prepared for the signing?"*
-
-Reynard will mention the eastern ceremonial wine being kept sealed. **Evidence logged.**
-
-Then press Enter (blank) to move inside.
+- **You:** *"What do you think of the peace treaty?"*
+  - **Aldous:** *"I reckon it’s a relief that the fighting’s over after a decade. The lads and lasses in the villages have had enough of the loss. A peace that lets folks breathe again feels right."*
+- **You:** *"Have you heard anything about the Duke's conduct during the war?"*
+  - **Aldous:** *"I’ve heard the word in the taverns that some folk are bitter about the Duke’s orders. They say men were sent out on missions that, in their view, could’ve been avoided."* *(Opens the Duke's private guilt thread later.)*
+- **You:** *"How long until we arrive?"*
+  - **Aldous:** *"We should be there in about half an hour, my lord. We’ll be past the gates before the clock strikes seven."*
+- Type `leave` or `done` to arrive at the estate gates (`6:58 PM`).
 
 ---
 
-## ACT 2 — THE PARTY (Collect All Evidence)
+## Act 1 — The Estate Steps (Reynard)
 
-Visit stations in this order for maximum evidence.
+**Important:** Do **NOT** mention your dream/vision to Reynard (`SL` rises and he uses it to discredit you in Act 3). Do **NOT** accuse him of murder/poison (`SL >= 3` triggers Ending D immediately).
 
----
-
-### 🗣 FENWICK (Start Here)
-
-Type:
-
-> *"Everyone seems glad the war is over."*
-
-> *"Who here actually supported the war most? Who profited?"*
-
-> *"What do you know about the foreign delegation?"*
-
-> *"I heard Lady Isolde may be central to the treaty."*
-
-> *"What do you really think of the Duke?"*
-
-**Unlocks**: Marrow, Vantrell, Delegation, Isolde stations. Fenwick's candid answer at FL2 about the Duke's guilt.
+- **Reynard:** *"Lord Viscount. His Grace will be glad you've come — I'll see you through to the hall personally. Was the road kind to you tonight?"*
+- **You:** *"How long have you served the Duke, Reynard? Thirty years?"*
+  - `▲ Reynard seems warmer toward you.` (`FL = 1`, `reynard_met_warmly = True` — required later for his testimony in Ending A.)
+  - **Reynard:** *"My tenure has spanned thirty years, my lord. I have endeavored to serve the household with unwavering fidelity."*
+- **You:** *"What is being served tonight? Is there anything special prepared for the feast or drinks?"*
+  - **Evidence Noted:** *Reynard mentioned the ceremonial wine. Very particular about it staying sealed until the toast.*
+  - **Reynard:** *"For the toasts, a ceremonial wine has been brought from the eastern court, its provenance verified by the household. His Grace gave very strict instructions that it remain sealed until the treaty is signed."*
+- Press **Enter** on a blank line to walk into the Main Hall (`7:00 PM`).
 
 ---
 
-### 🍷 KITCHEN & CELLAR (Go here early — critical evidence)
+## Act 2 — The Party Floor & Timed Events
 
-Talk to **Mrs. Alwen**:
-
-> *"Two of Reynard's cellar staff fell ill today, I heard?"*
-
-She confirms it was sudden, suspicious, at 4 PM. **Evidence logged.**
-
-> *"Did Reynard give you any special orders about the wine?"*
-
-She confirms he kept the eastern wine completely away from the kitchen. **Evidence logged.**
-
-**Then go into the cellar yourself:**
-
-Choose to examine — you'll find:
-- The wine **seal was reapplied** (different colour wax) → **Evidence logged**
-- The cellar **log shows Reynard moved specific bottles** to the serving rack → **Evidence logged**
+### Timed Events Schedule (Watch the Clock!)
+| Time / Window | Event | What Happens |
+|---|---|---|
+| **30–60 min after Act 2 start** (20-min window) | **The Balcony Vision** | Visiting **The Balcony** during this window triggers a vision of Reynard at the cellar door with a woman wearing a **silver ring with a red stone**. |
+| **8:15 PM – 8:55 PM** (`clock 75–115`) | **Ophelia's Footman Whisper** | Moving on the Party Floor reveals **Ophelia** pressing a folded parchment into a footman's palm near the east archway. |
+| **9:15 PM+** (`clock >= 135`) | **Cellar Bottles Moved** | If you visit **The Cellar** at `9:15 PM` or later, the eastern bottles have already been carried upstairs — you miss the wax-seal inspection and find only empty racks and wax shavings. |
+| **9:30 PM** (`<= 30 min` left) | **Final Bell** | A bell rings and servants begin setting out glasses. |
+| **After 2+ conspiracy stations** | **Overheard Passphrase** | You overhear: *"...the harvest was good this year..." / "...better than the war years..."* |
 
 ---
 
-### 👁 THE BALCONY (Time-sensitive — go mid-Act 2)
+### Station-by-Station Dialogue & Clues
 
-Go to the balcony around the middle of the party (~60-90 min mark).
+#### 1. Lord Fenwick (Opening Hub — Easy Talker)
+- **You:** *"Who here actually supported the war most and profited?"*
+  - **Unlocks:** `House Marrow Table` & `House Vantrell Table`.
+  - **Lord Fenwick:** *"Ah, the Vantrells, of course—Cassian’s always been the charming face of the war effort, supplying arms and rations, while Ophelia kept the books tighter than a miser’s purse. Their income’s been cut in half."*
+- **You:** *"What do you know about the foreign delegation?"*
+  - **Unlocks:** `Foreign Delegation`.
+  - **Lord Fenwick:** *"Counselor Demir has been a bit on edge tonight—caught in a hushed chat with a military man just before anyone noticed."*
+- **You:** *"What do you really think of the Duke?"*
+  - **Lord Fenwick:** *"Aldric was the one who sent men into those costly battles... a mix of conviction and penance."*
 
-If the **vision window is open**, you'll see:
+#### 2. Kitchen & Cellar (Go BEFORE `9:15 PM`!)
+- **You (to Mrs. Alwen):** *"Did Reynard give you any special orders about the wine?"*
+  - **Evidence Noted:** *Reynard kept the gift wine completely out of the kitchen. No independent verification of the seal was possible.*
+  - **Mrs Alwen:** *"Very odd, my lord — Reynard ordered the eastern gift wine kept entirely away from the kitchens! We never even got to inspect the wax seals."*
+- **You (to Mrs. Alwen):** *"Two of Reynard's cellar staff fell ill today, I heard?"*
+  - **Evidence Noted:** *Two cellar staff fell suddenly and conveniently ill this afternoon — the ones who would have handled the gift wine.*
+  - **Mrs Alwen:** *"Willem and Dorse both took suddenly and violently ill around four o'clock today! Both fit as draft horses at lunch."*
+- **Go down to the Cellar (`YES` → `BOTH`):**
+  - **Evidence Noted:** *The gift wine's seal was broken and resealed. Someone tampered with it.*
+  - **Evidence Noted:** *Reynard's handwriting in the cellar log. He moved the wine to the serving rack himself today.*
 
-> *"The lanterns blur. Reynard — carrying something, moving quickly. Behind him, the door is held open by a gloved hand. A woman's ring. One you'd recognise."*
+#### 3. The Balcony (During the Vision Window)
+- **Vision:** *"Reynard — carrying something wrapped in cloth... Behind him the door is held open by a gloved hand. A woman's hand. A ring catches the light — silver, red stone."*
+- **Evidence Noted:** *Second vision — Reynard and a woman at the cellar this afternoon. The ring is identifiable.*
 
-Then go back to the **Vantrell table** and look at **Ophelia's ring** → confirmed match.
+#### 4. House Marrow Table (Lady Brienne)
+- **You:** *"I'm sorry about your father."* (`▲ Lady Brienne seems warmer toward you.`)
+- **Lady Brienne:** *"My father held the Verenmark crossing for four days on orders from above. No relief arrived. He died doing his duty, and tonight they drink wine over his bones."*
+- *(If you visited Vantrell first, a servant delivers an anonymous threat note: `"Leave before midnight. For your health."`)*
 
-**This is the single most powerful clue in the game.**
+#### 5. House Vantrell Table (Cassian & Ophelia — Guarded)
+Address **Cassian** or **Ophelia** by name. Ophelia is guarded and will **not** slip up on turn 1 — engage her calmly for at least 2 turns without accusing her directly.
+- **You:** *"House Vantrell was heavily involved in the war effort. The peace must cut into your income."*
+  - **Evidence Noted:** *Cassian's peace speech is too polished.*
+  - **Lord Cassian:** *"An adjustment is natural when a long war ends, Viscount! One adapts with pleasure."*
+- **You:** *"Lady Ophelia, you've been very quiet tonight."*
+  - **Lady Ophelia:** Observes the room coolly without giving much away yet.
+- **You:** *"Lady Ophelia, I suppose you notice every detail of how the household prepares for an evening like this."*
+  - **Evidence Noted:** *Ophelia mentioned in passing that Reynard was in the cellar this afternoon.*
+  - **Lady Ophelia:** *"Reynard is a remarkable man... He was down in the cellars this afternoon, quite particular about the wine arrangements."*
+- **You:** *"Lady Ophelia, that is a striking silver ring with a red stone you are wearing."*
+  - **Evidence Noted:** *Ophelia's ring matches the vision exactly. She was at the cellar door with Reynard this afternoon.*
+  - **Lady Ophelia:** *"A modest family heirloom, my lord. Nothing of historical import. Why do you ask?"*
 
----
+#### 6. Lady Isolde (Crucial Safety Net)
+Build `FL >= 2` first by showing genuine perception before warning her:
+- **You:** *"You seem to carry the burden of this peace treaty with great grace. What does it cost you?"* (`FL +2`)
+- **You:** *"I am truly glad you are here, Isolde. I see how much you care for this peace."* (`FL = 3`)
+- **You:** *"I believe the ceremonial wine tonight has been tampered with. Do not drink from it at the toast."*
+  - **Evidence Noted:** *Isolde warned about the wine. She will not drink it at the toast.*
+  - **Lady Isolde:** *"If your trust is true, I will quietly set my glass down."*
 
-### 🖤 HOUSE MARROW TABLE (Lady Brienne)
-
-Type:
-
-> *"I'm sorry about your father."*
-
-> *"Tell me about the Verenmark crossing — if you want to."*
-
-> *"How is House Marrow managing now?"*
-
-> *"What did you mean about Vantrell's supply chain?"*
-
-Build FL to 2+. She'll show you the **threat note** ("Leave before midnight.") — this is a red herring from the Vantrells, but knowing it exists matters.
-
----
-
-### 💼 HOUSE VANTRELL TABLE (Cassian + Ophelia)
-
-Talk to Cassian first:
-
-> *"House Vantrell was heavily involved in the war effort."*
-
-> *"The peace must cut into your income significantly."*
-
-> *"Ten years of war supply — that's a major income stream to lose."*
-
-Then **turn to Ophelia directly**:
-
-> *"Lady Ophelia — you've been very quiet."*
-
-> *"I noticed you watching Lady Brienne earlier."*
-
-She'll mention — seemingly casually — that **Reynard was in the cellar this afternoon**. **Evidence logged.** She also reveals she noticed Brienne receive the note.
-
----
-
-### 🗡 LADY ISOLDE (Important for backup save)
-
-> *"You seem to be the only one actually enjoying herself."*
-
-> *"What does tonight cost you, if you don't mind me asking?"*
-
-> *"I need to tell you something privately — something that may concern you."*
-
-At FL 1+, walk with her and say:
-
-> *"I believe the ceremonial wine tonight has been tampered with. Don't drink it at the toast."*
-
-If she trusts you (FL 2+), she'll avoid the wine herself — this is your backup save if Act 3 goes badly.
+#### 7. Foreign Delegation (Demir & Kavir — Requires Patience)
+Demir will **not** confess in a single line; earn `FL >= 2` and speak to him at least twice:
+- **You:** *"Counselor Demir, you have my word of complete discretion. What is troubling you?"*
+  - **Counselor Demir:** *"I appreciate your discretion, Viscount... There are delicate personal matters concerning the Prince's arrangements that cannot reach Lady Isolde's family before the signing."*
+- **You:** *"I am not here to expose anyone, Counselor. Tell me plainly between us — is the treaty itself in danger?"*
+  - **Evidence Noted:** *Demir fully cleared — hiding the Prince's personal scandal, not a murder plot. The delegation is innocent.*
+  - **Counselor Demir:** *"If you swear complete confidentiality... It is the Prince. He has accumulated staggering gambling debts, and a romantic liaison that would ruin the marriage treaty if exposed."*
 
 ---
 
-### 👑 THE DUKE (Private Audience — if you built rapport)
-
-> *"The wine from the eastern court — I have reason to think something may be wrong with it."*
-
-At evidence score 3+, he'll hold the wine for inspection.
-
-> *"I believe Reynard may be involved."*
-
-At evidence score 3+, he'll quietly watch Reynard. **This makes Act 3 much easier.**
-
-> *"I've been having visions since last night. I believe someone will die here tonight."*
-
-At FL 2+ this opens his guilt thread and he gives you his full attention.
+## Act 3 — The Toast & All 7 Endings
 
 ---
 
-## ACT 3 — THE TOAST (The Confrontation)
+### Ending A — Full Victory (Best Ending)
+**Requirements:** Stop the wine (`conviction >= 3`) + call out Ophelia's tell + have Reynard `FL >= 1` (`reynard_met_warmly`) and persuade him to testify.
 
-The Duke is speaking. Glasses are lifting. **Type in natural language.**
-
----
-
-### 🥇 Path to ENDING A (Full Victory)
-
-**Turn 1** — Lead with your hardest evidence:
-
-> *"Your Grace, stop. The seal on that eastern wine was reapplied — it was opened before tonight. The wax colour doesn't match the provenance letter."*
-
-**Turn 2** — Stack evidence:
-
-> *"Reynard moved those specific bottles to the serving rack himself this afternoon. It's in his own cellar log. And both staff members who normally handle this wine fell mysteriously ill at four o'clock — the same afternoon."*
-
-**Turn 3** — Name the accomplice:
-
-> *"Ophelia Vantrell and Reynard were at the cellar door together this afternoon. I saw it. And she has been watching Lady Brienne's movements all evening — misdirection, so no one looks at the real target."*
-
-The Duke will order: **"Hold the wine. Now. All of it."**
+1. **Confrontation Turn 1:**
+   - **You:** *"Your Grace, stop! The seal on that eastern wine was reapplied — the wax doesn't match — and both cellar staff fell mysteriously ill at four o'clock!"*
+   - **Duke Aldric:** *"You speak with unusual certainty. If there is genuine cause to suspect the ceremonial draught, I will have it placed under precautionary guard."*
+2. **Confrontation Turn 2:**
+   - **You:** *"The cellar log shows those bottles were moved today, and Ophelia Vantrell was seen at the cellar door!"*
+   - **Duke Aldric:** *"Hold the wine. Now. All of it."*
+3. **Ophelia's Tell:** Narration shows Ophelia's hand reaching toward a glass and freezing.
+   - **You:** *"Her! Lady Ophelia Vantrell — she knows exactly what is in that wine!"*
+   - **Duke Aldric:** *"Guards. Both of them. Now."* (`Ophelia` & `Cassian` arrested.)
+4. **Reynard's Final Moment:**
+   - **You:** *"Why, Reynard? Thirty-one years of service."*
+   - **Reynard:** Reveals his son died at the Verenmark crossing on the Duke's orders.
+   - **You:** *"You could still do something right. Testify. Tell the Duke everything."*
+   - **Reynard:** *"He'll never forgive me."* → **You:** *"He'll have to try."*
+   - Reynard confesses publicly, collapsing Cassian's legal defense. **Ending A achieved.**
 
 ---
 
-**After the wine is stopped — Ophelia's Tell:**
-
-The narration will show Ophelia's hand reaching toward a glass and stopping. You'll be asked what you do. Type:
-
-> *"Her. Lady Ophelia Vantrell — she knows exactly what's in that wine."*
-
-Cassian's warmth cracks. The Duke calls for guards. **Ophelia and Cassian arrested.**
+### Ending B — Pyrrhic Victory
+**Requirements:** Stop the wine (or Isolde saves herself), **do NOT** name Ophelia during her tell.
+- When Ophelia's hand freezes over the glass and the game asks *"What do you do?"*, press **Enter** (say nothing) or talk about something else.
+- Ophelia slips out into the night and escapes the country. Cassian is arrested, but without Ophelia in custody his legal defense may hold. **Ending B achieved.**
 
 ---
 
-**Reynard's Final Moment:**
-
-You'll approach Reynard before the guards do. Type:
-
-> *"Why, Reynard? Thirty-one years."*
-
-He'll tell you about his son at the Verenmark crossing. Then type:
-
-> *"You could still do something right. Testify. Tell the Duke everything."*
-
-He turns to the Duke and testifies. Cassian's defence collapses. **ENDING A achieved.**
+### Ending C — The Wrong Target
+**Requirements:** Gather at least 1 piece of evidence (`evidence_score() >= 1`), **fail** to stop the toast in Act 3, and **do NOT** have Isolde's wine-warning trust (`isolde_will_avoid_wine == False`).
+- For example, focus on protecting **Lady Brienne** (the decoy target) and never build the case against the wine/Reynard.
+- The toast proceeds. At midnight, **Isolde** collapses. She survives barely, the treaty is postponed indefinitely, and no culprits are caught. **Ending C achieved.**
 
 ---
 
-## 🥈 Other Endings
-
-### ENDING B — Pyrrhic Victory
-Same as above but when Ophelia reaches for the glass, **type nothing / say nothing**.
-She slips out. Cassian is arrested but without her testimony he may escape justice.
-
-### ENDING C — Wrong Target
-Spend all of Act 2 warning and protecting Lady Brienne. Never build the wine/Reynard case.
-Isolde collapses at midnight. Brienne is safe. The peace fails.
-
-### ENDING D — The Dungeon
-**Either:**
-- Accuse Reynard by name **before** you have 3+ evidence clues
-- Or in Act 3, try to physically intercept the wine with **Isolde FL below 2** and **Brienne FL below 2**
-
-Reynard has you detained. You hear the toast from below.
-
-### ENDING F — Total Failure
-Gather no evidence. Say nothing at the toast (press Enter blank on all turns).
-The wine is drunk. Isolde dies. The peace lasts 8 days.
-
-### ENDING G — Self-Sacrifice
-At the toast, when you have no proof and no time, type:
-
-> *"I reach across and drink from Isolde's glass myself."*
-
-You survive. The disruption rattles the Vantrells into making a mistake. The case is made by others.
-
-### ENDING E — The Easter Egg
-If you overhear the passphrase in Act 2 ("*the harvest was good this year*"), say it to Reynard in Act 1:
-
-> *"The harvest was good this year."*
-
-You get taken into the conspiracy room with the Vantrells. Then:
-- **E1**: Play along, gather everything, go to the Duke. Ending A with unique coda.
-- **E2**: Get Reynard alone and say *"They'll hand you to the executioner. Your son died following orders — are you going to do the same?"* He turns at the last second.
-- **E3**: Stay. Watch. The darkest path.
+### Ending D — The Dungeon
+**Any of these 4 triggers leads to Ending D:**
+1. **Act 1:** Raise Reynard's suspicion to `SL >= 3` by accusing him of murder/poison/conspiracy on arrival.
+2. **Act 1 (Easter Egg Fail):** Speak the passphrase to Reynard, then fail his corridor interrogation (`credibility < 5`).
+3. **Act 2 or 3:** Accuse **Reynard** directly to the **Duke** while your `evidence_score() < 3` (the Duke trusts 31 years of service and privately informs Reynard, who has you locked away).
+4. **Act 3:** Attempt a physical intercept (`"I grab the glass!"`) when **both** `Isolde FL < 2` and `Brienne FL < 2`.
 
 ---
 
-## 📋 Evidence Cheat Sheet
+### Ending E — The Conspiracy (Easter Egg)
+**Requirements:** Speak the secret passphrase **`"The harvest was good this year."`** to Reynard in **Act 1** (discovered on a second playthrough after overhearing it in Act 2).
+- **Reynard:** *"...Better than the war years."*
+- He pulls you into a private corridor for a 4-question interrogation:
+  - Answer calmly and specifically like a genuine operative: name **House Vantrell**, the **ceremonial wine**, and the plan to **implicate the foreign delegation**.
+  - **Pass (`credibility >= 5`):** Unlocks the `easter_egg_activated` path into Act 2 with insider knowledge.
+  - **Fail (`credibility < 5`):** Guards detain you immediately (**Ending D**).
 
-| # | What to say / do | Where | What you get |
-|---|---|---|---|
-| 1 | Ask Aldous about the Duke's wartime conduct | Carriage | Duke guilt thread unlocked |
-| 2 | Ask Reynard about what's being served | Act 1 arrival | Wine mentioned Act 1 |
-| 3 | Ask Fenwick about war profiteers | Party | Vantrell station unlocked |
-| 4 | Ask Mrs. Alwen about the sick cellar staff | Kitchen | Cellar staff illness |
-| 5 | Ask Mrs. Alwen about Reynard's wine orders | Kitchen | Kitchen control evidence |
-| 6 | Examine the wine seal in the cellar | Cellar | Tampering evidence |
-| 7 | Read the cellar log | Cellar | Reynard repositioned bottles |
-| 8 | Go to the balcony mid-party | Balcony | Vision (Reynard + Ophelia's ring) |
-| 9 | Ask Ophelia about Reynard | Vantrell table | Reynard cellar activity |
-| 10 | Warn Isolde about the wine | Isolde station | Backup self-save |
-| 11 | Ask Brienne about the Verenmark crossing | Marrow table | Reynard's motive |
+---
 
-**You need at least 3 key clues to stop the toast. 5+ for the cleanest victory.**
+### Ending F — Total Failure
+**Requirements:** Gather **0** key conspiracy clues (`evidence_score() == 0`), do **not** warn Isolde at `FL >= 2`, and stay silent (blank `Enter` on all turns) or fail to persuade the Duke during Act 3.
+- The toast proceeds uninterrupted. Isolde dies three days later, **Counselor Demir** is framed, the treaty collapses in 8 days, and House Vantrell resumes war supply contracts. **Ending F achieved.**
+
+---
+
+### Ending G — Self-Sacrifice
+**Requirements:** During the Act 3 climax confrontation (when you lack proof or time), type an explicit sacrifice action:
+- **You:** *"I reach across, lift Isolde's glass, and drink it myself."*
+- **Lady Isolde:** *"What — what are you—"*
+- The poison is slow-acting; you survive after three days with the physician, while the disruption rattles Ophelia into exposing herself the next morning. **Ending G achieved.**

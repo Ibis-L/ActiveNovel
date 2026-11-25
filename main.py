@@ -18,6 +18,8 @@ parser.add_argument("--new",   action="store_true", help="Start a new game")
 parser.add_argument("--debug", action="store_true", help="Show LLM debug output")
 parser.add_argument("--act",   type=str, default=None,
                     help="Jump to act: prologue / act0 / act1 (dev use)")
+parser.add_argument("--web",   action="store_true", help="Launch 2D Pixel Browser Edition")
+parser.add_argument("--port",  type=int, default=8000, help="Port for --web server (default: 8000)")
 args = parser.parse_args()
 
 if args.debug:
@@ -160,6 +162,11 @@ def _show_summary(gs: GameState):
 # ═══════════════════════════════════════════════
 
 def main():
+    if args.web:
+        import web_server
+        web_server.launch(port=args.port)
+        return
+
     D.title_screen()
 
     # LLM check

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Viscount's Vigil — 2D Pixel Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0a10;
+      --panel: #151320;
+      --border: #4a3f5c;
+      --gold: #e6c15a;
+      --crimson: #c43c52;
+      --mint: #5cd69a;
+      --vision: #d966ff;
+      --text: #eae4f2;
+      --muted: #9b92ab;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'VT323', monospace;
+      font-size: 19px;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+    }
+    .game-shell {
+      width: 100%;
+      max-width: 1120px;
+      height: calc(100vh - 12px);
+      background: var(--panel);
+      border: 3px solid var(--border);
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.85), inset 0 0 0 2px #262036;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    /* Top HUD */
+    .hud {
+      flex: 0 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 12px;
+      background: #0f0d18;
+      border-bottom: 2px solid var(--border);
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .hud-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 11px;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+    .hud-stats {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 18px;
+    }
+    .stat-pill {
+      background: #1d1a2c;
+      border: 1px solid var(--border);
+      padding: 1px 8px;
+      color: var(--text);
+    }
+    .stat-pill span { color: var(--gold); }
+    .hud-actions { display: flex; gap: 6px; }
+    button {
+      font-family: 'VT323', monospace;
+      font-size: 18px;
+      background: #241f36;
+      color: var(--text);
+      border: 2px solid var(--border);
+      padding: 2px 10px;
+      cursor: pointer;
+      transition: background 0.12s, border-color 0.12s;
+    }
+    button:hover { background: #332c4d; border-color: var(--gold); color: var(--gold); }
+    button.primary { border-color: var(--gold); color: var(--gold); }
+    button.danger { border-color: var(--crimson); color: #ff8a9b; }
+
+    /* Pixel Canvas Stage — scales to fit remaining viewport height */
+    .stage-wrap {
+      flex: 1 1 0;
+      min-height: 0;
+      position: relative;
+      width: 100%;
+      background: #07060b;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    canvas#worldCanvas {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+      display: block;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      cursor: crosshair;
+    }
+    .controls-hint {
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      background: rgba(11, 10, 16, 0.82);
+      border: 1px solid var(--border);
+      padding: 1px 8px;
+      font-size: 15px;
+      color: var(--muted);
+      pointer-events: none;
+    }
+    .station-bar {
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      max-width: 60%;
+    }
+    .station-bar button {
+      font-size: 15px;
+      padding: 1px 8px;
+      background: rgba(21, 19, 32, 0.92);
+    }
+
+    /* Dialogue & Free-Text Panel — fixed proportional height */
+    .dialogue-panel {
+      flex: 0 0 clamp(180px, 29vh, 235px);
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 10px;
+      padding: 8px 12px;
+      background: #12101c;
+      min-height: 0;
+    }
+    .portrait-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    canvas#portraitCanvas {
+      width: 84px;
+      height: 84px;
+      background: #0a0910;
+      border: 2px solid var(--border);
+      image-rendering: pixelated;
+    }
+    .portrait-name {
+      font-size: 16px;
+      color: var(--gold);
+      text-align: center;
+      line-height: 1.05;
+    }
+    .dialogue-main {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+      min-height: 0;
+    }
+    .chat-log {
+      flex: 1 1 0;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 6px 10px;
+      background: #0b0a12;
+      border: 1px solid #2b243d;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .msg { line-height: 1.25; }
+    .msg.narration { color: #b9b2c9; font-style: italic; }
+    .msg.vision { color: var(--vision); border-left: 3px solid var(--vision); padding-left: 8px; }
+    .msg.evidence { color: var(--mint); border-left: 3px solid var(--mint); padding-left: 8px; }
+    .msg.relationship { color: #e8b86b; font-size: 17px; }
+    .msg.player { color: #79d7ff; }
+    .msg.npc strong { color: var(--gold); }
+    .msg.system { color: var(--muted); font-size: 17px; }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    input#playerInput {
+      flex: 1;
+      font-family: 'VT323', monospace;
+      font-size: 21px;
+      padding: 6px 10px;
+      background: #0a0910;
+      color: var(--text);
+      border: 2px solid var(--border);
+      outline: none;
+    }
+    input#playerInput:focus { border-color: var(--gold); }
+    .quick-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Evidence Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 4, 8, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      padding: 16px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-card {
+      width: 100%;
+      max-width: 640px;
+      max-height: 80vh;
+      overflow-y: auto;
+      background: var(--panel);
+      border: 3px solid var(--gold);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .modal-card h2 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 13px;
+      color: var(--gold);
+    }
+    .ev-item {
+      padding: 6px 10px;
+      background: #0d0c14;
+      border-left: 3px solid var(--mint);
+      color: #d8f3e5;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-shell">
+    <div class="hud">
+      <div class="hud-title">THE VISCOUNT'S VIGIL</div>
+      <div class="hud-stats">
+        <div class="stat-pill">ACT: <span id="hudAct">PROLOGUE</span></div>
+        <div class="stat-pill">TIME: <span id="hudTime">5:00 PM</span></div>
+        <div class="stat-pill">EVIDENCE: <span id="hudEvidence">0</span></div>
+      </div>
+      <div class="hud-actions">
+        <button id="btnLog">📖 Evidence</button>
+        <button id="btnNew" class="primary">↻ New Game</button>
+      </div>
+    </div>
+
+    <div class="stage-wrap">
+      <canvas id="worldCanvas" width="480" height="270"></canvas>
+      <div class="controls-hint" id="controlsHint">WASD / Arrows or Click to move · Walk near an NPC to talk</div>
+      <div class="station-bar" id="stationBar"></div>
+    </div>
+
+    <div class="dialogue-panel">
+      <div class="portrait-box">
+        <canvas id="portraitCanvas" width="32" height="32"></canvas>
+        <div class="portrait-name" id="portraitName">Viscount</div>
+      </div>
+      <div class="dialogue-main">
+        <div class="chat-log" id="chatLog"></div>
+        <div class="quick-actions" id="quickActions"></div>
+        <form class="input-row" id="talkForm">
+          <input id="playerInput" type="text" placeholder="Type naturally to speak, ask, observe, or act..." autocomplete="off" />
+          <button type="submit" class="primary">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="evidenceModal">
+    <div class="modal-card">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2>EVIDENCE &amp; OBSERVATIONS</h2>
+        <button id="btnCloseModal">Close</button>
+      </div>
+      <div id="evidenceList"></div>
+    </div>
+  </div>
+
+  <script src="/static/pixel_game.js"></script>
+</body>
+</html>
