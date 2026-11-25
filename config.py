@@ -27,6 +27,7 @@ OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llama3.2")          # or "mistral
 # Set your API key in .env or as an environment variable GROQ_API_KEY
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 GROQ_MODEL   = os.environ.get("GROQ_MODEL", "openai/gpt-oss-20b")
+GROQ_RPM     = int(os.environ.get("GROQ_RPM", "25"))  # Per-minute rate limit guard for free tier
 
 # Paths
 SAVE_FILE    = "data/saves/game_state.json"

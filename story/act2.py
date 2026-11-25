@@ -246,41 +246,21 @@ def _ambient_narration(gs: GameState):
 
 
 def _show_contextual_hints(gs: GameState):
-    """Offer non-restrictive atmospheric thoughts to guide player intuition."""
+    """Subtle, atmospheric observations — never explicit instructions."""
     hints_shown = 0
-    max_hints = 2
-
-    if not gs.get_flag("wine_mentioned_act1") and hints_shown < max_hints:
-        if "kitchen" in gs.unlocked_stations and gs.station_visits("kitchen") == 0:
-            D.contextual_hint("The kitchens might shed light on how the ceremonial feast and drinks are handled.")
-            hints_shown += 1
-
-    if gs.get_flag("wine_mentioned_act1") and not gs.get_flag("wine_seal_discovered") and hints_shown < max_hints:
-        if gs.station_visits("kitchen") > 0:
-            D.contextual_hint("The eastern gift wine... Mrs. Alwen mentioned it bypassed the kitchen. The cellar holds the bottles.")
-            hints_shown += 1
+    max_hints = 1  # Keep it sparse and mysterious
 
     if gs.get_flag("balcony_vision_seen") and not gs.get_flag("ophelia_ring_asked") and hints_shown < max_hints:
-        if "vantrell" in gs.unlocked_stations:
-            D.contextual_hint("The silver ring with the red stone from the vision — look closely at the nobles' hands.")
-            hints_shown += 1
-
-    if gs.station_visits("vantrell") > 0 and gs.station_visits("marrow") == 0 and hints_shown < max_hints:
-        if "marrow" in gs.unlocked_stations:
-            D.contextual_hint("House Marrow sits in near-mourning at the periphery. Their perspective on the war may clarify the stakes.")
-            hints_shown += 1
-
-    if gs.evidence_score() >= 3 and "duke" in gs.unlocked_stations and hints_shown < max_hints:
-        if gs.station_visits("duke") == 0:
-            D.contextual_hint("You have gathered tangible evidence. Grand Duke Aldric has the authority to intervene.")
-            hints_shown += 1
-
-    if gs.get_flag("isolde_warned") and not gs.get_flag("isolde_will_avoid_wine") and hints_shown < max_hints:
-        D.contextual_hint("Isolde was troubled by your warning, but without deeper trust or specific details, she may hesitate.")
+        D.contextual_hint("Candlelight catches a glint of silver and red across the hall, gone before you can place it.")
         hints_shown += 1
-
-    if gs.minutes_to_toast() <= 45 and gs.evidence_score() < 2 and hints_shown < max_hints:
-        D.contextual_hint("Time slips away. If words fail, physical inspection in the cellars could yield concrete proof.")
+    elif gs.station_visits("kitchen") == 0 and gs.game_clock >= 45 and hints_shown < max_hints:
+        D.contextual_hint("A draft from the servants' corridor carries the scent of damp stone and spilled wax.")
+        hints_shown += 1
+    elif gs.get_flag("isolde_warned") and not gs.get_flag("isolde_will_avoid_wine") and hints_shown < max_hints:
+        D.contextual_hint("Across the room, Lady Isolde glances toward your corner, uncertain.")
+        hints_shown += 1
+    elif gs.minutes_to_toast() <= 45 and hints_shown < max_hints:
+        D.contextual_hint("Footmen are beginning to align the crystal goblets along the dais table.")
         hints_shown += 1
 
 
@@ -638,20 +618,31 @@ def _inspect_cellar(gs: GameState):
         return
 
     if c in ("SEAL", "BOTH"):
-        D.narrate(
-            "The wax seal has been reapplied — "
-            "a fractionally different colour from the eastern court "
-            "description on the accompanying provenance letter. "
-            "Not obviously wrong. Wrong enough, if you are looking."
-        )
-        if gs.add_evidence(
-            "Cellar: Eastern wine seal has been reapplied — "
-            "colour doesn't match the official provenance letter."
-        ):
-            D.evidence_gained(
-                "The gift wine's seal was broken and resealed. Someone tampered with it."
+        if gs.game_clock >= 135:
+            D.narrate(
+                "The eastern rack is already empty — only faint slivers of dark wax "
+                "linger in the wooden cradle. The bottles have already been carried "
+                "upstairs to the dais sideboard for the toast."
             )
-            gs.set_flag("wine_seal_discovered")
+            gs.add_evidence(
+                "Cellar (9:15 PM+): Eastern wine already moved upstairs for service. "
+                "Dark wax shavings remain on the empty rack."
+            )
+        else:
+            D.narrate(
+                "The wax seal has been reapplied — "
+                "a fractionally different colour from the eastern court "
+                "description on the accompanying provenance letter. "
+                "Not obviously wrong. Wrong enough, if you are looking."
+            )
+            if gs.add_evidence(
+                "Cellar: Eastern wine seal has been reapplied — "
+                "colour doesn't match the official provenance letter."
+            ):
+                D.evidence_gained(
+                    "The gift wine's seal was broken and resealed. Someone tampered with it."
+                )
+                gs.set_flag("wine_seal_discovered")
 
     if c in ("LOG", "BOTH"):
         D.narrate(
@@ -760,6 +751,18 @@ def _check_timed_events(gs: GameState):
                     pass
         except KeyError:
             pass
+
+    # Ophelia's secret footman whisper (time-oriented event: 8:15 PM – 8:55 PM)
+    if 75 <= gs.game_clock <= 115 and not gs.get_flag("ophelia_footman_glimpsed"):
+        gs.set_flag("ophelia_footman_glimpsed")
+        D.narrate(
+            "Near the east archway, you catch a fleeting sight — Lady Ophelia Vantrell "
+            "speaking in a low voice to a liveried footman, pressing a folded parchment "
+            "into his palm before gliding back toward her table."
+        )
+        gs.add_evidence(
+            "Observed (8:15–8:55 PM): Ophelia Vantrell privately handed a folded note to a footman."
+        )
 
     # Final bell
     if gs.minutes_to_toast() <= 30 and not gs.get_flag("final_bell_rung"):

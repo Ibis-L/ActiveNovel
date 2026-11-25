@@ -8,6 +8,8 @@
 
 from __future__ import annotations
 import json
+import time
+from collections import deque
 import requests
 import config
 
@@ -223,6 +225,27 @@ def _ollama(system: str, messages: list, temperature: float) -> str:
 
 
 _GROQ_KEY_INVALID = False
+_GROQ_CALL_TIMESTAMPS: deque[float] = deque()
+
+
+def _wait_for_groq_rate_limit():
+    """Enforce a per-minute sliding-window rate limit for Groq free tier."""
+    rpm = getattr(config, "GROQ_RPM", 25)
+    if rpm <= 0:
+        return
+    now = time.monotonic()
+    # Drop timestamps older than 60 seconds
+    while _GROQ_CALL_TIMESTAMPS and (now - _GROQ_CALL_TIMESTAMPS[0]) >= 60.0:
+        _GROQ_CALL_TIMESTAMPS.popleft()
+    if len(_GROQ_CALL_TIMESTAMPS) >= rpm:
+        oldest = _GROQ_CALL_TIMESTAMPS[0]
+        wait_sec = 60.0 - (now - oldest) + 0.1
+        if wait_sec > 0:
+            time.sleep(wait_sec)
+        now = time.monotonic()
+        while _GROQ_CALL_TIMESTAMPS and (now - _GROQ_CALL_TIMESTAMPS[0]) >= 60.0:
+            _GROQ_CALL_TIMESTAMPS.popleft()
+    _GROQ_CALL_TIMESTAMPS.append(time.monotonic())
 
 
 def _groq(system: str, messages: list, temperature: float) -> str:
@@ -241,21 +264,29 @@ def _groq(system: str, messages: list, temperature: float) -> str:
         "temperature": temperature,
         "max_tokens": 500,
     }
-    try:
-        r = requests.post(
-            "https://api.groq.com/openai/v1/chat/completions",
-            headers=headers, json=payload, timeout=30,
-        )
-        r.raise_for_status()
-        return r.json()["choices"][0]["message"]["content"].strip()
-    except requests.exceptions.HTTPError:
-        if r.status_code == 401:
-            _GROQ_KEY_INVALID = True
-            return "[ERROR: Groq API key invalid.]"
-        if r.status_code == 429: return "[ERROR: Groq rate limit — wait a moment.]"
-        return f"[ERROR: Groq HTTP {r.status_code}]"
-    except Exception as e:
-        return f"[ERROR: Groq — {e}]"
+    for attempt in range(2):
+        _wait_for_groq_rate_limit()
+        try:
+            r = requests.post(
+                "https://api.groq.com/openai/v1/chat/completions",
+                headers=headers, json=payload, timeout=30,
+            )
+            r.raise_for_status()
+            return r.json()["choices"][0]["message"]["content"].strip()
+        except requests.exceptions.HTTPError:
+            if r.status_code == 401:
+                _GROQ_KEY_INVALID = True
+                return "[ERROR: Groq API key invalid.]"
+            if r.status_code == 429:
+                if attempt == 0:
+                    retry_after = float(r.headers.get("retry-after", "3.0"))
+                    time.sleep(min(retry_after, 10.0))
+                    continue
+                return "[ERROR: Groq rate limit — wait a moment.]"
+            return f"[ERROR: Groq HTTP {r.status_code}]"
+        except Exception as e:
+            return f"[ERROR: Groq — {e}]"
+    return "[ERROR: Groq rate limit — wait a moment.]"
 
 
 # ─────────────────────────────────────────────
@@ -557,10 +588,12 @@ def _fallback_npc_dialogue(system: str, messages: list, player_msg: str) -> str:
 
     # Counselor Demir
     if header.startswith("you are counselor yusuf demir"):
-        if any(w in p for w in ["discretion", "confidential", "between us", "promise", "won't tell"]):
-            return "If you swear complete confidentiality... It is the Prince. He has accumulated staggering gambling debts, and a romantic liaison that would ruin the marriage treaty if exposed."
+        if any(w in p for w in ["discretion", "confidential", "between us", "promise", "won't tell", "in danger", "plainly"]):
+            if len(messages) >= 3:
+                return "If you swear complete confidentiality... It is the Prince. He has accumulated staggering gambling debts, and a romantic liaison that would ruin the marriage treaty if exposed."
+            return "I appreciate your discretion, Viscount... truly. There are delicate personal matters concerning the Prince's arrangements that cannot reach Lady Isolde's family before the signing."
         if any(w in p for w in ["secret", "hiding", "anxious"]):
-            return "These are delicate personal matters concerning the delegation's dignity, Viscount! Nothing that threatens the treaty or anyone's life."
+            return "Everything is fine, Viscount. Please excuse me — diplomatic protocol leaves little room for idle speculation."
         if any(w in p for w in ["kavir"]):
             return "General Kavir and I were merely discussing security protocol and transport logistics. Nothing more."
         return "A splendid celebration, my lord. We all pray the signing concludes without incident."

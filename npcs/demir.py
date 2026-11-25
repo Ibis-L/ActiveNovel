@@ -223,9 +223,14 @@ def _analysis(player_msg: str, response: str, ns: "NPCState", gs: "GameState"):
                 "Not related to any assassination plot."
             )
 
-    # ── Secret revealed (FL 3 response) ───────
+    # ── Secret revealed (FL 3 or FL 2 + patience) ───────
     reveal_words = ["gambling", "debts", "affair", "romantic", "merchant", "embarrass"]
-    if any(w in resp_lower for w in reveal_words) and not ns.get_flag("secret_revealed"):
+    if (
+        any(w in resp_lower for w in reveal_words)
+        and ns.friendly_level >= 2
+        and ns.times_spoken >= 2
+        and not ns.get_flag("secret_revealed")
+    ):
         ns.set_flag("secret_revealed")
         if gs.add_evidence(
             "Demir (FL3): The Prince has gambling debts and a private romantic affair — "

@@ -235,20 +235,25 @@ def _analysis(player_msg: str, response: str, ns: "NPCState", gs: "GameState"):
             gs.set_flag("ophelia_highly_alerted")
 
     # ── Reynard + cellar key clue ─────────────
-    # Fires when Ophelia's response mentions Reynard + cellar together
+    # Ophelia only lets this slip if she isn't on high alert and has engaged at least briefly
     reynard_in_resp = "reynard" in resp_lower
     cellar_in_resp  = any(w in resp_lower for w in
-                          ["cellar", "cellar", "afternoon", "particular", "wine arrangements"])
+                          ["cellar", "afternoon", "particular", "wine arrangements"])
 
-    if reynard_in_resp and cellar_in_resp and not ns.get_flag("reynard_cellar_mentioned"):
+    if (
+        reynard_in_resp
+        and cellar_in_resp
+        and ns.suspicion_level < 2
+        and (ns.friendly_level >= 1 or ns.times_spoken >= 2)
+        and not ns.get_flag("reynard_cellar_mentioned")
+    ):
         ns.set_flag("reynard_cellar_mentioned")
         if gs.add_evidence(
             "Ophelia mentioned Reynard's cellar activity this afternoon — "
-            "brought it up as an idle observation, completely unprompted."
+            "brought it up as an idle observation."
         ):
             D.evidence_gained(
-                "Ophelia volunteered that Reynard was in the cellar this afternoon, "
-                "very particular about the wine arrangements."
+                "Ophelia mentioned in passing that Reynard was in the cellar this afternoon."
             )
 
     # ── Brienne note clue ─────────────────────

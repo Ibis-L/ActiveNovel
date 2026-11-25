@@ -97,6 +97,7 @@ def run_ending_a_playthrough():
         "vantrell",
         "House Vantrell was heavily involved in the war effort. The peace must cut into your income.",
         "Lady Ophelia, you've been very quiet tonight.",
+        "Lady Ophelia, I suppose you notice every detail of how the household prepares for an evening like this.",
         "Lady Ophelia, that is a striking silver ring with a red stone you are wearing.",
         "",
 
@@ -107,10 +108,10 @@ def run_ending_a_playthrough():
         "I believe the ceremonial wine tonight has been tampered with. Do not drink from it at the toast.",
         "",
 
-        # Act 2 - Station 7: Foreign Delegation (Clear Demir)
+        # Act 2 - Station 7: Foreign Delegation (Clear Demir — requires patience & earned trust)
         "delegation",
         "Counselor Demir, you have my word of complete discretion. What is troubling you?",
-        "Thank you for trusting me, Counselor. Your secret is safe with me.",
+        "I am not here to expose anyone, Counselor. Tell me plainly between us — is the treaty itself in danger?",
         "",
 
         # Act 2 - Head to toast
@@ -234,6 +235,25 @@ def test_edge_cases():
         assert len(fen.state.conversation_summaries) >= 1, "Conversation summary should have triggered"
         assert len(fen.state.conversation_history) <= 6, "History should have trimmed to last 6 messages"
         results.append("✓ Edge Case 5 (Long-conversation summarization & context trimming): PASSED")
+
+        # 6. Edge Case: Time-oriented events (Ophelia footman whisper at 8:15-8:55 PM & late cellar at 9:15 PM+)
+        gs6 = GameState()
+        gs6.game_clock = 90  # 8:30 PM
+        act2._check_timed_events(gs6)
+        assert gs6.get_flag("ophelia_footman_glimpsed"), "Ophelia footman whisper should trigger at 8:30 PM"
+
+        gs6.game_clock = 140  # 9:20 PM — bottles already moved upstairs
+        with unittest.mock.patch.object(D, "get_choice", return_value="SEAL"):
+            act2._inspect_cellar(gs6)
+        assert not gs6.get_flag("wine_seal_discovered"), "Late cellar visit (9:20 PM) should miss the wine bottles"
+        results.append("✓ Edge Case 6 (Time-oriented events: 8:30 PM Ophelia whisper & 9:20 PM empty cellar): PASSED")
+
+        # 7. Edge Case: Groq per-minute rate limiter tracking
+        from engine import llm
+        llm._GROQ_CALL_TIMESTAMPS.clear()
+        llm._wait_for_groq_rate_limit()
+        assert len(llm._GROQ_CALL_TIMESTAMPS) == 1, "Rate limiter should record call timestamp"
+        results.append("✓ Edge Case 7 (Groq per-minute rate limiter sliding window): PASSED")
 
     return results
 
