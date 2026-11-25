@@ -1,16 +1,76 @@
 {
   "current_act": "act3",
   "current_scene": "party_floor",
-  "game_clock": 20,
-  "evidence_log": [],
+  "game_clock": 120,
+  "evidence_log": [
+    "Reynard: The eastern wine is to be kept sealed until the toast. He mentioned it when I asked about the evening's arrangements \u2014 before I'd asked about the wine directly.",
+    "VISION (balcony): Reynard at the cellar door this afternoon \u2014 carrying something, moving fast. A woman held the door: silver ring with red stone."
+  ],
   "npc_states": {
+    "aldous": {
+      "npc_id": "aldous",
+      "name": "Aldous",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 3,
+      "emotional_state": "neutral",
+      "conversation_history": [
+        {
+          "role": "user",
+          "content": "What do you think of the peace treaty?"
+        },
+        {
+          "role": "assistant",
+          "content": "Ten years of hard fighting in the mud, my lord. Most folk are just thankful their sons won't be called to the eastern trenches again."
+        },
+        {
+          "role": "user",
+          "content": "Have you heard anything about the Duke's conduct during the war?"
+        },
+        {
+          "role": "assistant",
+          "content": "Ten years of hard fighting in the mud, my lord. Most folk are just thankful their sons won't be called to the eastern trenches again."
+        },
+        {
+          "role": "user",
+          "content": "How long until we arrive?"
+        },
+        {
+          "role": "assistant",
+          "content": "The trees are thinning already, my lord. We'll turn up the estate drive in less than half an hour."
+        }
+      ],
+      "conversation_summaries": [],
+      "memories": [],
+      "flags": {}
+    },
     "reynard": {
       "npc_id": "reynard",
       "name": "Reynard",
-      "friendly_level": 0,
+      "friendly_level": 1,
       "suspicion_level": 0,
-      "times_spoken": 0,
-      "conversation_history": [],
+      "times_spoken": 2,
+      "emotional_state": "neutral",
+      "conversation_history": [
+        {
+          "role": "user",
+          "content": "How long have you served the Duke, Reynard? Thirty years?"
+        },
+        {
+          "role": "assistant",
+          "content": "Thirty-one years, my lord. Since His Grace was little older than you are now. I have seen more good men fall than any peace could ever restore."
+        },
+        {
+          "role": "user",
+          "content": "What is being served tonight? Is there anything special prepared for the feast or drinks?"
+        },
+        {
+          "role": "assistant",
+          "content": "The eastern delegation sent a rare ceremonial wine for tonight's toast, my lord. His Grace gave very strict instructions that it remain sealed until the treaty is signed."
+        }
+      ],
+      "conversation_summaries": [],
+      "memories": [],
       "flags": {}
     },
     "fenwick": {
@@ -18,8 +78,36 @@
       "name": "Lord Fenwick",
       "friendly_level": 0,
       "suspicion_level": 0,
-      "times_spoken": 0,
-      "conversation_history": [],
+      "times_spoken": 3,
+      "emotional_state": "neutral",
+      "conversation_history": [
+        {
+          "role": "user",
+          "content": "Who here actually supported the war most and profited?"
+        },
+        {
+          "role": "assistant",
+          "content": "It is a rare joy to speak with someone who looks past the court masks tonight, Viscount. I am glad you came."
+        },
+        {
+          "role": "user",
+          "content": "What do you know about the foreign delegation?"
+        },
+        {
+          "role": "assistant",
+          "content": "It is a rare joy to speak with someone who looks past the court masks tonight, Viscount. I am glad you came."
+        },
+        {
+          "role": "user",
+          "content": "What do you really think of the Duke?"
+        },
+        {
+          "role": "assistant",
+          "content": "It is a rare joy to speak with someone who looks past the court masks tonight, Viscount. I am glad you came."
+        }
+      ],
+      "conversation_summaries": [],
+      "memories": [],
       "flags": {}
     },
     "brienne": {
@@ -28,7 +116,10 @@
       "friendly_level": 0,
       "suspicion_level": 0,
       "times_spoken": 0,
+      "emotional_state": "neutral",
       "conversation_history": [],
+      "conversation_summaries": [],
+      "memories": [],
       "flags": {}
     },
     "cassian": {
@@ -36,8 +127,20 @@
       "name": "Lord Cassian",
       "friendly_level": 0,
       "suspicion_level": 0,
-      "times_spoken": 0,
-      "conversation_history": [],
+      "times_spoken": 1,
+      "emotional_state": "neutral",
+      "conversation_history": [
+        {
+          "role": "user",
+          "content": "House Vantrell was heavily involved in the war effort. The peace must cut into your income."
+        },
+        {
+          "role": "assistant",
+          "content": "An adjustment is natural when a long war ends, Viscount! But peace brings burgeoning trade routes, new partnerships. One adapts with pleasure."
+        }
+      ],
+      "conversation_summaries": [],
+      "memories": [],
       "flags": {}
     },
     "ophelia": {
@@ -45,8 +148,20 @@
       "name": "Lady Ophelia",
       "friendly_level": 0,
       "suspicion_level": 0,
-      "times_spoken": 0,
-      "conversation_history": [],
+      "times_spoken": 1,
+      "emotional_state": "neutral",
+      "conversation_history": [
+        {
+          "role": "user",
+          "content": "Lady Ophelia, that is a striking silver ring with a red stone you are wearing."
+        },
+        {
+          "role": "assistant",
+          "content": "A modest family heirloom, my lord. Nothing of historical import. Why do you ask?"
+        }
+      ],
+      "conversation_summaries": [],
+      "memories": [],
       "flags": {}
     },
     "demir": {
@@ -55,7 +170,10 @@
       "friendly_level": 0,
       "suspicion_level": 0,
       "times_spoken": 0,
+      "emotional_state": "neutral",
       "conversation_history": [],
+      "conversation_summaries": [],
+      "memories": [],
       "flags": {}
     },
     "kavir": {
@@ -64,17 +182,42 @@
       "friendly_level": 0,
       "suspicion_level": 0,
       "times_spoken": 0,
+      "emotional_state": "neutral",
       "conversation_history": [],
+      "conversation_summaries": [],
+      "memories": [],
       "flags": {}
     },
     "isolde": {
       "npc_id": "isolde",
       "name": "Lady Isolde",
-      "friendly_level": 0,
+      "friendly_level": 2,
       "suspicion_level": 0,
-      "times_spoken": 0,
-      "conversation_history": [],
-      "flags": {}
+      "times_spoken": 2,
+      "emotional_state": "neutral",
+      "conversation_history": [
+        {
+          "role": "user",
+          "content": "You seem to carry the burden of this peace treaty with great grace."
+        },
+        {
+          "role": "assistant",
+          "content": "It is a rare joy to speak with someone who looks past the court masks tonight, Viscount. I am glad you came."
+        },
+        {
+          "role": "user",
+          "content": "I believe the ceremonial wine tonight has been tampered with. Do not drink from it at the toast."
+        },
+        {
+          "role": "assistant",
+          "content": "You sound deadly earnest, Viscount... You truly believe something is amiss with the ceremonial wine? If your trust is true, I will quietly set my glass down."
+        }
+      ],
+      "conversation_summaries": [],
+      "memories": [],
+      "flags": {
+        "perceptive_moment": true
+      }
     },
     "duke": {
       "npc_id": "duke",
@@ -82,7 +225,10 @@
       "friendly_level": 0,
       "suspicion_level": 0,
       "times_spoken": 0,
+      "emotional_state": "neutral",
       "conversation_history": [],
+      "conversation_summaries": [],
+      "memories": [],
       "flags": {}
     },
     "mrs_alwen": {
@@ -90,25 +236,64 @@
       "name": "Mrs Alwen",
       "friendly_level": 0,
       "suspicion_level": 0,
-      "times_spoken": 0,
-      "conversation_history": [],
+      "times_spoken": 2,
+      "emotional_state": "neutral",
+      "conversation_history": [
+        {
+          "role": "user",
+          "content": "Did Reynard give you any special orders about the wine?"
+        },
+        {
+          "role": "assistant",
+          "content": "Reynard gave thirty years to this hall, and his own blood at the crossing. An accusation against him demands incontrovertible evidence, Viscount."
+        },
+        {
+          "role": "user",
+          "content": "Two of Reynard's cellar staff fell ill today, I heard?"
+        },
+        {
+          "role": "assistant",
+          "content": "Reynard gave thirty years to this hall, and his own blood at the crossing. An accusation against him demands incontrovertible evidence, Viscount."
+        }
+      ],
+      "conversation_summaries": [],
+      "memories": [],
       "flags": {}
     }
   },
   "flags": {
-    "prologue_done": true
+    "prologue_done": true,
+    "reynard_met_warmly": true,
+    "asked_for_duke_act1": true,
+    "duke_station_public_only": true,
+    "wine_mentioned_act1": true,
+    "balcony_vision_seen": true,
+    "passphrase_overheard": true
   },
   "player_choices": [
-    "act0_silent"
+    "act0_speaking",
+    "act1_warm_thread",
+    "act1_asked_for_duke"
   ],
   "unlocked_stations": [
     "kitchen",
-    "balcony"
+    "balcony",
+    "duke"
   ],
   "data": {
-    "vision_window_open": 58,
-    "vision_window_close": 78,
+    "vision_window_open": 0,
+    "vision_window_close": 300,
     "vision_window_set": true,
-    "passphrase_counter": 0
+    "aldous_naturalness": 5,
+    "wine_context_active": true,
+    "passphrase_counter": 2,
+    "ambient_30": true,
+    "visits_kitchen": 1,
+    "ambient_60": true,
+    "visits_balcony": 1,
+    "visits_vantrell": 1,
+    "ambient_90": true,
+    "visits_isolde": 1,
+    "ambient_120": true
   }
 }
