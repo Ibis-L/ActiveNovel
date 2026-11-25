@@ -81,6 +81,13 @@ def _conversation_loop(reynard: NPC, gs: GameState):
         if cmd == "time":
             D.system_msg(f"The time is {gs.get_time_str()}.")
             continue
+        if cmd == "help":
+            D.system_msg("Dialogue commands:")
+            D.system_msg("  • Type naturally to speak with Reynard.")
+            D.system_msg("  • 'log'  — view your collected evidence")
+            D.system_msg("  • 'time' — check current clock")
+            D.system_msg("  • Enter (blank) — stop talking and head inside")
+            continue
 
         # ── Passphrase ────────────────────────
         if check_passphrase(raw, gs):

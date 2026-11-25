@@ -7,6 +7,7 @@ import io
 import sys
 import os
 import time
+import contextlib
 import unittest.mock
 from engine.game_state import GameState
 from engine import display as D
@@ -115,9 +116,9 @@ def run_ending_a_playthrough():
         # Act 2 - Head to toast
         "toast",
 
-        # Act 3 - Confrontation (including a phantom bluff edge-case check? No, let's test phantom in a separate test)
-        "Your Grace, stop! The seal on that eastern wine was reapplied and tampered with, and Reynard's cellar log proves he moved those bottles today!",
-        "Both cellar staff fell mysteriously ill at four o'clock, and Ophelia Vantrell was at the cellar door with Reynard this afternoon!",
+        # Act 3 - Confrontation
+        "Your Grace, stop! The seal on that eastern wine was reapplied — the wax doesn't match — and both cellar staff fell mysteriously ill at four o'clock!",
+        "The cellar log shows those bottles were moved today, and Ophelia Vantrell was seen at the cellar door!",
         # Ophelia tell
         "Her! Lady Ophelia Vantrell — she knows exactly what is in that wine!",
         # Reynard moment

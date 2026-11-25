@@ -222,9 +222,15 @@ def _ollama(system: str, messages: list, temperature: float) -> str:
         return f"[ERROR: Ollama — {e}]"
 
 
+_GROQ_KEY_INVALID = False
+
+
 def _groq(system: str, messages: list, temperature: float) -> str:
+    global _GROQ_KEY_INVALID
     if not config.GROQ_API_KEY:
         return "[ERROR: GROQ_API_KEY not set.]"
+    if _GROQ_KEY_INVALID:
+        return "[ERROR: Groq API key invalid.]"
     headers = {
         "Authorization": f"Bearer {config.GROQ_API_KEY}",
         "Content-Type": "application/json",
@@ -243,7 +249,9 @@ def _groq(system: str, messages: list, temperature: float) -> str:
         r.raise_for_status()
         return r.json()["choices"][0]["message"]["content"].strip()
     except requests.exceptions.HTTPError:
-        if r.status_code == 401: return "[ERROR: Groq API key invalid.]"
+        if r.status_code == 401:
+            _GROQ_KEY_INVALID = True
+            return "[ERROR: Groq API key invalid.]"
         if r.status_code == 429: return "[ERROR: Groq rate limit — wait a moment.]"
         return f"[ERROR: Groq HTTP {r.status_code}]"
     except Exception as e:
@@ -332,20 +340,21 @@ def _fallback_exchange_analysis(prompt_text: str) -> str:
         "suspicion_change": sc,
     }
 
-    # NPC-specific schema extractions
-    if "Reynard" in npc_name or "reynard" in prompt_text.lower():
+    # NPC-specific schema extractions (match strictly on npc_name, not schema text)
+    npc_lower = npc_name.lower()
+    if "reynard" in npc_lower:
         res["dream_disclosed"] = any(w in p_msg for w in ["i had a dream", "i saw a vision", "my vision", "i dreamed", "my dream"])
         res["asking_about_duke"] = any(w in p_msg for w in ["duke", "aldric", "his grace", "where is the duke", "meet the duke"])
         res["curious_about_preparations"] = any(w in p_msg for w in ["wine", "drink", "food", "feast", "toast", "serve", "kitchen", "menu", "cellar", "preparations", "arrangements"])
         res["mentioned_danger"] = any(w in p_msg for w in ["poison", "murder", "danger", "threat", "death", "kill"])
 
-    elif "Cassian" in npc_name or "cassian" in prompt_text.lower():
+    elif "cassian" in npc_lower:
         res["asked_about_income"] = any(w in p_msg for w in ["income", "profit", "war contracts", "money", "business", "supply"])
         res["asked_about_wine"] = any(w in p_msg for w in ["wine", "cellar", "toast", "drinks"])
         res["asked_about_reynard"] = any(w in p_msg for w in ["reynard", "butler"])
         res["asked_about_ophelia"] = any(w in p_msg for w in ["ophelia", "sister"])
 
-    elif "Duke" in npc_name or "aldric" in prompt_text.lower():
+    elif "duke" in npc_lower or "aldric" in npc_lower:
         res["claim_about_wine"] = any(w in p_msg for w in ["wine", "poison", "tamper", "seal"])
         res["claim_about_vantrell"] = any(w in p_msg for w in ["vantrell", "cassian", "ophelia"])
         res["claim_about_reynard"] = any(w in p_msg for w in ["reynard", "butler"])
@@ -353,40 +362,40 @@ def _fallback_exchange_analysis(prompt_text: str) -> str:
         ev_matches = sum(1 for w in ["seal", "log", "reynard", "ophelia", "ring", "ill", "staff", "cellar"] if w in p_msg)
         res["evidence_level_felt"] = "strong" if ev_matches >= 3 else ("moderate" if ev_matches >= 2 else ("weak" if ev_matches >= 1 else "none"))
 
-    elif "Isolde" in npc_name or "isolde" in prompt_text.lower():
-        res["player_warned_danger"] = any(w in p_msg for w in ["danger", "careful", "warning", "threat", "harm", "watch out", "not safe"])
+    elif "isolde" in npc_lower:
+        res["player_warned_danger"] = any(w in p_msg for w in ["danger", "careful", "warning", "threat", "harm", "watch out", "not safe", "tamper"])
         res["player_warned_wine"] = any(w in p_msg for w in ["wine", "drink", "glass", "toast", "poison", "avoid the wine", "don't drink"])
         res["asked_about_brienne"] = any(w in p_msg for w in ["brienne", "marrow"])
         res["asked_about_marriage"] = any(w in p_msg for w in ["marriage", "wedding", "prince", "match"])
-        res["player_was_perceptive"] = any(w in p_msg for w in ["cost", "burden", "true feeling", "mask", "pretend", "lonely", "real"])
+        res["player_was_perceptive"] = any(w in p_msg for w in ["cost", "burden", "true feeling", "mask", "pretend", "lonely", "real", "grace"])
 
-    elif "Brienne" in npc_name or "brienne" in prompt_text.lower():
+    elif "brienne" in npc_lower:
         res["father_discussed"] = any(w in p_msg for w in ["father", "lord marrow", "verenmark", "crossing", "died"])
         res["vantrell_discussed"] = any(w in p_msg for w in ["vantrell", "supply", "cut off", "orders"])
         res["isolde_discussed"] = any(w in p_msg for w in ["isolde", "friend"])
         res["asked_about_note"] = any(w in p_msg for w in ["note", "letter", "threat", "warning"])
         res["player_warned_her"] = any(w in p_msg for w in ["danger", "threat", "careful", "watch out"])
 
-    elif "Ophelia" in npc_name or "ophelia" in prompt_text.lower():
+    elif "ophelia" in npc_lower:
         res["asked_about_reynard"] = any(w in p_msg for w in ["reynard", "cellar", "afternoon", "wine"])
         res["asked_about_brienne"] = any(w in p_msg for w in ["brienne", "note", "marrow"])
         res["asked_about_ring"] = any(w in p_msg for w in ["ring", "stone", "ruby", "silver", "hand", "jewel"])
         res["asked_about_income"] = any(w in p_msg for w in ["income", "profit", "adjustment", "loss"])
         res["player_seems_suspicious"] = any(w in p_msg for w in ["saw you", "know what", "cellar", "conspiracy", "tamper"])
 
-    elif "Demir" in npc_name or "demir" in prompt_text.lower():
-        res["player_pressed_secret"] = any(w in p_msg for w in ["secret", "hiding", "what is it", "matter", "private", "tell me"])
+    elif "demir" in npc_lower:
+        res["player_pressed_secret"] = any(w in p_msg for w in ["secret", "hiding", "what is it", "matter", "private", "tell me", "troubling"])
         res["player_offered_discretion"] = any(w in p_msg for w in ["discretion", "confidential", "between us", "promise", "won't tell", "your word", "safe with me"])
         res["player_accused_him"] = any(w in p_msg for w in ["poison", "plot", "conspiracy", "assassin", "killer", "culprit"])
         res["asked_about_kavir"] = any(w in p_msg for w in ["kavir", "general", "conversation", "whispering", "hushed"])
 
-    elif "Kavir" in npc_name or "kavir" in prompt_text.lower():
+    elif "kavir" in npc_lower:
         res["asked_about_marrow"] = any(w in p_msg for w in ["marrow", "brienne", "threat", "enemies", "grudge"])
         res["asked_about_demir"] = any(w in p_msg for w in ["demir", "counselor", "logistics"])
         res["asked_about_war"] = any(w in p_msg for w in ["war", "campaign", "soldier", "battle", "front", "fighting"])
         res["player_was_direct"] = any(w in p_msg for w in ["plainly", "direct", "straight", "honest", "frankly", "soldier to soldier"])
 
-    elif "Alwen" in npc_name or "alwen" in prompt_text.lower():
+    elif "alwen" in npc_lower:
         res["asked_about_wine"] = any(w in p_msg for w in ["wine", "gift", "sealed", "bottles", "handling", "eastern"])
         res["asked_about_staff"] = any(w in p_msg for w in ["staff", "cellar boys", "ill", "sick", "willem", "dorse", "unwell"])
         res["asked_about_reynard"] = any(w in p_msg for w in ["reynard", "instructions", "orders", "directives"])
@@ -395,9 +404,11 @@ def _fallback_exchange_analysis(prompt_text: str) -> str:
     return json.dumps(res)
 
 
-def _fallback_confrontation_analysis(player_msg: str) -> str:
+def _fallback_confrontation_analysis(prompt_text: str) -> str:
     """Analyze Act 3 player confrontation speech."""
-    lower = player_msg.lower()
+    import re
+    m = re.search(r'Player said during the climax confrontation:\s*"(.*?)"', prompt_text, re.DOTALL)
+    lower = m.group(1).lower() if m else prompt_text.lower()
     
     # Clue map
     clues = []
@@ -443,9 +454,10 @@ def _fallback_confrontation_analysis(player_msg: str) -> str:
 def _fallback_npc_dialogue(system: str, messages: list, player_msg: str) -> str:
     """In-character fallback responses matching story lore."""
     p = player_msg.lower()
+    header = system[:80].lower().strip()
 
     # Reynard
-    if "You are Reynard" in system:
+    if header.startswith("you are reynard"):
         fl_bump = 1 if any(w in p for w in ["thank", "appreciate", "long service", "thirty years", "difficult", "hard", "edric"]) else 0
         sl_bump = 2 if any(w in p for w in ["poison", "murder", "conspiracy", "arrest"]) else (1 if any(w in p for w in ["dream", "vision", "danger", "wine"]) else 0)
         dream = "true" if any(w in p for w in ["i had a dream", "my vision", "i saw"]) else "false"
@@ -472,19 +484,19 @@ def _fallback_npc_dialogue(system: str, messages: list, player_msg: str) -> str:
         return tag + "The evening progresses smoothly, my lord. We are all deeply devoted to ensuring tonight concludes in complete harmony."
 
     # Aldous
-    if "You are Aldous" in system:
-        if any(w in p for w in ["treaty", "peace", "war"]):
-            return "Ten years of hard fighting in the mud, my lord. Most folk are just thankful their sons won't be called to the eastern trenches again."
+    if header.startswith("you are aldous"):
         if any(w in p for w in ["duke", "aldric", "conduct", "orders"]):
             return "Duke Aldric held the province together, but they say he gave bitter hard orders at Verenmark. Men died who might have come home. Folk remember that."
-        if any(w in p for w in ["arrive", "how long", "far"]):
-            return "The trees are thinning already, my lord. We'll turn up the estate drive in less than half an hour."
         if any(w in p for w in ["house", "marrow", "who"]):
             return "House Marrow took it hardest, my lord. Lost their old lord at the crossing. Young Lady Brienne wears the black now."
+        if any(w in p for w in ["arrive", "how long", "far"]):
+            return "The trees are thinning already, my lord. We'll turn up the estate drive in less than half an hour."
+        if any(w in p for w in ["treaty", "peace", "war"]):
+            return "Ten years of hard fighting in the mud, my lord. Most folk are just thankful their sons won't be called to the eastern trenches again."
         return "Steady on the road tonight, my lord. The estate will be lit up like daylight when we pull through the gates."
 
     # Cassian Vantrell
-    if "Lord Cassian" in system:
+    if header.startswith("you are lord cassian"):
         if any(w in p for w in ["income", "profit", "war", "supply", "business"]):
             return "An adjustment is natural when a long war ends, Viscount! But peace brings burgeoning trade routes, new partnerships. One adapts with pleasure."
         if any(w in p for w in ["reynard", "butler"]):
@@ -496,7 +508,7 @@ def _fallback_npc_dialogue(system: str, messages: list, player_msg: str) -> str:
         return "A glorious night, Viscount! Let us leave the darkness of the past ten years behind and look forward to genuine prosperity."
 
     # Ophelia Vantrell
-    if "Lady Ophelia" in system:
+    if header.startswith("you are lady ophelia"):
         if any(w in p for w in ["quiet", "reynard", "cellar", "afternoon", "preparations", "wine"]):
             return "Reynard is a remarkable man. Thirty years and he still checks every table setting himself. He was down in the cellars this afternoon, quite particular about the wine arrangements."
         if any(w in p for w in ["ring", "jewel", "ruby", "silver"]):
@@ -508,7 +520,7 @@ def _fallback_npc_dialogue(system: str, messages: list, player_msg: str) -> str:
         return "I prefer observing to speech, Viscount. People reveal a great deal more when they believe no one is taking note."
 
     # Lady Isolde
-    if "Lady Isolde" in system:
+    if header.startswith("you are lady isolde"):
         if any(w in p for w in ["wine", "drink", "poison", "glass", "don't drink", "avoid"]):
             return "You sound deadly earnest, Viscount... You truly believe something is amiss with the ceremonial wine? If your trust is true, I will quietly set my glass down."
         if any(w in p for w in ["marriage", "prince", "wedding", "cost"]):
@@ -520,7 +532,7 @@ def _fallback_npc_dialogue(system: str, messages: list, player_msg: str) -> str:
         return "It is a rare joy to speak with someone who looks past the court masks tonight, Viscount. I am glad you came."
 
     # Duke Aldric
-    if "Duke Aldric" in system or "Grand Duke" in system:
+    if header.startswith("you are grand duke aldric"):
         if any(w in p for w in ["reynard"]):
             return "Reynard gave thirty years to this hall, and his own blood at the crossing. An accusation against him demands incontrovertible evidence, Viscount."
         if any(w in p for w in ["seal", "log", "cellar", "tamper", "poison"]):
@@ -532,7 +544,7 @@ def _fallback_npc_dialogue(system: str, messages: list, player_msg: str) -> str:
         return "Tonight we ratify ten years of bloodshed into enduring peace. Every word spoken here carries the weight of history."
 
     # Lady Brienne
-    if "Lady Brienne" in system:
+    if header.startswith("you are lady brienne"):
         if any(w in p for w in ["father", "verenmark", "crossing"]):
             return "My father held the Verenmark crossing for four days on orders from above. No relief arrived. He died doing his duty, and tonight they drink wine over his bones."
         if any(w in p for w in ["note", "threat"]):
@@ -544,7 +556,7 @@ def _fallback_npc_dialogue(system: str, messages: list, player_msg: str) -> str:
         return "I wear black because it honours the men who didn't live to see this treaty. Let the others dance."
 
     # Counselor Demir
-    if "Counselor Demir" in system or "Demir" in system:
+    if header.startswith("you are counselor yusuf demir"):
         if any(w in p for w in ["discretion", "confidential", "between us", "promise", "won't tell"]):
             return "If you swear complete confidentiality... It is the Prince. He has accumulated staggering gambling debts, and a romantic liaison that would ruin the marriage treaty if exposed."
         if any(w in p for w in ["secret", "hiding", "anxious"]):
@@ -554,7 +566,7 @@ def _fallback_npc_dialogue(system: str, messages: list, player_msg: str) -> str:
         return "A splendid celebration, my lord. We all pray the signing concludes without incident."
 
     # General Kavir
-    if "General Kavir" in system or "Kavir" in system:
+    if header.startswith("you are general aldus kavir"):
         if any(w in p for w in ["marrow", "enemies"]):
             return "House Marrow gave our northern flank hell in the third campaign. Proud soldiers, deep grudges. If trouble started tonight, a soldier looks there first."
         if any(w in p for w in ["war", "campaign", "peace"]):
@@ -564,7 +576,7 @@ def _fallback_npc_dialogue(system: str, messages: list, player_msg: str) -> str:
         return "I prefer the battlefield to these velvet parlours. But peace is what we fought for, Viscount."
 
     # Mrs. Alwen
-    if "Mrs Alwen" in system or "Alwen" in system:
+    if header.startswith("you are mrs alwen"):
         if any(w in p for w in ["wine", "gift", "sealed", "handling"]):
             return "Very odd, my lord — Reynard ordered the eastern gift wine kept entirely away from the kitchens! We never even got to inspect the wax seals."
         if any(w in p for w in ["ill", "sick", "staff", "willem", "dorse"]):
@@ -574,7 +586,7 @@ def _fallback_npc_dialogue(system: str, messages: list, player_msg: str) -> str:
         return "The roasting spits have been turning since dawn, my lord! Two hundred bellies to feed is no light work."
 
     # Lord Fenwick
-    if "Fenwick" in system:
+    if header.startswith("you are lord fenwick"):
         if any(w in p for w in ["who", "room", "gossip", "profited", "vantrell"]):
             return "House Vantrell made a king's ransom outfitting the armies! Now Cassian champions peace while his sister Ophelia counts the ledger. And poor Brienne Marrow looks like she's attending a wake."
         if any(w in p for w in ["delegation", "demir"]):
