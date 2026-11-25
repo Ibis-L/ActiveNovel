@@ -45,6 +45,17 @@ NPC_CONFIGS = {
     "mrs_alwen": ALWEN_CFG,
 }
 
+# Banquet Hall social groups in Act 2
+PARTY_GROUPS = {
+    "cassian": ["cassian", "ophelia"],
+    "ophelia": ["cassian", "ophelia"],
+    "demir":   ["demir", "kavir"],
+    "kavir":   ["demir", "kavir"],
+    "duke":    ["duke", "isolde", "reynard"],
+    "isolde":  ["isolde", "duke"],
+    "reynard": ["reynard", "duke"],
+}
+
 _LOCK = threading.Lock()
 
 
@@ -161,7 +172,7 @@ class WebSession:
         self.gs.set_data("aldous_naturalness", 3)
         return {
             "events": [
-                {"type": "narration", "text": "The carriage sways on the forest road. Ahead lies Grand Duke Aldric's estate—and tonight's peace treaty signing. Someone in that hall is going to die."},
+                {"type": "narration", "text": "You knock twice on the carriage roof panel. The small wooden hatch slides open."},
                 {"type": "npc", "speaker": "Aldous", "text": "My lord? The road's clear tonight. Care for a word before we reach the gates?"}
             ],
             "state": self.snapshot(),
@@ -296,21 +307,87 @@ class WebSession:
                     "state": self.snapshot(),
                 }
 
+        def _pick_group_speakers(group: List[str], preferred: str, msg: str) -> List[str]:
+            """Decide who speaks first and optionally who chimes in next (capped at 2 beats)."""
+            low = msg.lower()
+            first = preferred
+            for member in group:
+                name_key = NPC_CONFIGS[member]["name"].lower().split()[-1]
+                if name_key in low:
+                    first = member
+                    break
+
+            others = [m for m in group if m != first]
+            if not others:
+                return [first]
+
+            # Ask LLM director if a second NPC at the table should chime in
+            prompt = (
+                f"Group present: {', '.join(group)}. Primary responder: {first}.\n"
+                f'Player said: "{msg}"\n'
+                f"Should another person in the group add a brief reaction after {first}? "
+                f"Reply ONLY with one id from [{', '.join(others)}] or NONE."
+            )
+            decision = llm.chat(
+                "You are a conversation director. Reply with ONLY an NPC id or NONE.",
+                [{"role": "user", "content": prompt}],
+                temperature=0.2,
+            ).strip().lower()
+
+            for cand in others:
+                if cand in decision:
+                    return [first, cand]
+            return [first]
+
         def _do():
             if self.gs.current_act == "act0" and npc_id == "aldous":
                 score = act0_mod._score_question(message)
                 nat = max(0, min(5, self.gs.get_data("aldous_naturalness", 3) + score))
                 self.gs.set_data("aldous_naturalness", nat)
 
-            npc = NPC(NPC_CONFIGS[npc_id], self.gs)
-            reply = npc.speak(message)
+            turns: List[Dict[str, str]] = []
+
+            if self.gs.current_act == "act2" and npc_id in PARTY_GROUPS and len(PARTY_GROUPS[npc_id]) > 1:
+                speakers = _pick_group_speakers(PARTY_GROUPS[npc_id], npc_id, message)
+                primary_id = speakers[0]
+                primary_npc = NPC(NPC_CONFIGS[primary_id], self.gs)
+                primary_reply = primary_npc.speak(message)
+                turns.append({
+                    "speaker_id": primary_id,
+                    "speaker_name": primary_npc.name,
+                    "text": primary_reply,
+                })
+
+                # Optional second beat (max 2 beats total so group never loops)
+                if len(speakers) > 1:
+                    sec_id = speakers[1]
+                    sec_npc = NPC(NPC_CONFIGS[sec_id], self.gs)
+                    sec_prompt = (
+                        f"[Group context: The Viscount just said '{message}' and {primary_npc.name} replied '{primary_reply}'. "
+                        f"Add a brief, natural 1-sentence reaction or aside in character.]"
+                    )
+                    sec_reply = sec_npc.speak(sec_prompt)
+                    turns.append({
+                        "speaker_id": sec_id,
+                        "speaker_name": sec_npc.name,
+                        "text": sec_reply,
+                    })
+                reply = primary_reply
+            else:
+                npc = NPC(NPC_CONFIGS[npc_id], self.gs)
+                reply = npc.speak(message)
+                turns.append({
+                    "speaker_id": npc_id,
+                    "speaker_name": npc.name,
+                    "text": reply,
+                })
 
             if self.gs.current_act == "act2":
                 self.gs.advance_clock(5)
                 act2_mod._check_timed_events(self.gs)
 
             # Check Reynard arrest in Act 1
-            if self.gs.current_act == "act1" and npc_id == "reynard" and npc.state.suspicion_level >= 3:
+            if self.gs.current_act == "act1" and npc_id == "reynard" and self.gs.get_npc("reynard").suspicion_level >= 3:
                 self.gs.set_flag("ending_d_triggered", True)
                 self.gs.current_act = "ending_d"
                 D.narrate("Reynard stops walking. Two guards appear from the side corridor. You said too much, too soon.")
@@ -318,10 +395,10 @@ class WebSession:
             if self.gs.get_flag("ending_d_triggered"):
                 self.gs.current_act = "ending_d"
 
-            return reply
+            return reply, turns
 
-        reply, events = _with_capture(_do)
-        return {"reply": reply, "events": events, "state": self.snapshot()}
+        (reply, turns), events = _with_capture(_do)
+        return {"reply": reply, "turns": turns, "events": events, "state": self.snapshot()}
 
     def _handle_interrogation(self, answer: str) -> Dict[str, Any]:
         from story.act1 import _INTERROGATION_SCHEMA, _build_interrogation_prompt

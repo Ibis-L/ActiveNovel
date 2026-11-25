@@ -280,7 +280,7 @@
 
     <div class="dialogue-panel">
       <div class="portrait-box">
-        <canvas id="portraitCanvas" width="32" height="32"></canvas>
+        <canvas id="portraitCanvas" width="48" height="48"></canvas>
         <div class="portrait-name" id="portraitName">Viscount</div>
       </div>
       <div class="dialogue-main">
@@ -288,6 +288,7 @@
         <div class="quick-actions" id="quickActions"></div>
         <form class="input-row" id="talkForm">
           <input id="playerInput" type="text" placeholder="Type naturally to speak, ask, observe, or act..." autocomplete="off" />
+          <button type="button" id="btnInterrupt" class="danger" style="display:none;">✋ Interrupt</button>
           <button type="submit" class="primary">Send</button>
         </form>
       </div>

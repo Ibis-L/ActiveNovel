@@ -306,6 +306,15 @@ def _smart_fallback(system: str, messages: list, temperature: float) -> str:
     if "You are a test." in system or last_user_msg.lower() in ("say ok.", "ok", "ping"):
         return "OK."
 
+    # 1b. Group Conversation Director
+    if "conversation director" in system.lower():
+        low = last_user_msg.lower()
+        if "cassian" in low and "ophelia" in low:
+            return "ophelia" if "primary responder: cassian" in low else "cassian"
+        if "demir" in low and "kavir" in low:
+            return "kavir" if "primary responder: demir" in low else "NONE"
+        return "NONE"
+
     # 2. GM Analysis Exchange (_ANALYSIS_SYSTEM)
     if "You are a game state analyser" in system:
         return _fallback_exchange_analysis(last_user_msg)
