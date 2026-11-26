@@ -300,6 +300,7 @@ class WebSession:
                 return self._handle_interrogation(message)
             if check_passphrase(message, self.gs):
                 self.easter_egg_mode = True
+                self.gs.current_scene = "dungeon"
                 self.interrogation_cred = 3
                 self.interrogation_turn = 0
                 self.interrogation_history = [{
@@ -308,7 +309,7 @@ class WebSession:
                 }]
                 return {
                     "reply": "...Better than the war years. Walk with me. Now. Who sent you? I was not told to expect anyone.",
-                    "events": [{"type": "narration", "text": "The professional warmth leaves Reynard's face completely. He pulls you into a dark servants' corridor."}],
+                    "events": [{"type": "narration", "text": "The professional warmth leaves Reynard's face completely. He pulls you down a dark stone corridor into the lower dungeon cells."}],
                     "state": self.snapshot(),
                 }
 
@@ -397,10 +398,12 @@ class WebSession:
             if self.gs.current_act == "act1" and npc_id == "reynard" and self.gs.get_npc("reynard").suspicion_level >= 3:
                 self.gs.set_flag("ending_d_triggered", True)
                 self.gs.current_act = "ending_d"
+                self.gs.current_scene = "dungeon"
                 D.narrate("Reynard stops walking. Two guards appear from the side corridor. You said too much, too soon.")
 
             if self.gs.get_flag("ending_d_triggered"):
                 self.gs.current_act = "ending_d"
+                self.gs.current_scene = "dungeon"
 
             return reply, turns
 
@@ -412,6 +415,7 @@ class WebSession:
 
     def _handle_interrogation(self, answer: str) -> Dict[str, Any]:
         from story.act1 import _INTERROGATION_SCHEMA, _build_interrogation_prompt
+        from engine.npc import _extract_tag
         self.interrogation_history.append({"role": "user", "content": answer})
         result = llm.analyze_exchange(answer, "", "Reynard", _INTERROGATION_SCHEMA)
         change = result.get("credibility_change", 0)
@@ -424,22 +428,28 @@ class WebSession:
             self.easter_egg_mode = False
             self.gs.set_flag("ending_d_triggered", True)
             self.gs.current_act = "ending_d"
+            self.gs.current_scene = "dungeon"
             return {
                 "reply": "You're not one of us. Guards.",
-                "events": [{"type": "narration", "text": "Two guards step into the corridor. Ending D — The Dungeon."}],
+                "events": [{"type": "narration", "text": "Two guards step into the dungeon corridor and seize you in irons. Ending D — The Dungeon."}],
                 "state": self.snapshot(),
             }
         if self.interrogation_cred >= 5:
             self.easter_egg_mode = False
             self.gs.set_flag("easter_egg_activated", True)
             self.gs.set_flag("easter_egg_interrogation_passed", True)
+            hall_data = self.enter_hall_act2()
+            hall_events = [{"type": "evidence", "text": "Easter Egg path unlocked! Reynard leads you back up into the Main Hall."}] + hall_data["events"]
             return {
                 "reply": "All right. Either you're genuine or you're the best liar I've met tonight. Come inside.",
-                "events": [{"type": "evidence", "text": "Easter Egg path unlocked!"}],
+                "events": hall_events,
                 "state": self.snapshot(),
             }
         sys_p = _build_interrogation_prompt(self.gs, self.interrogation_cred, self.interrogation_turn)
-        reply = llm.chat(sys_p, self.interrogation_history, temperature=0.6)
+        raw_reply = llm.chat(sys_p, self.interrogation_history, temperature=0.6)
+        reply, _ = _extract_tag(raw_reply)
+        if not reply.strip():
+            reply = ".....(Reynard watches you in cold silence)"
         self.interrogation_history.append({"role": "assistant", "content": reply})
         events = []
         if change >= 2:

@@ -401,16 +401,28 @@ function drawWarmLight(x, y, radius, alpha = 0.22) {
 }
 
 // ── Scene Renderers ──────────────────────────────────────────
+let execTick = 0;
+let execActiveAct = null;
+
 function renderScene() {
   tick++;
   ctx.clearRect(0, 0, worldCanvas.width, worldCanvas.height);
 
   const act = gameState ? gameState.current_act : "prologue";
-  if (act === "prologue") renderPrologue();
-  else if (act === "act0") renderAct0Carriage();
-  else if (act === "act1") renderAct1Steps();
-  else if (act === "act2") renderAct2Manor();
-  else renderAct3Toast();
+  const scene = gameState ? gameState.current_scene : "dream";
+  if (act === "ending_d" || act === "ending_f") {
+    if (execActiveAct !== act) { execActiveAct = act; execTick = 0; }
+    execTick++;
+    renderDungeonExecution(act);
+  } else {
+    execActiveAct = null;
+    if (scene === "dungeon") renderDungeonInterrogation();
+    else if (act === "prologue") renderPrologue();
+    else if (act === "act0") renderAct0Carriage();
+    else if (act === "act1") renderAct1Steps();
+    else if (act === "act2") renderAct2Manor();
+    else renderAct3Toast();
+  }
 
   drawPortrait(activeNpc);
   requestAnimationFrame(renderScene);
@@ -977,6 +989,169 @@ function renderAct3Toast() {
   drawDetailedSprite(ctx, CHAR_STYLE.viscount, 240, 198, 1.45, false, tick, false);
 }
 
+function drawDungeonBackdrop() {
+  // Deep stone cavern background
+  ctx.fillStyle = "#08070c"; ctx.fillRect(0, 0, 480, 270);
+
+  // Staggered stone brick walls
+  for (let row = 0; row < 7; row++) {
+    const y = row * 24;
+    const off = (row % 2) * 20;
+    for (let x = -20; x < 480; x += 40) {
+      ctx.fillStyle = ((row + Math.floor(x / 40)) % 3 === 0) ? "#1f1d26" : "#18161f";
+      ctx.fillRect(x + off + 1, y + 1, 38, 22);
+      ctx.fillStyle = "#292633";
+      ctx.fillRect(x + off + 2, y + 2, 36, 2);
+    }
+  }
+
+  // Moss & damp stains
+  ctx.fillStyle = "rgba(35, 62, 45, 0.32)";
+  for (const [mx, my, mw, mh] of [[24, 108, 28, 56], [426, 98, 34, 66], [198, 118, 22, 46]]) {
+    ctx.fillRect(mx, my, mw, mh);
+  }
+
+  // Twin arched iron-barred dungeon cells
+  for (const cx of [74, 314]) {
+    ctx.fillStyle = "#060509";
+    ctx.fillRect(cx, 54, 92, 114);
+    ctx.fillStyle = "#363342";
+    ctx.fillRect(cx - 6, 48, 104, 8);
+    ctx.fillRect(cx - 6, 54, 6, 114);
+    ctx.fillRect(cx + 92, 54, 6, 114);
+    // Vertical iron bars + horizontal crossbars
+    ctx.fillStyle = "#525866";
+    for (let bx = cx + 10; bx < cx + 88; bx += 14) {
+      ctx.fillRect(bx, 56, 3, 112);
+    }
+    ctx.fillStyle = "#3e434f";
+    ctx.fillRect(cx, 88, 92, 4);
+    ctx.fillRect(cx, 134, 92, 4);
+  }
+
+  // Flagstone dungeon floor
+  for (let y = 168; y < 270; y += 22) {
+    for (let x = 0; x < 480; x += 32) {
+      ctx.fillStyle = ((x / 32 + y / 22) % 2 === 0) ? "#1a1821" : "#131118";
+      ctx.fillRect(x, y, 31, 21);
+    }
+  }
+
+  // Hanging iron shackles on center pillar
+  ctx.fillStyle = "#6e7585";
+  ctx.fillRect(224, 78, 2, 24); ctx.fillRect(254, 78, 2, 28);
+  ctx.fillRect(221, 102, 8, 5); ctx.fillRect(251, 106, 8, 5);
+
+  // Wooden crates & barrel in alcove
+  ctx.fillStyle = "#3d281a"; ctx.fillRect(18, 174, 34, 28);
+  ctx.fillStyle = "#2b1b11"; ctx.fillRect(20, 176, 30, 2); ctx.fillRect(18, 188, 34, 2);
+  ctx.fillStyle = "#4a2e1d"; ctx.fillRect(426, 170, 26, 32);
+  ctx.fillStyle = "#1f1c24"; ctx.fillRect(426, 178, 26, 2); ctx.fillRect(426, 192, 26, 2);
+
+  // Flickering wall torches
+  const fl = Math.floor(tick / 4) % 3;
+  for (const tx of [186, 294]) {
+    drawWarmLight(tx, 76, 88 + fl * 4, 0.28);
+    ctx.fillStyle = "#3d332c"; ctx.fillRect(tx - 2, 82, 4, 16);
+    ctx.fillStyle = "#ff6b1a"; ctx.fillRect(tx - 4, 72 - fl, 8, 10 + fl);
+    ctx.fillStyle = "#ffd166"; ctx.fillRect(tx - 2, 75 - fl, 4, 6);
+  }
+
+  // Dripping water droplet
+  const dropY = 120 + ((tick * 2) % 68);
+  ctx.fillStyle = "#5c85b8";
+  ctx.fillRect(120, dropY, 2, 4);
+  ctx.fillStyle = "rgba(92, 133, 184, 0.25)";
+  ctx.fillRect(114, 188, 14, 3);
+}
+
+function renderDungeonInterrogation() {
+  drawDungeonBackdrop();
+  const guardStyle = { hair: "#3d3835", skin: "#d6a47e", skinSh: "#b0805d", coat: "#3b3e4a", shade: "#22242e", trim: "#8c96a3", cravat: "#525866", type: "noble" };
+  drawDetailedSprite(ctx, guardStyle, 72, 192, 1.3, false, tick, false, "lantern");
+  drawDetailedSprite(ctx, guardStyle, 408, 192, 1.3, false, tick + 12, true);
+  drawDetailedSprite(ctx, CHAR_STYLE.viscount, 196, 204, 1.45, false, tick, false);
+  drawDetailedSprite(ctx, CHAR_STYLE.reynard,  284, 204, 1.45, false, tick, true);
+}
+
+function renderDungeonExecution(act) {
+  const shakeX = (execTick >= 124 && execTick <= 136) ? ((execTick % 2 === 0) ? 3 : -3) : 0;
+  const shakeY = (execTick >= 124 && execTick <= 136) ? ((execTick % 3 === 0) ? 2 : -2) : 0;
+  ctx.save();
+  ctx.translate(shakeX, shakeY);
+  drawDungeonBackdrop();
+
+  const guardStyle = { hair: "#2b2826", skin: "#cfa07c", skinSh: "#a37856", coat: "#343742", shade: "#1c1e26", trim: "#9aa4b2", cravat: "#454a57", type: "noble" };
+  // Flanking guards watching
+  drawDetailedSprite(ctx, guardStyle, 118, 196, 1.38, false, tick, false);
+  drawDetailedSprite(ctx, guardStyle, 362, 196, 1.38, false, tick + 8, true);
+
+  // Wooden chopping block
+  ctx.fillStyle = "#3b2314"; ctx.fillRect(222, 206, 36, 18);
+  ctx.fillStyle = "#26160c"; ctx.fillRect(224, 206, 32, 4);
+
+  const fallen = execTick >= 126;
+  if (!fallen) {
+    // Viscount kneeling & chained in irons
+    ctx.save();
+    ctx.translate(212, 208);
+    // Kneeling cloak & torso
+    ctx.fillStyle = "#17202e"; ctx.fillRect(-7, -14, 14, 16);
+    ctx.fillStyle = "#2c3d55"; ctx.fillRect(-6, -16, 12, 12);
+    // Head bowed forward
+    ctx.fillStyle = "#f2c6a0"; ctx.fillRect(-4, -24, 8, 8);
+    ctx.fillStyle = "#2b1d12"; ctx.fillRect(-5, -26, 10, 4);
+    // Iron wrist chains + floor chain
+    ctx.fillStyle = "#8c96a3";
+    ctx.fillRect(4, -10, 8, 3);
+    ctx.fillRect(-10, -2, 6, 3);
+    ctx.fillRect(-18, 0, 10, 2);
+    ctx.restore();
+  } else {
+    // Aftermath: crimson pool + fallen cloak + severed silhouette
+    ctx.fillStyle = "#6e0d1c"; ctx.fillRect(198, 214, 48, 8);
+    ctx.fillStyle = "#a3142e"; ctx.fillRect(206, 216, 32, 5);
+    ctx.fillStyle = "#17202e"; ctx.fillRect(184, 210, 28, 10);
+    ctx.fillStyle = "#2c3d55"; ctx.fillRect(188, 208, 20, 6);
+    ctx.fillStyle = "#8c96a3"; ctx.fillRect(178, 215, 10, 2);
+    ctx.fillStyle = "#f2c6a0"; ctx.fillRect(246, 215, 7, 7);
+    ctx.fillStyle = "#2b1d12"; ctx.fillRect(245, 214, 9, 3);
+  }
+
+  // Executioner guard on right with animated broadsword swing
+  drawDetailedSprite(ctx, { hair: "#1a181c", skin: "#c99974", skinSh: "#9e7351", coat: "#24191e", shade: "#140d10", trim: "#a3142e", cravat: "#140d10", type: "noble" }, 284, 202, 1.48, false, tick, true);
+  ctx.save();
+  ctx.translate(274, 186);
+  let angle = -0.35;
+  if (execTick >= 35 && execTick < 90) angle = -0.35 - ((execTick - 35) / 55) * 1.15;
+  else if (execTick >= 90 && execTick < 115) angle = -1.5;
+  else if (execTick >= 115 && execTick < 126) angle = -1.5 + ((execTick - 115) / 11) * 2.15;
+  else if (execTick >= 126) angle = 0.65;
+  ctx.rotate(angle);
+  // Sword hilt & gleaming steel blade
+  ctx.fillStyle = "#593b29"; ctx.fillRect(-2, -4, 4, 8);
+  ctx.fillStyle = "#c9a349"; ctx.fillRect(-5, -6, 10, 2);
+  ctx.fillStyle = "#cfd8e3"; ctx.fillRect(-2, -34, 4, 28);
+  ctx.fillStyle = "#ffffff"; ctx.fillRect(-1, -32, 1, 24);
+  ctx.restore();
+
+  // Brief crimson flash on impact
+  if (execTick >= 124 && execTick <= 132) {
+    ctx.fillStyle = "rgba(163, 20, 46, 0.35)";
+    ctx.fillRect(0, 0, 480, 270);
+  }
+
+  // Grim banner
+  if (execTick >= 134) {
+    ctx.fillStyle = "rgba(8, 7, 12, 0.72)";
+    ctx.fillRect(130, 18, 220, 24);
+    ctx.fillStyle = "#ff8a9b";
+    ctx.font = "bold 11px monospace";
+    ctx.fillText(act === "ending_d" ? "EXECUTED IN THE DUNGEON" : "THE CONSPIRACY PREVAILS", 156, 34);
+  }
+  ctx.restore();
+}
+
 function updatePlayerMovement() {
   let dx = 0, dy = 0;
   if (keys["w"] || keys["arrowup"])    { dy -= player.speed; player.dir = 1; }
@@ -1094,7 +1269,9 @@ function syncHUD() {
     controlsHint.textContent = "ACT 3 CLIMAX — Type your accusation, evidence, or physical action!";
   } else if (act.startsWith("ending_")) {
     controlsHint.textContent = `THE END — ${act.toUpperCase()}`;
-    showEndingModal(act);
+    const delay = (act === "ending_d" || act === "ending_f") ? 2400 : 0;
+    if (delay > 0) setTimeout(() => { if (gameState && gameState.current_act === act) showEndingModal(act); }, delay);
+    else showEndingModal(act);
   }
 }
 

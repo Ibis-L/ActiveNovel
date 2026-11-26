@@ -169,7 +169,8 @@ Field values:
                                  poison/murder/conspiracy)
   dream = true ONLY if player revealed THEY personally had a dream or vision
           of danger tonight. NOT if they asked you about dreams. NOT general unease.
-  duke  = true if player is trying to locate or meet the Duke specifically
+  duke  = true ONLY if player is specifically asking to locate, meet, or speak with the Duke tonight.
+          FALSE if they merely mention the Duke while asking about something else (like the war).
   prep  = true ONLY if player asked specifically about what is being physically
           served or arranged tonight — food, drinks, the wine, the toast, the feast.
           FALSE if player expressed general feelings, rumours, or political opinions.
@@ -232,8 +233,9 @@ _SCHEMA = {
         "The player must have claimed a personal supernatural or vivid experience."
     ),
     "asking_about_duke": (
-        "boolean. true if the player is specifically trying to locate, "
-        "meet, or speak with the Duke tonight."
+        "boolean. true ONLY if the player is specifically asking to locate, "
+        "meet, or speak with the Duke tonight (e.g. 'where is the Duke', 'take me to the Duke'). "
+        "false if the player merely mentions the Duke in passing (e.g. 'did you go to war with the Duke?')."
     ),
     "curious_about_preparations": (
         "boolean. true ONLY if the player asked specifically about "

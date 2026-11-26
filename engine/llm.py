@@ -393,9 +393,19 @@ def _fallback_exchange_analysis(prompt_text: str) -> str:
 
     # NPC-specific schema extractions (match strictly on npc_name, not schema text)
     npc_lower = npc_name.lower()
+    if "reynard" in npc_lower and "credibility_change" in prompt_text:
+        seems_inv = any(w in p_msg for w in ["overheard", "which lord", "who gave", "tell me", "what is the plan", "curious", "investigat", "?"])
+        insider = any(w in p_msg for w in ["vantrell", "cassian", "ophelia", "wine", "delegation", "implicate", "backup", "toast"])
+        cred = 0 if seems_inv else (2 if insider else 1)
+        return json.dumps({
+            "credibility_change": cred,
+            "seems_investigator": seems_inv,
+            "contradicted_themselves": False,
+        })
+
     if "reynard" in npc_lower:
         res["dream_disclosed"] = any(w in p_msg for w in ["i had a dream", "i saw a vision", "my vision", "i dreamed", "my dream"])
-        res["asking_about_duke"] = any(w in p_msg for w in ["duke", "aldric", "his grace", "where is the duke", "meet the duke"])
+        res["asking_about_duke"] = any(w in p_msg for w in ["where is the duke", "meet the duke", "see the duke", "speak to the duke", "speak with the duke", "introduce me to the duke", "find the duke", "is his grace here", "where is his grace"])
         res["curious_about_preparations"] = any(w in p_msg for w in ["wine", "drink", "food", "feast", "toast", "serve", "kitchen", "menu", "cellar", "preparations", "arrangements"])
         res["mentioned_danger"] = any(w in p_msg for w in ["poison", "murder", "danger", "threat", "death", "kill"])
 
@@ -507,12 +517,22 @@ def _fallback_npc_dialogue(system: str, messages: list, player_msg: str) -> str:
     p = player_msg.lower()
     header = system[:80].lower().strip()
 
-    # Reynard
+    # Reynard (Interrogation mode first, before normal butler mode)
+    if header.startswith("you are reynard") and "interrogation" in system.lower() or ("you are reynard" in header and "not the warm professional butler" in system.lower()):
+        if "first question" in system.lower():
+            return "Who sent you? I was not told to expect anyone."
+        if "second question" in system.lower():
+            return "What do you know about tonight specifically? Not the phrase — the plan."
+        if "third question" in system.lower():
+            return "If you are who you claim, you will know what happens after the toast. Tell me."
+        return "You have ten seconds to give me a straight answer before I call the corridor guard."
+
+    # Reynard (Normal mode)
     if header.startswith("you are reynard"):
-        fl_bump = 1 if any(w in p for w in ["thank", "appreciate", "long service", "thirty years", "difficult", "hard", "edric"]) else 0
+        fl_bump = 1 if any(w in p for w in ["thank", "appreciate", "long service", "thirty years", "difficult", "hard", "edric", "war", "view"]) else 0
         sl_bump = 2 if any(w in p for w in ["poison", "murder", "conspiracy", "arrest"]) else (1 if any(w in p for w in ["dream", "vision", "danger", "wine"]) else 0)
         dream = "true" if any(w in p for w in ["i had a dream", "my vision", "i saw"]) else "false"
-        duke = "true" if "duke" in p else "false"
+        duke = "true" if any(w in p for w in ["where is the duke", "meet the duke", "see the duke", "speak to the duke", "speak with the duke", "find the duke"]) else "false"
         prep = "true" if any(w in p for w in ["wine", "drink", "served", "toast", "feast", "food"]) else "false"
         danger = "true" if any(w in p for w in ["poison", "murder", "kill", "threat"]) else "false"
         
@@ -522,11 +542,13 @@ def _fallback_npc_dialogue(system: str, messages: list, player_msg: str) -> str:
             return tag + "...Better than the war years."
         if any(w in p for w in ["thirty years", "how long", "years of service", "service"]):
             return tag + "Thirty-one years, my lord. Since His Grace was little older than you are now. I have seen more good men fall than any peace could ever restore."
+        if any(w in p for w in ["war", "battle", "crossing", "verenmark", "soldiers", "peace"]):
+            return tag + "Ten years is a long time for any household to endure, my lord. Those of us who remained behind — or lost kin at the crossing — understand the cost of this peace better than most."
         if any(w in p for w in ["what's being served", "what is being served", "drinks", "wine", "toast", "menu", "feast", "arrangements"]):
             return tag + "The eastern delegation sent a rare ceremonial wine for tonight's toast, my lord. His Grace gave very strict instructions that it remain sealed until the treaty is signed."
         if any(w in p for w in ["dream", "vision", "feeling", "foreboding"]):
             return tag + "A grand occasion frequently breeds nervous premonitions, my lord. I assure you, estate security is under strict vigilance tonight."
-        if any(w in p for w in ["duke", "where is the duke"]):
+        if any(w in p for w in ["where is the duke", "meet the duke", "see the duke", "speak to the duke", "speak with the duke"]):
             return tag + "His Grace is attending to our honoured foreign guests in the formal receiving line, my lord. He will address the hall shortly."
         if any(w in p for w in ["cellar", "staff", "willem", "dorse"]):
             return tag + "Preparations across the estate have been exhaustive today, my lord. Routine staffing adjustments are quite customary on evenings of this magnitude."
