@@ -479,7 +479,10 @@ def _resolve_aftermath(
             gs.set_flag("ophelia_caught")
             gs.set_flag("cassian_caught")
             _reynard_moment(gs, reynard)
-            _ending_a(gs)
+            if gs.get_flag("easter_egg_activated"):
+                _ending_e(gs)
+            else:
+                _ending_a(gs)
         else:
             D.narrate(
                 "You say nothing. Ophelia moves toward the corridor — not quite fleeing, "
@@ -694,7 +697,7 @@ def _ending_c(gs: GameState):
     D.narrate(
         "You spent the night close to Lady Brienne — warned her, stayed near. "
         "She is alive and grateful.\n\n"
-        "At midnight, a glass shatters on the far side of the hall.\n\nIsodle."
+        "At midnight, a glass shatters on the far side of the hall.\n\nIsolde."
     )
     D.pause()
     D.narrate(
@@ -728,6 +731,28 @@ def _ending_d(gs: GameState):
     )
     D.pause()
     gs.current_act = "ending_d"
+    gs.save()
+    _credits(gs)
+
+
+def _ending_e(gs: GameState):
+    D.clear()
+    D.scene_header("ENDING E  —  THE CONSPIRACY CODA")
+    D.narrate(
+        "Because you walked into Reynard's corridor with the harvest passphrase, "
+        "you dismantled the plot from the inside out.\n\n"
+        "Every courier, every ledger, and every contingency House Vantrell prepared "
+        "is in the Duke's hands before sunrise. Isolde is safe, the treaty is signed, "
+        "and the conspiracy's shadow network collapses overnight."
+    )
+    D.pause()
+    D.npc_speak(
+        "Duke Aldric",
+        "I do not know how you learned their countersign, Viscount — "
+        "and perhaps it is wiser for both of us if I never ask."
+    )
+    D.pause()
+    gs.current_act = "ending_e"
     gs.save()
     _credits(gs)
 

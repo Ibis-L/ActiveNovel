@@ -206,8 +206,13 @@ class GameState:
     def evidence_score(self) -> int:
         """Count how many key conspiracy clues are in the log."""
         ev = "\n".join(self.evidence_log).lower()
-        key_terms = [
-            "wine seal", "cellar staff", "reynard cellar",
-            "ophelia", "vision", "illness", "repositioned",
+        clue_groups = [
+            ("wine seal",),
+            ("cellar staff",),
+            ("reynard cellar", "reynard's cellar"),
+            ("ophelia",),
+            ("vision",),
+            ("illness", "suddenly ill", "incapacitated"),
+            ("repositioned", "cellar log"),
         ]
-        return sum(1 for t in key_terms if t in ev)
+        return sum(1 for group in clue_groups if any(t in ev for t in group))

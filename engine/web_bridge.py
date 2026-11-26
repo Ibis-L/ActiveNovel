@@ -213,6 +213,8 @@ class WebSession:
     def visit_station(self, station_id: str) -> Dict[str, Any]:
         if station_id not in act2_mod.STATION_META and station_id != "fenwick":
             return {"events": [{"type": "system", "text": f"Unknown location: {station_id}"}], "state": self.snapshot()}
+        if station_id != "fenwick" and station_id not in self.gs.unlocked_stations:
+            return {"events": [{"type": "system", "text": f"You haven't located or unlocked {act2_mod.STATION_META[station_id][0]} yet. Speak with Lord Fenwick first."}], "state": self.snapshot()}
 
         def _do():
             if station_id == "fenwick":
@@ -246,6 +248,9 @@ class WebSession:
             act2_mod._check_timed_events(self.gs)
 
         _, events = _with_capture(_do)
+        if self.gs.current_act == "act2" and self.gs.game_clock >= 180:
+            toast_data = self.start_act3()
+            events.extend(toast_data["events"])
         return {"events": events, "state": self.snapshot()}
 
     def inspect_cellar(self, choice: str) -> Dict[str, Any]:
@@ -376,6 +381,8 @@ class WebSession:
             else:
                 npc = NPC(NPC_CONFIGS[npc_id], self.gs)
                 reply = npc.speak(message)
+                if not reply.strip():
+                    reply = f".....({npc.name} chooses to be silent)"
                 turns.append({
                     "speaker_id": npc_id,
                     "speaker_name": npc.name,
@@ -398,6 +405,9 @@ class WebSession:
             return reply, turns
 
         (reply, turns), events = _with_capture(_do)
+        if self.gs.current_act == "act2" and self.gs.game_clock >= 180:
+            toast_data = self.start_act3()
+            events.extend(toast_data["events"])
         return {"reply": reply, "turns": turns, "events": events, "state": self.snapshot()}
 
     def _handle_interrogation(self, answer: str) -> Dict[str, Any]:
@@ -431,7 +441,14 @@ class WebSession:
         sys_p = _build_interrogation_prompt(self.gs, self.interrogation_cred, self.interrogation_turn)
         reply = llm.chat(sys_p, self.interrogation_history, temperature=0.6)
         self.interrogation_history.append({"role": "assistant", "content": reply})
-        return {"reply": reply, "events": [], "state": self.snapshot()}
+        events = []
+        if change >= 2:
+            events.append({"type": "narration", "text": "Something in his expression shifts — fractionally."})
+        elif change <= -2:
+            events.append({"type": "narration", "text": "His eyes go flat."})
+        elif change == -1:
+            events.append({"type": "narration", "text": "A small pause. He files it away."})
+        return {"reply": reply, "events": events, "state": self.snapshot()}
 
     def start_act3(self) -> Dict[str, Any]:
         self.gs.current_act = "act3"
@@ -461,6 +478,44 @@ class WebSession:
         })
         return {"events": events, "state": self.snapshot()}
 
+    def _act3_ophelia_tell(self, message: str, cassian: NPC) -> str:
+        names_ophelia = any(w in message.lower() for w in ["ophelia", "her", "lady vantrell", "vantrell", "point", "stop", "name", "she"])
+        if names_ophelia and message.strip():
+            D.narrate("Cassian's warmth cracks for a single instant. The Duke sees it.")
+            D.npc_speak("Lord Cassian", cassian.speak("Your sister has just been publicly named. Defend her but crack for one instant."))
+            D.npc_speak("Duke Aldric", "Guards. Both of them. Now.")
+            self.gs.set_flag("ophelia_caught", True)
+            self.gs.set_flag("cassian_caught", True)
+        else:
+            D.narrate("You say nothing. Ophelia slips out into the night. Cassian is arrested an hour later.")
+            self.gs.set_flag("cassian_caught", True)
+        self.act3_phase = "reynard_why"
+        D.narrate("Before the guards reach Reynard, you cross to him. He is standing very still.")
+        return "Before the guards reach Reynard, you cross to him. Say something—or leave him to his silence."
+
+    def _act3_reynard_why(self, message: str) -> str:
+        asks_why = any(w in message.lower() for w in ["why", "thirty", "reason", "years", "son", "edric", "crossing", "tell me", "what happened"])
+        if asks_why:
+            D.narrate("The composure leaves him completely.")
+            D.npc_speak("Reynard", "My son held the Verenmark crossing for four days. Command said reinforcements were coming. His Grace gave that order. I didn't want the girl hurt.")
+            r_fl = self.gs.get_npc("reynard").friendly_level
+            if r_fl >= 1 and self.gs.get_flag("reynard_met_warmly"):
+                self.act3_phase = "reynard_testify"
+                return "Ask him to testify, acknowledge his grief, or condemn him."
+        self._finalize_ending()
+        return ""
+
+    def _act3_reynard_testify(self, message: str) -> str:
+        low = message.lower()
+        if any(w in low for w in ["testify", "tell", "speak", "right", "chance", "understand", "son", "grief"]):
+            D.npc_speak("Reynard", "He'll never forgive me.")
+            D.narrate("Reynard turns toward the Duke and gives a twenty-minute confession. Cassian's legal defense collapses.")
+            self.gs.set_flag("reynard_testified", True)
+        else:
+            D.npc_speak("Reynard", "Yes. I will answer for this.")
+        self._finalize_ending()
+        return ""
+
     def act3_action(self, message: str) -> Dict[str, Any]:
         def _do():
             reynard = NPC(REYNARD_CFG, self.gs)
@@ -468,45 +523,12 @@ class WebSession:
             duke    = NPC(DUKE_CFG, self.gs)
             isolde  = NPC(ISOLDE_CFG, self.gs)
 
-            # Phase: Ophelia's tell
             if self.act3_phase == "ophelia_tell":
-                names_ophelia = any(w in message.lower() for w in ["ophelia", "her", "lady vantrell", "vantrell", "point", "stop", "name", "she"])
-                if names_ophelia and message.strip():
-                    D.narrate("Cassian's warmth cracks for a single instant. The Duke sees it.")
-                    D.npc_speak("Lord Cassian", cassian.speak("Your sister has just been publicly named. Defend her but crack for one instant."))
-                    D.npc_speak("Duke Aldric", "Guards. Both of them. Now.")
-                    self.gs.set_flag("ophelia_caught", True)
-                    self.gs.set_flag("cassian_caught", True)
-                else:
-                    D.narrate("You say nothing. Ophelia slips out into the night. Cassian is arrested an hour later.")
-                    self.gs.set_flag("cassian_caught", True)
-                self.act3_phase = "reynard_why"
-                D.narrate("Before the guards reach Reynard, you cross to him. He is standing very still.")
-                return "Before the guards reach Reynard, you cross to him. Say something—or leave him to his silence."
-
-            # Phase: Reynard's final moment
+                return self._act3_ophelia_tell(message, cassian)
             if self.act3_phase == "reynard_why":
-                asks_why = any(w in message.lower() for w in ["why", "thirty", "reason", "years", "son", "edric", "crossing", "tell me", "what happened"])
-                if asks_why:
-                    D.narrate("The composure leaves him completely.")
-                    D.npc_speak("Reynard", "My son held the Verenmark crossing for four days. Command said reinforcements were coming. His Grace gave that order. I didn't want the girl hurt.")
-                    r_fl = self.gs.get_npc("reynard").friendly_level
-                    if r_fl >= 1 and self.gs.get_flag("reynard_met_warmly"):
-                        self.act3_phase = "reynard_testify"
-                        return "Ask him to testify, acknowledge his grief, or condemn him."
-                self._finalize_ending()
-                return ""
-
+                return self._act3_reynard_why(message)
             if self.act3_phase == "reynard_testify":
-                low = message.lower()
-                if any(w in low for w in ["testify", "tell", "speak", "right", "chance", "understand", "son", "grief"]):
-                    D.npc_speak("Reynard", "He'll never forgive me.")
-                    D.narrate("Reynard turns toward the Duke and gives a twenty-minute confession. Cassian's legal defense collapses.")
-                    self.gs.set_flag("reynard_testified", True)
-                else:
-                    D.npc_speak("Reynard", "Yes. I will answer for this.")
-                self._finalize_ending()
-                return ""
+                return self._act3_reynard_testify(message)
 
             # Phase: Main confrontation
             self.act3_turns += 1
@@ -609,6 +631,9 @@ class WebSession:
         return f"The toast proceeded. {self.gs.current_act.upper()} reached."
 
     def _finalize_ending(self):
-        self.gs.current_act = "ending_a" if self.gs.get_flag("ophelia_caught") else "ending_b"
+        if self.gs.get_flag("ophelia_caught"):
+            self.gs.current_act = "ending_e" if self.gs.get_flag("easter_egg_activated") else "ending_a"
+        else:
+            self.gs.current_act = "ending_b"
         self.act3_phase = "done"
         self.gs.save()

@@ -167,6 +167,10 @@ def _station_talk(
         D.npc_speak(active_npc.name, response)
         gs.advance_clock(5)
 
+        if gs.game_clock >= TOAST_CLOCK:
+            D.narrate("A bell tolls across the hall. The hour of the toast has arrived.")
+            break
+
         # Word count gate — primary NPC only
         words     = _word_count(npc)
         exchanges = npc.state.times_spoken

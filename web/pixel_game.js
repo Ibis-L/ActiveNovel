@@ -1073,7 +1073,15 @@ function syncHUD() {
       stationBar.appendChild(b);
     }
     if (gameState.current_scene === "kitchen") {
-      addQuickBtn("🔍 Inspect Wine Seal & Cellar Log", async () => {
+      addQuickBtn("🔍 Inspect Wine Seal", async () => {
+        const data = await post("/api/inspect_cellar", { session_id: sessionId, target: "SEAL" });
+        applyResponse(data);
+      });
+      addQuickBtn("📒 Inspect Cellar Log", async () => {
+        const data = await post("/api/inspect_cellar", { session_id: sessionId, target: "LOG" });
+        applyResponse(data);
+      });
+      addQuickBtn("🔍 Inspect Both", async () => {
         const data = await post("/api/inspect_cellar", { session_id: sessionId, target: "BOTH" });
         applyResponse(data);
       }, "primary");
@@ -1086,7 +1094,43 @@ function syncHUD() {
     controlsHint.textContent = "ACT 3 CLIMAX — Type your accusation, evidence, or physical action!";
   } else if (act.startsWith("ending_")) {
     controlsHint.textContent = `THE END — ${act.toUpperCase()}`;
+    showEndingModal(act);
   }
+}
+
+const ENDING_TITLES = {
+  ending_a: "ENDING A — FULL VICTORY",
+  ending_b: "ENDING B — PYRRHIC VICTORY",
+  ending_c: "ENDING C — THE WRONG TARGET",
+  ending_d: "ENDING D — THE DUNGEON",
+  ending_e: "ENDING E — THE CONSPIRACY CODA",
+  ending_f: "ENDING F — TOTAL FAILURE",
+  ending_g: "ENDING G — SELF-SACRIFICE",
+};
+
+let shownEnding = null;
+function showEndingModal(act) {
+  if (shownEnding === act) return;
+  shownEnding = act;
+  document.getElementById("endingTitle").textContent = ENDING_TITLES[act] || act.toUpperCase();
+  const evCount = (gameState.evidence_log || []).length;
+  const evScore = gameState.evidence_score || 0;
+  const flags = gameState.flags || {};
+  const milestones = [
+    ["reynard_met_warmly", "Connected with Reynard's grief"],
+    ["isolde_will_avoid_wine", "Earned Lady Isolde's trust"],
+    ["wine_seal_discovered", "Detected the altered wine seal"],
+    ["cellar_log_found", "Found Reynard's cellar log entry"],
+    ["balcony_vision_seen", "Witnessed the twilight balcony vision"],
+    ["ophelia_caught", "Apprehended Ophelia Vantrell"],
+    ["reynard_testified", "Reynard gave a full public confession"],
+    ["easter_egg_activated", "Infiltrated via the harvest passphrase"],
+  ].filter(([k]) => flags[k]).map(([, label]) => `<div class="ev-item">✓ ${label}</div>`).join("");
+  document.getElementById("endingBody").innerHTML = `
+    <div class="msg narration">Final Time: <strong>${gameState.time_str}</strong> · Clues Recorded: <strong>${evCount}</strong> (${evScore}/7 vital links)</div>
+    ${milestones || '<div class="msg system">A quiet evening with minimal overt interventions.</div>'}
+  `;
+  document.getElementById("endingModal").classList.add("open");
 }
 
 function addQuickBtn(label, onClick, cls = "") {
@@ -1173,10 +1217,13 @@ document.getElementById("btnLog").onclick = () => {
   document.getElementById("evidenceModal").classList.add("open");
 };
 document.getElementById("btnCloseModal").onclick = () => document.getElementById("evidenceModal").classList.remove("open");
+document.getElementById("btnCloseEnding").onclick = () => document.getElementById("endingModal").classList.remove("open");
+document.getElementById("btnEndingNew").onclick = () => { document.getElementById("endingModal").classList.remove("open"); startNewGame(); };
 document.getElementById("btnNew").onclick = startNewGame;
 
 async function startNewGame() {
   cancelGroupQueue(false);
+  shownEnding = null;
   chatLog.innerHTML = "";
   prologueStep = 0;
   const data = await post("/api/new_game", {});

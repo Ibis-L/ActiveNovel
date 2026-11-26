@@ -127,8 +127,12 @@ class NPC:
         ns     = self.state
         system = self._prompt_fn(self.gs, ns)
 
-        # Inject long-term memory & summaries into character prompt
-        memory_blocks = []
+        # Inject live temporal & memory context into character prompt
+        memory_blocks = [
+            f"SITUATIONAL CONTEXT:\n"
+            f"- Current Time: {self.gs.get_time_str()} ({self.gs.minutes_to_toast()} minutes until the ceremonial toast).\n"
+            f"- Stay strictly in character, keep responses concise (2–4 sentences), and never repeat earlier lines verbatim."
+        ]
         if ns.conversation_summaries:
             recent_summaries = " ".join(ns.conversation_summaries[-3:])
             memory_blocks.append(f"PREVIOUS CONVERSATION CONTEXT:\n{recent_summaries}")
@@ -138,8 +142,7 @@ class NPC:
         if getattr(ns, "emotional_state", "neutral") != "neutral":
             memory_blocks.append(f"CURRENT EMOTIONAL STATE: {ns.emotional_state}")
 
-        if memory_blocks:
-            system += "\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" + "\n\n".join(memory_blocks)
+        system += "\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" + "\n\n".join(memory_blocks)
 
         # Build history with player's new message
         ns.conversation_history.append({
@@ -156,6 +159,8 @@ class NPC:
 
         # Extract [STATE: ...] tag (Option 3 data)
         clean, tag = _extract_tag(raw)
+        if not clean.strip():
+            clean = f".....({self.name} chooses to be silent)"
 
         # Store tag on state object for analysis fallback
         ns._tag = tag  # type: ignore[attr-defined]

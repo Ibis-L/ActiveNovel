@@ -8,18 +8,19 @@
 
 from __future__ import annotations
 import json
+import re
 import time
 from collections import deque
 import requests
 import config
 
 
-def chat(system_prompt: str, messages: list, temperature: float = 0.75) -> str:
+def chat(system_prompt: str, messages: list, temperature: float = 0.75, json_mode: bool = False) -> str:
     res = ""
     if config.LLM_PROVIDER == "ollama":
-        res = _ollama(system_prompt, messages, temperature)
+        res = _ollama(system_prompt, messages, temperature, json_mode=json_mode)
     elif config.LLM_PROVIDER == "groq":
-        res = _groq(system_prompt, messages, temperature)
+        res = _groq(system_prompt, messages, temperature, json_mode=json_mode)
     else:
         res = f"[ERROR: Unknown provider '{config.LLM_PROVIDER}']"
 
@@ -29,6 +30,29 @@ def chat(system_prompt: str, messages: list, temperature: float = 0.75) -> str:
 
     # Seamless fallback: when remote provider is unreachable, use smart in-character generator
     return _smart_fallback(system_prompt, messages, temperature)
+
+
+def _parse_json_response(raw: str) -> dict:
+    """Safely extract and parse a JSON object from an LLM response."""
+    if not raw or raw.startswith("[ERROR"):
+        return {}
+    clean = raw.strip()
+    if "```" in clean:
+        parts = clean.split("```")
+        clean = parts[1] if len(parts) > 1 else parts[0]
+        if clean.startswith("json"):
+            clean = clean[4:]
+    clean = clean.strip()
+    try:
+        return json.loads(clean)
+    except (json.JSONDecodeError, ValueError):
+        m = re.search(r"\{.*\}", clean, re.DOTALL)
+        if m:
+            try:
+                return json.loads(m.group(0))
+            except (json.JSONDecodeError, ValueError):
+                pass
+    return {}
 
 
 _ANALYSIS_SYSTEM = """You are a game state analyser for a text-based mystery game.
@@ -71,21 +95,10 @@ def analyze_exchange(
         system_prompt=_ANALYSIS_SYSTEM,
         messages=[{"role": "user", "content": prompt}],
         temperature=0.0,
+        json_mode=True,
     )
 
-    if raw.startswith("[ERROR"):
-        return {}
-
-    try:
-        clean = raw.strip()
-        if "```" in clean:
-            parts = clean.split("```")
-            clean = parts[1] if len(parts) > 1 else parts[0]
-            if clean.startswith("json"):
-                clean = clean[4:]
-        return json.loads(clean.strip())
-    except (json.JSONDecodeError, IndexError, ValueError):
-        return {}
+    return _parse_json_response(raw)
 
 
 # ─────────────────────────────────────────────
@@ -155,20 +168,10 @@ def analyze_confrontation(player_msg: str, evidence_log: list) -> dict:
         system_prompt=_CONFRONTATION_SYSTEM,
         messages=[{"role": "user", "content": prompt}],
         temperature=0.0,
+        json_mode=True,
     )
 
-    parsed: dict = {}
-    if not raw.startswith("[ERROR"):
-        try:
-            clean = raw.strip()
-            if "```" in clean:
-                parts = clean.split("```")
-                clean = parts[1] if len(parts) > 1 else parts[0]
-                if clean.startswith("json"):
-                    clean = clean[4:]
-            parsed = json.loads(clean.strip())
-        except (json.JSONDecodeError, IndexError, ValueError):
-            parsed = {}
+    parsed = _parse_json_response(raw)
 
     cited    = parsed.get("evidence_cited", [])
     ev_text  = "\n".join(evidence_log).lower()
@@ -205,13 +208,15 @@ def analyze_confrontation(player_msg: str, evidence_log: list) -> dict:
     }
 
 
-def _ollama(system: str, messages: list, temperature: float) -> str:
+def _ollama(system: str, messages: list, temperature: float, json_mode: bool = False) -> str:
     payload = {
         "model": config.OLLAMA_MODEL,
         "messages": [{"role": "system", "content": system}] + messages,
         "stream": False,
         "options": {"temperature": temperature, "num_predict": 500},
     }
+    if json_mode:
+        payload["format"] = "json"
     try:
         r = requests.post(f"{config.OLLAMA_URL}/api/chat", json=payload, timeout=90)
         r.raise_for_status()
@@ -248,7 +253,7 @@ def _wait_for_groq_rate_limit():
     _GROQ_CALL_TIMESTAMPS.append(time.monotonic())
 
 
-def _groq(system: str, messages: list, temperature: float) -> str:
+def _groq(system: str, messages: list, temperature: float, json_mode: bool = False) -> str:
     global _GROQ_KEY_INVALID
     if not config.GROQ_API_KEY:
         return "[ERROR: GROQ_API_KEY not set.]"
@@ -264,6 +269,8 @@ def _groq(system: str, messages: list, temperature: float) -> str:
         "temperature": temperature,
         "max_tokens": 500,
     }
+    if json_mode:
+        payload["response_format"] = {"type": "json_object"}
     for attempt in range(2):
         _wait_for_groq_rate_limit()
         try:
@@ -274,6 +281,10 @@ def _groq(system: str, messages: list, temperature: float) -> str:
             r.raise_for_status()
             return r.json()["choices"][0]["message"]["content"].strip()
         except requests.exceptions.HTTPError:
+            if r.status_code == 400 and json_mode:
+                payload.pop("response_format", None)
+                json_mode = False
+                continue
             if r.status_code == 401:
                 _GROQ_KEY_INVALID = True
                 return "[ERROR: Groq API key invalid.]"

@@ -116,7 +116,10 @@ def run_game(gs: GameState):
             act2.run(gs)
 
         elif act == "act3":
-            act3.run(gs)    
+            act3.run(gs)
+
+        elif act.startswith("ending_"):
+            break
 
         else:
             D.error_msg(f"Unknown act: '{act}'. Check game_state.current_act.")

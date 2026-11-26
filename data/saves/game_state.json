@@ -1,9 +1,26 @@
 {
-  "current_act": "ending_d",
-  "current_scene": "dream",
-  "game_clock": -120,
-  "evidence_log": [],
+  "current_act": "ending_e",
+  "current_scene": "toast",
+  "game_clock": 180,
+  "evidence_log": [
+    "Cellar: Eastern wine seal has been reapplied \u2014 colour doesn't match the official provenance letter.",
+    "Cellar log: Reynard personally moved specific bottles to the serving rack this afternoon \u2014 his own handwriting.",
+    "VISION (balcony): Reynard at the cellar door.",
+    "Fenwick: House Marrow \u2014 publicly against the peace, lost their lord at Verenmark. Lady Brienne Marrow is the heir. Far corner table."
+  ],
   "npc_states": {
+    "aldous": {
+      "npc_id": "aldous",
+      "name": "Aldous",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "emotional_state": "neutral",
+      "conversation_history": [],
+      "conversation_summaries": [],
+      "memories": [],
+      "flags": {}
+    },
     "reynard": {
       "npc_id": "reynard",
       "name": "Reynard",
@@ -15,15 +32,166 @@
       "conversation_summaries": [],
       "memories": [],
       "flags": {}
+    },
+    "fenwick": {
+      "npc_id": "fenwick",
+      "name": "Lord Fenwick",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 1,
+      "emotional_state": "neutral",
+      "conversation_history": [
+        {
+          "role": "user",
+          "content": "Good evening!"
+        },
+        {
+          "role": "assistant",
+          "content": "Ah, the night is just beginning to sparkle, dear guest! You\u2019ll find the House Marrow table in the far corner\u2014looks a bit like a funeral, don\u2019t you think? And if you\u2019re curious about the quiet buzz, Lady Isolde sits beside the Duke, the very heart of this treaty. Cheers, and enjoy the wine!"
+        }
+      ],
+      "conversation_summaries": [],
+      "memories": [],
+      "flags": {}
+    },
+    "brienne": {
+      "npc_id": "brienne",
+      "name": "Lady Brienne",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "emotional_state": "neutral",
+      "conversation_history": [],
+      "conversation_summaries": [],
+      "memories": [],
+      "flags": {}
+    },
+    "cassian": {
+      "npc_id": "cassian",
+      "name": "Lord Cassian",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 1,
+      "emotional_state": "neutral",
+      "conversation_history": [
+        {
+          "role": "user",
+          "content": "Your sister has just been publicly named. Defend her but crack for one instant."
+        },
+        {
+          "role": "assistant",
+          "content": ""
+        }
+      ],
+      "conversation_summaries": [],
+      "memories": [],
+      "flags": {}
+    },
+    "ophelia": {
+      "npc_id": "ophelia",
+      "name": "Lady Ophelia",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "emotional_state": "neutral",
+      "conversation_history": [],
+      "conversation_summaries": [],
+      "memories": [],
+      "flags": {}
+    },
+    "demir": {
+      "npc_id": "demir",
+      "name": "Counselor Demir",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "emotional_state": "neutral",
+      "conversation_history": [],
+      "conversation_summaries": [],
+      "memories": [],
+      "flags": {}
+    },
+    "kavir": {
+      "npc_id": "kavir",
+      "name": "General Kavir",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "emotional_state": "neutral",
+      "conversation_history": [],
+      "conversation_summaries": [],
+      "memories": [],
+      "flags": {}
+    },
+    "isolde": {
+      "npc_id": "isolde",
+      "name": "Lady Isolde",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "emotional_state": "neutral",
+      "conversation_history": [],
+      "conversation_summaries": [],
+      "memories": [],
+      "flags": {}
+    },
+    "duke": {
+      "npc_id": "duke",
+      "name": "Duke Aldric",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 1,
+      "emotional_state": "neutral",
+      "conversation_history": [
+        {
+          "role": "user",
+          "content": "The Viscount accused Reynard with serious evidence. React with quiet gravity."
+        },
+        {
+          "role": "assistant",
+          "content": "Thank you, Viscount.  \nI have spoken with Reynard in private about the allegations presented.  \nI trust his thirty\u2011one years of service over these unsubstantiated claims.  \nThe treaty will proceed as planned."
+        }
+      ],
+      "conversation_summaries": [],
+      "memories": [],
+      "flags": {}
+    },
+    "mrs_alwen": {
+      "npc_id": "mrs_alwen",
+      "name": "Mrs Alwen",
+      "friendly_level": 0,
+      "suspicion_level": 0,
+      "times_spoken": 0,
+      "emotional_state": "neutral",
+      "conversation_history": [],
+      "conversation_summaries": [],
+      "memories": [],
+      "flags": {}
     }
   },
   "flags": {
-    "ending_d_triggered": true
+    "prologue_done": true,
+    "wine_seal_discovered": true,
+    "cellar_log_found": true,
+    "easter_egg_activated": true,
+    "final_bell_rung": true,
+    "wine_stopped": true,
+    "duke_held_wine": true,
+    "ophelia_caught": true,
+    "cassian_caught": true
   },
   "player_choices": [],
   "unlocked_stations": [
     "kitchen",
-    "balcony"
+    "balcony",
+    "marrow"
   ],
-  "data": {}
+  "data": {
+    "aldous_naturalness": 3,
+    "vision_window_open": 52,
+    "vision_window_close": 72,
+    "vision_window_set": true,
+    "passphrase_counter": 1,
+    "visits_kitchen": 1
+  }
 }

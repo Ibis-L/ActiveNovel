@@ -1,0 +1,933 @@
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                                                             │
+│                            THE VISCOUNT'S VIGIL                             │
+│                                                                             │
+└─────────────────── A fantasy mystery — terminal edition ────────────────────┘
+
+
+┌──────────────────────────────── ~ Vision ~ ─────────────────────────────────┐
+│  Black. Silence.                                                            │
+│                                                                             │
+│  Then — fragments. Like looking through broken glass at candlelight.        │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+┌──────────────────────────────── ~ Vision ~ ─────────────────────────────────┐
+│  A hall full of people. Laughter. Music.                                    │
+│                                                                             │
+│  A glass of deep red wine, held up in toast.                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+┌──────────────────────────────── ~ Vision ~ ─────────────────────────────────┐
+│  A hand — gloved in black — passing behind a table.                         │
+│                                                                             │
+│  Too quick. Too careful.                                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+┌──────────────────────────────── ~ Vision ~ ─────────────────────────────────┐
+│  A woman's face. Half-turned. Smiling at someone you cannot see.            │
+│                                                                             │
+│  The glass rising to her lips.                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+┌──────────────────────────────── ~ Vision ~ ─────────────────────────────────┐
+│  And then—                                                                  │
+│                                                                             │
+│  Nothing.                                                                   │
+│                                                                             │
+│  Just the sound of something shattering.                                    │
+│                                                                             │
+│  And her gasp.                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+  You wake.
+
+  Your room. Pre-dawn. The kind of dark that sits on your chest.
+
+  You sit up slowly, pressing two fingers to your temples.
+
+  The visions have come before. Your grandmother called it the Sight — said the
+bloodline carried it like a scar. They are never clear. They are never wrong.
+
+
+  You dress without speaking to your valet.
+
+  Today you are expected at Grand Duke Aldric's estate. Tonight, the peace 
+treaty will be signed. They say it ends ten years of war. Two hundred nobles 
+celebrating.
+
+  You say nothing about what you saw.
+
+  But you don't stop seeing it.
+
+
+───────────────────── ACT 0  —  THE CARRIAGE  ·  5:00 PM ──────────────────────
+
+
+  The carriage sways on the road. Outside the window, farmland gives way to 
+forest. The last light of afternoon cuts long through the trees.
+
+  Your coachman Aldous has been quiet since you left. He knows, as all your 
+staff know, not to speak first when you've had one of your mornings.
+
+
+  The vision is still with you. A hall. Red wine. A woman. The sound of 
+something shattering.
+
+  In a few hours you will be at Grand Duke Aldric's estate. The peace treaty 
+will be signed tonight. Two hundred nobles celebrating the end of ten years of 
+war.
+
+  Someone in that room is going to die.
+
+
+  The road stretches ahead. Aldous sits steady on the box.
+
+
+  You knock twice on the roof panel. The small window slides open.
+
+
+  Aldous  |  My lord?
+
+  Talk to Aldous. He is a coachman — ask naturally and he will talk freely. 
+Type 'leave' or 'done' to ride in silence.
+  
+  You  |  What do you think of the peace treaty?
+
+  Aldous  |  I reckon the treaty’s a relief, my lord; a decade of bloodshed is 
+enough for any folk. The people still hold grudges over some of the Duke’s 
+orders, so the peace may feel hollow to them. Still, a cease‑fire is better 
+than endless fighting, even if the wounds run deep.
+
+  You  |  Have you heard anything about the Duke's conduct during the war?
+
+  Aldous  |  I've heard the townsfolk mutter about the Duke’s orders—some say 
+men were sent out that might not have been needed. The war took many families, 
+and people still carry that bitterness. I don't know the exact details, but the
+gossip suggests there were questionable decisions. It’s a heavy topic, my lord.
+
+  You  |  How long until we arrive?
+
+  Aldous  |  We’re about thirty minutes away, my lord. The road’s straight, so 
+we should be there before the clock strikes seven. No need to worry, we’ll get 
+there on time.
+
+
+  You slide the panel closed. The road passes in silence.
+
+
+──────────────────────── THE ESTATE GATES  ·  6:58 PM ─────────────────────────
+
+
+  The carriage slows on the gravel drive.
+
+  Through the window: an estate lit from every window. Other carriages still 
+arriving. Music drifts from inside — a string quartet, something festive.
+
+  Two hundred people celebrating the end of a war.
+
+
+  You close your eyes for just a moment.
+
+
+┌──────────────────────────────── ~ Vision ~ ─────────────────────────────────┐
+│  A glass at her lips.                                                       │
+│                                                                             │
+│  Red wine on white silk.                                                    │
+│                                                                             │
+│  The sound of shattering.                                                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+  You open your eyes. The gate. The lanterns. A footman coming forward.
+
+  You are here.
+
+
+─────────────────── ACT 1  —  THE ESTATE STEPS  ·  7:00 PM ────────────────────
+
+
+  The carriage door is opened — not by a footman, but by the Head Butler 
+himself.
+
+  REYNARD. Late fifties. Silver-haired. Impeccably composed. He descends the 
+estate steps personally to meet you.
+
+  A mark of attention. The butler does not greet every guest.
+
+
+  Reynard  |  Lord Viscount. His Grace will be glad you've come — I'll see you 
+through to the hall personally. Was the road kind to you tonight?
+
+  Talk to Reynard freely. Press Enter on a blank line to fall silent and 
+continue inside.
+  
+  Dialogue commands:
+    • Type naturally to speak with Reynard.
+    • 'log'  — view your collected evidence
+    • 'time' — check current clock
+    • Enter (blank) — stop talking and head inside
+  You  |  How long have you served the Duke, Reynard? Thirty years?
+  ▲ Reynard seems warmer toward you.
+
+  Reynard  |  I have had the privilege of serving Grand Duke Aldric for thirty 
+years, my lord. The estate has grown under his reign, and I have endeavored to 
+uphold its dignity.
+
+  You  |  What is being served tonight? Is there anything special prepared for 
+the feast or drinks?
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  Reynard mentioned the ceremonial wine. Very particular about it staying    │
+│  sealed until the toast.                                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+  Reynard  |  The banquet will feature the customary roast of game, accompanied
+by seasonal vegetables. The Duke has requested a ceremonial wine, a prized 
+vintage from the eastern court, to be presented at the toast. All preparations 
+have been completed with the utmost care.
+
+  The time is 7:00 PM.
+
+  You say nothing more. Reynard leads you the rest of the way without another 
+word.
+
+
+────────────────────────── THE MAIN HALL  ·  7:00 PM ──────────────────────────
+
+
+  The doors open.
+
+  The hall is enormous. Candlelit. Loud. Guests cluster near the fireplace, 
+along the tables, at the windows. Servants move with trays. The string quartet 
+plays something bright.
+
+  Two hundred people who believe tonight is only a celebration.
+
+
+  You carry what you've gathered — fragments, but a beginning.
+
+  Type 'log' during conversations to check your evidence.
+
+  Somewhere in this room: the culprit. The method. The victim.
+
+  The toast is in three hours.
+
+
+──────────────────── ACT 2  —  THE PARTY FLOOR  ·  7:20 PM ────────────────────
+
+
+  The hall is enormous, loud, and bright. Guests cluster near the fireplace, 
+along the tables, at the windows looking out over the dark garden. Servants 
+move with trays. A string quartet plays something festive.
+
+  Two hundred people who believe tonight is only a celebration.
+
+
+  A minor lord materialises at your elbow almost immediately — LORD FENWICK, 
+mid-fifties, wine glass already in hand, genuinely pleased to see you.
+
+
+  Lord Fenwick  |  Viscount! Splendid — you made it. Dreadful journey? You look
+like a man with something on his mind. Wine?
+
+  Talk to Fenwick freely — ask about the room, the guests, the evening. Press 
+Enter on a blank line when you're ready to explore.
+  Press Enter on a blank line to walk away. Type 'log' to check evidence | 
+'help' for commands.
+  You  |  Who here actually supported the war most and profited?
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  House Vantrell table is now accessible.                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+  Lord Fenwick  |  Ah, you’ve got the right ear for this. House Vantrell, that 
+sly lot, turned the war into a gold mine—arms, supplies, contracts. They’re now
+waving the peace flag, though their coffers have shrunk half as fast as their 
+wartime profits. The rest? Well, most who cheer the truce had a silver spoon in
+the war’s pocket; the quiet few who truly lost are the ones left to listen.
+
+  You  |  What do you know about the foreign delegation?
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  Foreign Delegation is now accessible.                                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+  Lord Fenwick  |  You’ll find Counselor Demir at the far end, a nervous knot 
+of a man—his fingers keep tapping that wine glass like a metronome. I heard him
+pause mid‑conversation with a stern-looking military officer when the guards’ 
+eyes slid his way; looks like he was caught in something… embarrassing, not 
+sinister. The foreign delegation is all polished, but even polished can hide a 
+few cracks, especially when the war’s scars are fresh.
+
+  You  |  What do you really think of the Duke?
+
+  Lord Fenwick  |  Duke Aldric was the one who sent men into those costly 
+trenches, and his choices still feel heavy tonight. The peace we’re about to 
+toast seems both a
+
+
+                                                                          
+  1. Reynard: The eastern wine is to be kept sealed until the toast. He   
+  mentioned it when I asked about the evening's arrangements — before     
+  I'd asked about the wine directly.                                      
+  2. Fenwick: House Vantrell — war profiteers (arms/supply). Income       
+  badly hit by peace. Cassian is charming; sister Ophelia is colder.      
+  3. Fenwick: Counselor Demir (foreign delegation) is visibly nervous —   
+  caught in a hushed conversation. Possibly embarrassing, probably not    
+  sinister.                                                               
+                                                                          
+
+
+  You step away.
+
+
+───────────────────────── THE PARTY FLOOR  ·  7:35 PM ─────────────────────────
+
+  Time: 7:35 PM  ·  Evidence: 3  ·  Location: Party Floor
+
+  Another wave of carriage arrivals sweeps into the grand vestibule. Laughter 
+swells near the hearth. A crystal flute catches the chandeliers.
+
+  ~145 minutes until the toast.  Evidence: 3 items.
+  
+  
+
+──────────────────────── KITCHEN & CELLAR  ·  7:35 PM ─────────────────────────
+
+
+  A servants' corridor off the east end leads down to the kitchens — warm, 
+busy, smelling of roasted meat and beeswax. MRS ALWEN, the head cook, looks up 
+from a tray of pastries.
+
+
+  Mrs Alwen  |  My lord! Is something wrong — has a dish not come up right?
+
+  Press Enter on a blank line to walk away. Type 'log' to check evidence | 
+'help' for commands.
+  You  |  Did Reynard give you any special orders about the wine?
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  Reynard kept the gift wine completely out of the kitchen. No independent   │
+│  verification of the seal was possible.                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  Two cellar staff fell suddenly and conveniently ill this afternoon — the   │
+│  ones who would have handled the gift wine.                                 │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+  Mrs Alwen  |  Very odd, my lord — Reynard ordered the eastern gift wine kept 
+entirely away from the kitchens! We never even got to inspect the wax seals.
+
+  You  |  Two of Reynard's cellar staff fell ill today, I heard?
+
+  Mrs Alwen  |  Willem and Dorse both took suddenly and violently ill around 
+four o'clock today! Both fit as draft horses at lunch. The timing gave me a 
+chill.
+
+
+  You step away.
+
+
+  The cellar stairs are visible through a door at the back of the kitchen.
+
+
+─────────────────────────── THE CELLAR  ·  7:45 PM ────────────────────────────
+
+
+  Stone steps, cool air, racks of bottles. In the far corner: a specific rack, 
+separated from the others — the eastern wine.
+
+
+  The wax seal has been reapplied — a fractionally different colour from the 
+eastern court description on the accompanying provenance letter. Not obviously 
+wrong. Wrong enough, if you are looking.
+
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  The gift wine's seal was broken and resealed. Someone tampered with it.    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+  A cellar log tucked beside the rack. Two bottles moved from a different 
+section to the serving rack — this afternoon. The handwriting is precise and 
+familiar.
+
+  Reynard's.
+
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  Reynard's handwriting in the cellar log. He moved the wine to the serving  │
+│  rack himself today.                                                        │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+───────────────────────── THE PARTY FLOOR  ·  8:00 PM ─────────────────────────
+
+  Time: 8:00 PM  ·  Evidence: 7  ·  Location: Party Floor
+
+  The quartet modulates into a slower, solemn minuet. Footmen begin clearing 
+silver plates. Across the hall, Reynard glances at his pocket watch, his face 
+impassive.
+
+  ~120 minutes until the toast.  Evidence: 7 items.
+  
+  
+
+─────────────────────────── THE BALCONY  ·  8:00 PM ───────────────────────────
+
+
+  Tall windows open onto a stone balcony overlooking the garden. Lanterns in 
+the hedgerows below. Quiet.
+
+
+  The lanterns blur. For a moment the garden is lit differently — afternoon 
+light.
+
+
+┌──────────────────────────────── ~ Vision ~ ─────────────────────────────────┐
+│  The cellar door, seen from the garden side.                                │
+│                                                                             │
+│  Reynard — carrying something wrapped in cloth, moving quickly, not         │
+│  looking up.                                                                │
+│                                                                             │
+│  Behind him the door is held open by a gloved hand. A woman's hand. A ring  │
+│  catches the light — silver, red stone.                                     │
+│                                                                             │
+│  Then it is night again.                                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  Second vision — Reynard and a woman at the cellar this afternoon. The      │
+│  ring is identifiable.                                                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+  You look down at your hands. The stone balustrade. The garden.
+
+  Find the ring.
+
+
+───────────────────────── THE PARTY FLOOR  ·  8:10 PM ─────────────────────────
+
+  Time: 8:10 PM  ·  Evidence: 8  ·  Location: Party Floor
+  ~110 minutes until the toast.  Evidence: 8 items.
+  
+  💭 Candlelight catches a glint of silver and red across the hall, gone before
+you can place it.
+  
+
+─────────────────────── HOUSE MARROW TABLE  ·  8:10 PM ────────────────────────
+
+
+  Far corner of the hall — quieter, darker, as if the festivity stops at the 
+edge of their table. LADY BRIENNE MARROW sits at the centre. Composed. Black 
+dress that is just barely appropriate for a celebration. Two older retainers 
+flank her.
+
+  She looks up as you approach — not hostile, but measuring.
+
+
+  Lady Brienne  |  Viscount. I wondered if anyone would bother with our corner 
+tonight. Sit, if you like. You're not obliged to be cheerful.
+
+
+  One of the older retainers at the table mutters something to the other — not 
+quietly enough:
+
+
+  Retainer  |  ...can't believe they put her within twenty feet of Vantrell 
+after what his supply chain cost our...
+
+
+  He stops when he notices you listening.
+
+  Press Enter on a blank line to walk away. Type 'log' to check evidence | 
+'help' for commands.
+  You  |  I'm sorry about your father.
+  ▲ Lady Brienne seems warmer toward you.
+
+  Lady Brienne  |  My father held the Verenmark crossing for four days on 
+orders from above. No relief arrived. He died doing his duty, and tonight they 
+drink wine over his bones.
+
+  You  |  Tell me about the Verenmark crossing.
+
+  Lady Brienne  |  My father held the Verenmark crossing for four days on 
+orders from above. No relief arrived. He died doing his duty, and tonight they 
+drink wine over his bones.
+
+
+  You step away.
+
+
+  You are moving between guests when you catch it — two voices, low, somewhere 
+just behind you:
+
+  '...the harvest was good this year...'
+
+  '...better than the war years...'
+
+  You turn. Just the noise of the party. You couldn't say who spoke, or to 
+whom.
+
+  Passphrase overheard. You can try speaking it if you think you know who might
+respond.
+
+  Near the east archway, you catch a fleeting sight — Lady Ophelia Vantrell 
+speaking in a low voice to a liveried footman, pressing a folded parchment into
+his palm before gliding back toward her table.
+
+
+───────────────────────── THE PARTY FLOOR  ·  8:35 PM ─────────────────────────
+
+  Time: 8:35 PM  ·  Evidence: 9  ·  Location: Party Floor
+
+  Candelabras burn lower, casting longer shadows against the heraldic 
+tapestries. Small clusters of dignitaries converse in lowered voices. The air 
+feels charged.
+
+  ~85 minutes until the toast.  Evidence: 9 items.
+  
+  💭 Candlelight catches a glint of silver and red across the hall, gone before
+you can place it.
+  
+
+────────────────────── HOUSE VANTRELL TABLE  ·  8:35 PM ───────────────────────
+
+
+  Centre-left of the hall — well-lit, animated, the most comfortable table in 
+the room. LORD CASSIAN VANTRELL holds court; mid-forties, warm face. His sister
+LADY OPHELIA sits a little apart, elegant and still, watching the room.
+
+  Cassian sees you and opens his arms.
+
+
+  Lord Cassian  |  Viscount! Come — we were just celebrating. The war is over. 
+Can you believe it?
+
+  Address Cassian or Ophelia by name to direct your words. Press Enter on a 
+blank line to walk away.
+  Press Enter on a blank line to walk away. Type 'log' to check evidence | 
+'help' for commands.
+  You  |  House Vantrell was heavily involved in the war effort. The peace must
+cut into your income.
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  Cassian's peace speech is too polished. He has clearly practised           │
+│  answering this question.                                                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+  Lord Cassian  |  An adjustment is natural when a long war ends, Viscount! But
+peace brings burgeoning trade routes, new partnerships. One adapts with 
+pleasure.
+
+  You  |  Lady Ophelia, you've been very quiet tonight.
+
+  Lady Ophelia  |  Silence is, in this house, a useful cloak. I keep it so I 
+can see what others do. What is it that makes you think I ought to speak?
+
+  You  |  Lady Ophelia, I suppose you notice every detail of how the household 
+prepares for an evening like this.
+
+  Lady Ophelia  |  I prefer observing to speech, Viscount. People reveal a 
+great deal more when they believe no one is taking note.
+
+  You  |  Lady Ophelia, that is a striking silver ring with a red stone you are
+wearing.
+  ▲ Lady Ophelia seems warmer toward you.
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  Ophelia's ring matches the vision exactly. She was at the cellar door      │
+│  with Reynard this afternoon.                                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+  Lady Ophelia  |  A modest family heirloom, my lord. Nothing of historical 
+import. Why do you ask?
+
+
+  You step away.
+
+
+───────────────────────── THE PARTY FLOOR  ·  9:10 PM ─────────────────────────
+
+  Time: 9:10 PM  ·  Evidence: 11  ·  Location: Party Floor
+
+  Two servants set velvet cloth over the dais table. The ceremonial decanters 
+are carried from the private buttery. The hour of the treaty draws near.
+
+
+  The servants are beginning to move with more purpose. Someone is setting out 
+glasses near the far table.
+
+  ~50 minutes until the toast.
+  
+  
+
+─────────────────────────── LADY ISOLDE  ·  9:10 PM ───────────────────────────
+
+
+  Southeast end of the hall, near a group of young courtiers. She is laughing 
+at something when you arrive — genuinely. She turns to you with easy warmth.
+
+
+  Lady Isolde  |  Viscount! I was hoping to meet you properly tonight. They say
+you have been on your own little investigation of the room. What have you 
+concluded?
+
+  Press Enter on a blank line to walk away. Type 'log' to check evidence | 
+'help' for commands.
+  You  |  You seem to carry the burden of this peace treaty with great grace. 
+What does it cost you?
+  ▲ Lady Isolde seems warmer toward you.
+  ▲ Lady Isolde seems warmer toward you.
+
+  Lady Isolde  |  I suppose the cost is the quiet in my own heart, the promise 
+I make to a stranger in exchange for peace. It’s a small, private 
+price—sacrificing a few moments of my own freedom for the safety of everyone I 
+love. Still, I find solace in the fact that a single night can shape a thousand
+tomorrows.
+
+  You  |  I am truly glad you are here, Isolde. I see how much you care for 
+this peace.
+  ▲ Lady Isolde seems warmer toward you.
+
+  Lady Isolde  |  It is a rare joy to speak with someone who looks past the 
+court masks tonight, Viscount. I am glad you came.
+
+  You  |  I believe the ceremonial wine tonight has been tampered with. Do not 
+drink from it at the toast.
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  Isolde is warned and trusts you. She is being careful tonight.             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  Isolde warned about the wine. She will not drink it at the toast.          │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+  Lady Isolde  |  You sound deadly earnest, Viscount... You truly believe 
+something is amiss with the ceremonial wine? If your trust is true, I will 
+quietly set my glass down.
+
+
+  You step away.
+
+
+  Somewhere in the hall, a bell rings once. A servant begins placing glasses 
+near the wine service.
+
+  The toast is approaching. Use your remaining time carefully.
+
+───────────────────────── THE PARTY FLOOR  ·  9:40 PM ─────────────────────────
+
+  Time: 9:40 PM  ·  Evidence: 13  ·  Location: Party Floor
+
+  A footman has placed the ceremonial decanter on the side table. The toast is 
+close.
+
+  ~20 minutes remaining.
+  
+  💭 Footmen are beginning to align the crystal goblets along the dais table.
+  
+
+─────────────────────── FOREIGN DELEGATION  ·  9:40 PM ────────────────────────
+
+
+  Near the east corridor. COUNSELOR YUSUF DEMIR stands beside GENERAL ALDUS 
+KAVIR — broad, formal, saying little. Demir stops talking the moment you 
+approach.
+
+
+  Counselor Demir  |  Lord Viscount. A wonderful evening.
+
+  Address Demir or Kavir by name to direct your words. Press Enter on a blank 
+line to leave.
+  Press Enter on a blank line to walk away. Type 'log' to check evidence | 
+'help' for commands.
+  You  |  Counselor Demir, you have my word of complete discretion. What is 
+troubling you?
+  ▲ Counselor Demir seems warmer toward you.
+  ▲ Counselor Demir seems warmer toward you.
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  Demir's secret is personal — about the Prince, not the treaty. Not         │
+│  related to any assassination plot.                                         │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+  Counselor Demir  |  I appreciate your discretion, Viscount... truly. There 
+are delicate personal matters concerning the Prince's arrangements that cannot 
+reach Lady Isolde's family before the signing.
+
+  You  |  I am not here to expose anyone, Counselor. Tell me plainly between us
+— is the treaty itself in danger?
+  ▲ Counselor Demir seems warmer toward you.
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  Demir fully cleared — hiding the Prince's personal scandal, not a murder   │
+│  plot. The delegation is innocent.                                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+  Counselor Demir  |  If you swear complete confidentiality... It is the 
+Prince. He has accumulated staggering gambling debts, and a romantic liaison 
+that would ruin the marriage treaty if exposed.
+
+
+  You step away.
+
+
+  The string quartet finishes mid-phrase.
+
+  A footman strikes a bell — once, twice, three times. The hall grows quiet in 
+that particular way.
+
+  Duke Aldric moves to the front of the room. Reynard stands near the side 
+table — the eastern wine poured into the ceremonial decanter, several glasses 
+already set out.
+
+  Lady Isolde is a few steps behind her father.
+
+
+  You know what you know. The question is whether anyone will listen in time.
+
+
+────────────────────── ACT 3  —  THE TOAST  ·  10:05 PM ───────────────────────
+
+
+  The hall has gone quiet.
+
+  Duke Aldric stands at the front of the room. Reynard is near the side table —
+the eastern wine poured into the ceremonial decanter, several glasses set out.
+
+  Lady Isolde is a few steps behind her father.
+
+  The string quartet has stopped. Two hundred people are watching the Duke.
+
+
+  Duke Aldric  |  Friends. Guests. After ten years — tonight we sign. And then 
+we drink, as people who will not fight each other again.
+
+
+  Glasses are being lifted. Reynard's hand moves toward the decanter.
+
+
+  From across the room, Lady Isolde meets your eyes.
+
+  She lifts her glass — then quietly sets it down. She mouths something to a 
+lady beside her. A headache, perhaps.
+
+  She trusted you. She does not know why. She does it anyway.
+
+  The moment is now. Speak freely — say what you must, do what you must.
+  Type your words or actions in plain language.
+  ('log' = check evidence  |  blank Enter = say nothing, let the toast happen)
+  
+  You  |  toast
+
+  Duke Aldric  |  Tonight we ratify ten years of bloodshed into enduring peace.
+Every word spoken here carries the weight of history.
+
+  You  |  Your Grace, stop! The seal on that eastern wine was reapplied — the 
+wax doesn't match — and both cellar staff fell mysteriously ill at four 
+o'clock!
+
+  Reynard  |  The eastern delegation sent a rare ceremonial wine for tonight's 
+toast, my lord. His Grace gave very strict instructions that it remain sealed 
+until the treaty is signed.
+
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  The Duke has ordered the wine held. Immediate threat paused.               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+  Duke Aldric  |  You speak with unusual certainty. If there is genuine cause 
+to suspect the ceremonial draught, I will have it placed under precautionary 
+guard.
+
+  You  |  The cellar log shows those bottles were moved today, and Ophelia 
+Vantrell was seen at the cellar door!
+
+  Lord Cassian  |  An adjustment is natural when a long war ends, Viscount! But
+peace brings burgeoning trade routes, new partnerships. One adapts with 
+pleasure.
+
+
+  Cassian's recovery is one half-second too slow. The Duke has already seen it.
+
+
+  Reynard  |  The eastern delegation sent a rare ceremonial wine for tonight's 
+toast, my lord. His Grace gave very strict instructions that it remain sealed 
+until the treaty is signed.
+
+
+┌────────────────────────────── Evidence noted ───────────────────────────────┐
+│  The Duke is watching the Vantrells. He said 'Cassian' like a man updating  │
+│  his assessment.                                                            │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+  Duke Aldric  |  You speak with unusual certainty. If there is genuine cause 
+to suspect the ceremonial draught, I will have it placed under precautionary 
+guard.
+
+
+  The Duke raises one hand. The room stills.
+
+
+  Duke Aldric  |  Hold the wine. Now. All of it.
+
+
+  He does not explain himself to the room.
+
+  He doesn't need to. He is the Duke.
+
+
+  With the immediate crisis paused, the room redistributes its attention. 
+Cassian is talking — managing the crowd, perfectly composed as always. You look
+past him.
+
+  Lady Ophelia Vantrell has taken one half-step toward the corridor. Her hand 
+moves — without her seeming to notice — toward a servant about to lift one of 
+the wine glasses. She just barely stops herself.
+
+
+  You notice Lady Ophelia's hand reach. Then freeze.
+
+  What do you do?
+  You  |  Her! Lady Ophelia Vantrell — she knows exactly what is in that wine!
+
+  Cassian's warmth finally cracks. Just for a moment. The Duke has seen it.
+
+
+  Lord Cassian  |  My sister prefers to watch the room rather than hold court, 
+my lord. A quiet mind, but fiercely sharp.
+
+
+  Duke Aldric  |  Guards. Both of them. Now.
+
+
+  Before the guards reach Reynard, you cross to him. He is standing very still.
+
+  Say something to him — or say nothing.
+  You  |  Why, Reynard? Thirty-one years of service.
+
+  The composure goes. Not dramatically. It just stops.
+
+
+  Reynard  |  My son held the Verenmark crossing for four days. Command said 
+reinforcements were coming. They weren't. He knew by the third day. He held 
+anyway — because those were his orders.
+
+
+  Reynard  |  His Grace gave that order. And tonight he stands at a signing 
+table and calls it peace.
+
+
+  Reynard  |  I didn't want the girl hurt. I told them — not her. But by the 
+time I understood what Vantrell actually wanted, I was already part of it.
+
+  Ask him to testify, acknowledge his grief, or condemn him.
+  You  |  You could still do something right. Testify. Tell the Duke 
+everything.
+
+  Reynard  |  He'll never forgive me.
+
+  You  |  He'll have to try.
+
+  Reynard turns — not toward the guards, toward the Duke — and begins to speak.
+
+  His testimony takes twenty minutes. Thorough. Every meeting, every 
+instruction, every name.
+
+  Cassian's legal defence collapses before it begins.
+
+
+────────────────────────── ENDING A  —  FULL VICTORY ──────────────────────────
+
+
+  No toast. The wine confirmed poisoned before dawn. Treaty signed anyway — an 
+hour late, everyone shaken. But signed.
+
+  Cassian Vantrell in custody by morning. Ophelia with him.
+
+  Reynard arrested. The Duke speaks to him alone a long time before the guards 
+are called.
+
+
+  Reynard's testimony seals the case. His fate left to the Duke's discretion. 
+The Duke does not look like a man who will be lenient — but he does not look 
+entirely clean either.
+
+
+  Lady Isolde  |  I didn't know who you were, when you warned me. I almost 
+didn't listen.
+
+
+  The Sight doesn't show you death that night. First time in weeks.
+
+
+────────────────────────── ENDING A  —  FULL VICTORY ──────────────────────────
+
+
+  Investigation Records:
+  • Clues Discovered: 17 recorded (4/7 vital conspiracy links)
+  • Crossroads Logged: 2 player decisions
+  • Final Chronometer: 10:05 PM
+
+
+  ── Cast Relationships & Impression ──
+
+    Reynard            | Rapport: ●○○ | Suspicion: △△△ | 4 exchanges · 2 key 
+memories
+    Lady Isolde        | Rapport: ●●● | Suspicion: △△△ | 3 exchanges · 2 key 
+memories
+    Lord Cassian       | Rapport: ○○○ | Suspicion: △△△ | 3 exchanges · 2 key 
+memories
+    Lady Ophelia       | Rapport: ●○○ | Suspicion: △△△ | 3 exchanges
+    Duke Aldric        | Rapport: ○○○ | Suspicion: △△△ | 3 exchanges · 2 key 
+memories
+    Lady Brienne       | Rapport: ●○○ | Suspicion: △△△ | 2 exchanges
+    Counselor Demir    | Rapport: ●●● | Suspicion: △△△ | 2 exchanges
+    Mrs Alwen          | Rapport: ○○○ | Suspicion: △△△ | 2 exchanges
+    Lord Fenwick       | Rapport: ○○○ | Suspicion: △△△ | 3 exchanges
+
+  ── Notable Choices & Realizations ──
+
+    ✓ Connected with Reynard's grief — unsealed his testimony path
+    ✓ Earned Lady Isolde's profound trust — she protected herself
+    ✓ Alerted Isolde to danger
+    ✓ Detected the altered wax seal in the cellar
+    ✓ Discovered Reynard's entry in the cellar log
+    ✓ Experienced the balcony vision at twilight
+    ✓ Corroborated Ophelia's silver and ruby ring
+    ✓ Unravelled Demir's private dilemma — cleared the eastern delegation
+    ★ Reynard stepped forward with complete public confession
+    ✓ Apprehended Ophelia before she could slip away
+    ✓ Persuaded Duke Aldric to order precautionary inspection
+
+  ── Narrative Paths & Secrets ──
+The Viscount's Vigil possesses extensive branching outcomes.
+Hidden paths include: the balcony vision window, the secret countersign,
+Isolde's self-preservation route, and turning the Butler before the toast.
+Replay with different dialogues, tone, and investigative targets to uncover 
+every secret.
+

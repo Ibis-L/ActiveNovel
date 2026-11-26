@@ -36,4 +36,4 @@ SAVE_FILE    = "data/saves/game_state.json"
 TYPING_DELAY = True                # False = instant text (faster for testing)
 
 # Debug: prints raw LLM prompts/responses
-DEBUG_MODE   = True
+DEBUG_MODE   = bool(int(os.environ.get("DEBUG_MODE", "0")))
