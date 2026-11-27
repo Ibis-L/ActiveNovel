@@ -45,15 +45,15 @@ NPC_CONFIGS = {
     "mrs_alwen": ALWEN_CFG,
 }
 
-# Banquet Hall social groups in Act 2
+# Banquet Hall table groups in Act 2
 PARTY_GROUPS = {
     "cassian": ["cassian", "ophelia"],
     "ophelia": ["cassian", "ophelia"],
     "demir":   ["demir", "kavir"],
     "kavir":   ["demir", "kavir"],
     "duke":    ["duke", "isolde", "reynard"],
-    "isolde":  ["isolde", "duke"],
-    "reynard": ["reynard", "duke"],
+    "isolde":  ["isolde", "duke", "reynard"],
+    "reynard": ["reynard", "duke", "isolde"],
 }
 
 _LOCK = threading.Lock()
@@ -195,6 +195,8 @@ class WebSession:
     def enter_hall_act2(self) -> Dict[str, Any]:
         def _do():
             act2_mod._setup(self.gs)
+            for sid in ("marrow", "vantrell", "delegation", "isolde"):
+                self.gs.unlock_station(sid)
             self.gs.current_act = "act2"
             self.gs.current_scene = "party_floor"
             self.gs.advance_clock(20)
@@ -313,37 +315,46 @@ class WebSession:
                     "state": self.snapshot(),
                 }
 
-        def _pick_group_speakers(group: List[str], preferred: str, msg: str) -> List[str]:
-            """Decide who speaks first and optionally who chimes in next (capped at 2 beats)."""
+        def _judge_table_speakers(group: List[str], preferred: str, msg: str) -> tuple[str, str | None, str]:
+            """
+            Fast, low-token JSON Judge LLM that decides who at the table speaks first,
+            whether a second tablemate chimes in, and why (capped at 2 beats).
+            """
             low = msg.lower()
-            first = preferred
+            default_primary = preferred
             for member in group:
                 name_key = NPC_CONFIGS[member]["name"].lower().split()[-1]
                 if name_key in low:
-                    first = member
+                    default_primary = member
                     break
 
-            others = [m for m in group if m != first]
-            if not others:
-                return [first]
-
-            # Ask LLM director if a second NPC at the table should chime in
-            prompt = (
-                f"Group present: {', '.join(group)}. Primary responder: {first}.\n"
-                f'Player said: "{msg}"\n'
-                f"Should another person in the group add a brief reaction after {first}? "
-                f"Reply ONLY with one id from [{', '.join(others)}] or NONE."
+            roster = ", ".join(f"{m} ({NPC_CONFIGS[m]['name']})" for m in group)
+            judge_sys = (
+                "You are a fast table conversation judge for a banquet mystery game. "
+                "Given the guests seated at this table and the Viscount's remark, return ONLY JSON: "
+                '{"primary": "<npc_id>", "secondary": "<npc_id or none>", "cue": "<3-8 word reaction cue>"}.'
             )
-            decision = llm.chat(
-                "You are a conversation director. Reply with ONLY an NPC id or NONE.",
-                [{"role": "user", "content": prompt}],
-                temperature=0.2,
-            ).strip().lower()
-
-            for cand in others:
-                if cand in decision:
-                    return [first, cand]
-            return [first]
+            judge_prompt = (
+                f"Table guests: {roster}\n"
+                f"Approached guest: {default_primary}\n"
+                f'Viscount said: "{msg}"\n'
+                "Pick primary speaker (who was addressed or best fits) and optionally one secondary speaker at the same table to chime in briefly, or 'none'."
+            )
+            raw = llm.chat(
+                judge_sys,
+                [{"role": "user", "content": judge_prompt}],
+                temperature=0.1,
+                json_mode=True,
+                max_tokens=100,
+            )
+            parsed = llm._parse_json_response(raw)
+            prim = str(parsed.get("primary", default_primary)).strip().lower()
+            if prim not in group:
+                prim = default_primary
+            sec_raw = str(parsed.get("secondary", "none")).strip().lower()
+            sec = sec_raw if (sec_raw in group and sec_raw != prim) else None
+            cue = str(parsed.get("cue", "reacts naturally to the table exchange")).strip()
+            return prim, sec, cue
 
         def _do():
             if self.gs.current_act == "act0" and npc_id == "aldous":
@@ -354,8 +365,8 @@ class WebSession:
             turns: List[Dict[str, str]] = []
 
             if self.gs.current_act == "act2" and npc_id in PARTY_GROUPS and len(PARTY_GROUPS[npc_id]) > 1:
-                speakers = _pick_group_speakers(PARTY_GROUPS[npc_id], npc_id, message)
-                primary_id = speakers[0]
+                group = PARTY_GROUPS[npc_id]
+                primary_id, sec_id, cue = _judge_table_speakers(group, npc_id, message)
                 primary_npc = NPC(NPC_CONFIGS[primary_id], self.gs)
                 primary_reply = primary_npc.speak(message)
                 turns.append({
@@ -364,13 +375,13 @@ class WebSession:
                     "text": primary_reply,
                 })
 
-                # Optional second beat (max 2 beats total so group never loops)
-                if len(speakers) > 1:
-                    sec_id = speakers[1]
+                # Optional second beat guided by Judge cue (max 2 beats total so group never loops)
+                if sec_id:
                     sec_npc = NPC(NPC_CONFIGS[sec_id], self.gs)
                     sec_prompt = (
-                        f"[Group context: The Viscount just said '{message}' and {primary_npc.name} replied '{primary_reply}'. "
-                        f"Add a brief, natural 1-sentence reaction or aside in character.]"
+                        f"[Table context — Judge cue: {cue}. "
+                        f"The Viscount said '{message}' and {primary_npc.name} replied '{primary_reply}'. "
+                        f"Add a brief, natural 1-2 sentence reaction in character.]"
                     )
                     sec_reply = sec_npc.speak(sec_prompt)
                     turns.append({

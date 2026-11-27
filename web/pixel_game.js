@@ -55,15 +55,19 @@ const keys = {};
 window.addEventListener("keydown", (e) => { if (document.activeElement !== playerInput) keys[e.key.toLowerCase()] = true; });
 window.addEventListener("keyup", (e) => { keys[e.key.toLowerCase()] = false; });
 
+let cam = { x: 0, y: 0 };
+
 worldCanvas.addEventListener("click", (e) => {
   if (!gameState || gameState.current_act !== "act2") return;
   const rect = worldCanvas.getBoundingClientRect();
   const sx = ((e.clientX - rect.left) / rect.width) * worldCanvas.width;
   const sy = ((e.clientY - rect.top) / rect.height) * worldCanvas.height;
-  player.targetX = sx;
-  player.targetY = sy;
+  const wx = sx + (gameState.current_scene === "party_floor" ? cam.x : 0);
+  const wy = sy + (gameState.current_scene === "party_floor" ? cam.y : 0);
+  player.targetX = wx;
+  player.targetY = wy;
   for (const n of getAct2NPCs()) {
-    if (Math.hypot(sx - n.x, sy - n.y) < 18) { selectNpc(n.id); break; }
+    if (Math.hypot(wx - n.x, wy - n.y) < 30) { selectNpc(n.id); break; }
   }
 });
 
@@ -83,37 +87,50 @@ const CHAR_STYLE = {
   mrs_alwen: { hair: "#8a7b73", hairHi: "#b3a39b", skin: "#ecc1a3", skinSh: "#c79c7f", coat: "#785342", shade: "#52372b", trim: "#f0ebe4", type: "cook",   label: "Mrs Alwen" },
 };
 
-// ── 23 Non-Conversable Ambient Crowd NPCs ─────────────────────
+// ── Ambient Crowd, Musicians, Guards & Dancers (960x540 Grand Hall) ──
 const AMBIENT_GUESTS = [
-  { x: 46, y: 84,  coat: "#3b2333", hair: "#4a3326", role: "musician", phase: 0 },
-  { x: 60, y: 76,  coat: "#3b2333", hair: "#b89f78", role: "musician", phase: 12 },
-  { x: 54, y: 96,  coat: "#3b2333", hair: "#2b201b", role: "musician", phase: 24 },
-  { x: 184, y: 66, coat: "#454a59", hair: "#2e2e33", role: "guard",    phase: 0 },
-  { x: 296, y: 66, coat: "#454a59", hair: "#2e2e33", role: "guard",    phase: 0 },
-  { x: 96,  y: 146, coat: "#2c4740", hair: "#6b4730", role: "guest", phase: 5,  facingLeft: false },
-  { x: 112, y: 148, coat: "#5c2b3d", hair: "#d4b06a", role: "guest", phase: 19, facingLeft: true,  gown: true },
-  { x: 126, y: 142, coat: "#343b59", hair: "#292321", role: "guest", phase: 31, facingLeft: true },
-  { x: 350, y: 116, coat: "#4d354f", hair: "#8f6948", role: "guest", phase: 8,  facingLeft: false, gown: true },
-  { x: 368, y: 118, coat: "#294052", hair: "#362a24", role: "guest", phase: 22, facingLeft: true },
-  { x: 192, y: 175, coat: "#5e3d28", hair: "#c4b9ab", role: "guest", phase: 14, facingLeft: false },
-  { x: 208, y: 177, coat: "#3b4d2b", hair: "#422b20", role: "guest", phase: 29, facingLeft: true,  gown: true },
-  { x: 278, y: 178, coat: "#4f2738", hair: "#211b1e", role: "guest", phase: 3,  facingLeft: false },
-  { x: 294, y: 174, coat: "#2b3854", hair: "#9e7c52", role: "guest", phase: 17, facingLeft: true },
-  { x: 162, y: 224, coat: "#40314a", hair: "#5c4132", role: "guest", phase: 11, facingLeft: false, gown: true },
-  { x: 178, y: 226, coat: "#2b4a3e", hair: "#b59d7a", role: "guest", phase: 25, facingLeft: true },
-  { x: 405, y: 215, coat: "#522b2b", hair: "#332620", role: "guest", phase: 7,  facingLeft: false },
-  { x: 422, y: 212, coat: "#33394d", hair: "#cfd4dc", role: "guest", phase: 20, facingLeft: true,  gown: true },
-  { x: 84,  y: 235, coat: "#4d4029", hair: "#4a3326", role: "guest", phase: 16, facingLeft: false },
+  // String Quartet in Northeast Musicians' Alcove
+  { x: 658, y: 82,  coat: "#3b2333", hair: "#4a3326", role: "musician", phase: 0 },
+  { x: 678, y: 76,  coat: "#3b2333", hair: "#b89f78", role: "musician", phase: 12 },
+  { x: 698, y: 84,  coat: "#3b2333", hair: "#2b201b", role: "musician", phase: 24 },
+  { x: 716, y: 78,  coat: "#3b2333", hair: "#7a5b3e", role: "musician", phase: 36 },
+  // Royal Dais Guards
+  { x: 356, y: 92,  coat: "#454a59", hair: "#2e2e33", role: "guard", phase: 0, facingLeft: false },
+  { x: 604, y: 92,  coat: "#454a59", hair: "#2e2e33", role: "guard", phase: 0, facingLeft: true },
+  { x: 432, y: 492, coat: "#454a59", hair: "#2e2e33", role: "guard", phase: 0, facingLeft: false },
+  { x: 528, y: 492, coat: "#454a59", hair: "#2e2e33", role: "guard", phase: 0, facingLeft: true },
+  // Guests seated/standing around tables & perimeter
+  { x: 138, y: 256, coat: "#2c4740", hair: "#6b4730", role: "guest", phase: 5,  facingLeft: false },
+  { x: 246, y: 256, coat: "#5c2b3d", hair: "#d4b06a", role: "guest", phase: 19, facingLeft: true,  gown: true },
+  { x: 712, y: 256, coat: "#343b59", hair: "#292321", role: "guest", phase: 31, facingLeft: false },
+  { x: 820, y: 256, coat: "#4d354f", hair: "#8f6948", role: "guest", phase: 8,  facingLeft: true,  gown: true },
+  { x: 146, y: 440, coat: "#294052", hair: "#362a24", role: "guest", phase: 22, facingLeft: false },
+  { x: 240, y: 440, coat: "#5e3d28", hair: "#c4b9ab", role: "guest", phase: 14, facingLeft: true },
+  // Fireplace & East Lounge Guests
+  { x: 745, y: 392, coat: "#3b4d2b", hair: "#422b20", role: "guest", phase: 29, facingLeft: false, gown: true },
+  { x: 765, y: 395, coat: "#4f2738", hair: "#211b1e", role: "guest", phase: 3,  facingLeft: true },
+  { x: 820, y: 332, coat: "#2b3854", hair: "#9e7c52", role: "guest", phase: 17, facingLeft: false },
+  { x: 838, y: 336, coat: "#40314a", hair: "#5c4132", role: "guest", phase: 11, facingLeft: true,  gown: true },
+  // West Gallery Art Admirers
+  { x: 82,  y: 122, coat: "#2b4a3e", hair: "#b59d7a", role: "guest", phase: 25, facingLeft: false },
+  { x: 102, y: 124, coat: "#522b2b", hair: "#332620", role: "guest", phase: 7,  facingLeft: true,  gown: true },
+];
+
+const DANCING_COUPLES = [
+  { cx: 432, cy: 258, rx: 22, ry: 12, speed: 0.022, offset: 0.0, coat1: "#2d4563", coat2: "#7d2846" },
+  { cx: 528, cy: 266, rx: 22, ry: 12, speed: 0.020, offset: 2.1, coat1: "#3d2d59", coat2: "#2c6154" },
+  { cx: 480, cy: 326, rx: 24, ry: 13, speed: 0.024, offset: 4.2, coat1: "#5e3a24", coat2: "#6b4c7a" },
 ];
 
 const PATROL_SERVANTS = [
-  { x1: 95,  y1: 122, x2: 385, y2: 122, speed: 0.42, offset: 0 },
-  { x1: 140, y1: 162, x2: 340, y2: 162, speed: 0.36, offset: 120 },
-  { x1: 428, y1: 82,  x2: 428, y2: 205, speed: 0.38, offset: 60 },
-  { x1: 68,  y1: 126, x2: 68,  y2: 215, speed: 0.34, offset: 90 },
+  { x1: 290, y1: 166, x2: 670, y2: 166, speed: 0.45, offset: 0 },
+  { x1: 295, y1: 374, x2: 665, y2: 374, speed: 0.38, offset: 120 },
+  { x1: 650, y1: 166, x2: 650, y2: 374, speed: 0.36, offset: 60 },
+  { x1: 305, y1: 166, x2: 305, y2: 374, speed: 0.34, offset: 90 },
+  { x1: 120, y1: 315, x2: 320, y2: 315, speed: 0.32, offset: 40 },
 ];
 
-const DUST = Array.from({ length: 30 }, (_, i) => ({ x: (i * 41) % 460 + 10, y: (i * 23) % 230 + 20, s: (i % 3) * 0.14 + 0.12 }));
+const DUST = Array.from({ length: 48 }, (_, i) => ({ x: (i * 73) % 920 + 20, y: (i * 41) % 500 + 20, s: (i % 3) * 0.14 + 0.12 }));
 
 function getAct2NPCs() {
   if (!gameState) return [];
@@ -121,12 +138,15 @@ function getAct2NPCs() {
   const unlocked = new Set(gameState.unlocked_stations || []);
   if (scene === "kitchen") return [{ id: "mrs_alwen", x: 240, y: 128 }];
   if (scene === "balcony") return [];
-  const list = [{ id: "fenwick", x: 240, y: 138 }, { id: "reynard", x: 392, y: 86 }];
-  if (unlocked.has("marrow"))     list.push({ id: "brienne", x: 74,  y: 190 });
-  if (unlocked.has("vantrell")) { list.push({ id: "cassian", x: 118, y: 98 }, { id: "ophelia", x: 150, y: 102 }); }
-  if (unlocked.has("delegation")) { list.push({ id: "demir", x: 368, y: 172 }, { id: "kavir", x: 400, y: 172 }); }
-  list.push({ id: "isolde", x: 325, y: 218 });
-  if (unlocked.has("duke")) list.push({ id: "duke", x: 240, y: 68 });
+  const list = [
+    { id: "fenwick", x: 480, y: 425 },
+    { id: "reynard", x: 544, y: 92 },
+    { id: "isolde",  x: 434, y: 88 },
+    { id: "duke",    x: 480, y: 86 },
+  ];
+  if (unlocked.has("marrow"))     list.push({ id: "brienne", x: 194, y: 383 });
+  if (unlocked.has("vantrell")) { list.push({ id: "cassian", x: 162, y: 198 }, { id: "ophelia", x: 224, y: 198 }); }
+  if (unlocked.has("delegation")) { list.push({ id: "demir", x: 734, y: 198 }, { id: "kavir", x: 796, y: 198 }); }
   return list;
 }
 
@@ -725,62 +745,89 @@ function renderAct2Manor() {
   const scene = gameState ? gameState.current_scene : "party_floor";
 
   if (scene === "kitchen") {
-    ctx.fillStyle = "#170f0b"; ctx.fillRect(0, 0, 480, 270);
-    // Stone & Timber Kitchen Walls + Hanging Copper Pots Rack
-    ctx.fillStyle = "#2b1d17"; ctx.fillRect(20, 14, 440, 48);
-    ctx.fillStyle = "#38261e"; ctx.fillRect(20, 14, 440, 6);
-    ctx.fillStyle = "#1c130f"; ctx.fillRect(72, 22, 92, 2); // iron pot rack
-    for (const [px, pw, ph] of [[80, 10, 10], [98, 12, 12], [120, 8, 9], [138, 11, 11]]) {
+    cam.x = 0; cam.y = 0;
+    ctx.fillStyle = "#140d09"; ctx.fillRect(0, 0, 480, 270);
+    // Vaulted Stone & Timber Duke's Kitchen Walls
+    ctx.fillStyle = "#2b1d17"; ctx.fillRect(16, 12, 448, 56);
+    ctx.fillStyle = "#3d2a21"; ctx.fillRect(16, 12, 448, 7);
+    for (let ax = 48; ax < 440; ax += 96) {
+      ctx.fillStyle = "#241914"; ctx.fillRect(ax, 18, 12, 50);
+    }
+    // Iron Pot Rack with Copper Pots, Skillets & Hanging Herb Bundles
+    ctx.fillStyle = "#1c130f"; ctx.fillRect(42, 22, 118, 3);
+    for (const [px, pw, ph] of [[48, 11, 12], [66, 13, 14], [86, 9, 10], [104, 12, 13], [126, 10, 11], [142, 8, 14]]) {
       ctx.fillStyle = "#b86b35"; ctx.fillRect(px, 26, pw, ph);
       ctx.fillStyle = "#e69a5c"; ctx.fillRect(px + 2, 28, 3, ph - 4);
     }
-    // Giant Stone Hearth + Turning Spit Roast
-    ctx.fillStyle = "#3d322e"; ctx.fillRect(190, 10, 100, 52);
-    ctx.fillStyle = "#120c0a"; ctx.fillRect(202, 26, 76, 36);
+    for (const hx of [54, 92, 132]) {
+      ctx.fillStyle = "#3d6b45"; ctx.fillRect(hx, 15, 6, 8);
+    }
+    // Twin Roaring Duke's Stone Hearths + Turning Spit Roast & Iron Cauldron
+    ctx.fillStyle = "#3d322e"; ctx.fillRect(176, 10, 128, 58);
+    ctx.fillStyle = "#120c0a"; ctx.fillRect(186, 26, 54, 40); ctx.fillRect(246, 26, 48, 40);
     const fl = Math.floor(tick / 5) % 2;
-    drawWarmLight(240, 46, 95, 0.30);
-    ctx.fillStyle = "#ff5e14"; ctx.fillRect(212, 42 - fl, 56, 18);
-    ctx.fillStyle = "#ffd166"; ctx.fillRect(224, 48 - fl, 32, 12);
-    ctx.fillStyle = "#8a4224"; ctx.fillRect(222, 34, 36, 10); // roast meat on spit
-    ctx.fillStyle = "#9ca3af"; ctx.fillRect(204, 38, 72, 2);
+    drawWarmLight(240, 48, 110, 0.32);
+    ctx.fillStyle = "#ff5e14"; ctx.fillRect(192, 44 - fl, 42, 18); ctx.fillRect(252, 46 - fl, 36, 16);
+    ctx.fillStyle = "#ffd166"; ctx.fillRect(202, 50 - fl, 24, 10); ctx.fillRect(260, 51 - fl, 20, 9);
+    ctx.fillStyle = "#8a4224"; ctx.fillRect(198, 34, 30, 10); // spit roast
+    ctx.fillStyle = "#9ca3af"; ctx.fillRect(188, 38, 50, 2);
+    ctx.fillStyle = "#222429"; ctx.fillRect(260, 36, 18, 14); // simmering cauldron
 
-    // Spice & Plate Shelves (Right Wall)
-    ctx.fillStyle = "#4d3325"; ctx.fillRect(308, 22, 68, 4); ctx.fillRect(308, 38, 68, 4);
-    ctx.fillStyle = "#d9d0c1";
-    for (let sx = 314; sx < 368; sx += 10) ctx.fillRect(sx, 16, 6, 6);
+    // Spice, Silverware & Banquet Plate Shelves
+    ctx.fillStyle = "#4d3325"; ctx.fillRect(312, 20, 62, 4); ctx.fillRect(312, 38, 62, 4);
+    ctx.fillStyle = "#e6dfd3";
+    for (let sx = 316; sx < 368; sx += 9) ctx.fillRect(sx, 14, 6, 6);
     ctx.fillStyle = "#5cb874";
-    for (let sx = 314; sx < 368; sx += 14) ctx.fillRect(sx, 31, 5, 7);
+    for (let sx = 316; sx < 368; sx += 13) ctx.fillRect(sx, 31, 5, 7);
 
     // Flagstone Floor
-    for (let y = 62; y < 252; y += 24) {
-      for (let x = 20; x < 460; x += 24) {
+    for (let y = 68; y < 254; y += 24) {
+      for (let x = 16; x < 464; x += 24) {
         ctx.fillStyle = ((x + y) / 24) % 2 === 0 ? "#362821" : "#2b1f1a";
         ctx.fillRect(x, y, 24, 24);
       }
     }
-    // Oak Prep Tables + Pastries + Dough + Wine Casks
-    ctx.fillStyle = "#593b29"; ctx.fillRect(64, 102, 104, 26); ctx.fillRect(64, 182, 86, 24);
-    ctx.fillStyle = "#e3b874"; ctx.fillRect(82, 106, 14, 10); ctx.fillRect(108, 106, 16, 10);
-    ctx.fillStyle = "#f2ebe0"; ctx.fillRect(88, 188, 18, 10); // bread dough
+    // Banquet Prep Tables (Plated Roasts, Pastries, Dough, Wine Ewers)
+    ctx.fillStyle = "#593b29"; ctx.fillRect(52, 98, 116, 28); ctx.fillRect(52, 182, 102, 26);
+    ctx.fillStyle = "#d9d0c1"; ctx.fillRect(62, 102, 26, 16); ctx.fillRect(96, 102, 26, 16);
+    ctx.fillStyle = "#e3b874"; ctx.fillRect(130, 104, 16, 12); ctx.fillRect(68, 188, 22, 12);
+    ctx.fillStyle = "#f2ebe0"; ctx.fillRect(102, 188, 18, 12);
+    // Stone Scullery Basin (bottom-center-left)
+    ctx.fillStyle = "#4f4a48"; ctx.fillRect(190, 220, 44, 22);
+    ctx.fillStyle = "#2b4b69"; ctx.fillRect(196, 224, 32, 14);
 
-    // Oak Wine Barrels + Stone Cellar Arch
-    for (const [bx, by] of [[396, 168], [422, 168], [409, 192]]) {
+    // Oak Wine Barrels & Cellar Archway
+    for (const [bx, by] of [[396, 168], [422, 168], [409, 194]]) {
       ctx.fillStyle = "#4a2e1d"; ctx.fillRect(bx, by, 20, 24);
       ctx.fillStyle = "#1f1c24"; ctx.fillRect(bx, by + 5, 20, 2); ctx.fillRect(bx, by + 17, 20, 2);
     }
-    ctx.fillStyle = "#120c0a"; ctx.fillRect(374, 68, 64, 44);
+    ctx.fillStyle = "#120c0a"; ctx.fillRect(382, 68, 66, 44);
     ctx.fillStyle = "#6e655f";
-    for (let s = 0; s < 4; s++) ctx.fillRect(380, 74 + s * 8, 52, 4);
-    ctx.fillStyle = "#e6c15a"; ctx.font = "9px monospace"; ctx.fillText("CELLAR ↓", 384, 62);
+    for (let s = 0; s < 4; s++) ctx.fillRect(388, 74 + s * 8, 54, 4);
+    ctx.fillStyle = "#e6c15a"; ctx.font = "9px monospace"; ctx.fillText("CELLAR ↓", 392, 62);
 
-    // 4 Non-Conversable Kitchen Staff
-    drawDetailedSprite(ctx, { hair: "#6b4730", skin: "#ecc1a3", skinSh: "#c79c7f", coat: "#6e5144", shade: "#47332b", trim: "#ebe6df", cravat: "#ebe6df", type: "cook" }, 118, 140, 1.3, false, tick + 6, true);
-    drawDetailedSprite(ctx, { hair: "#3d2a20", skin: "#e0b392", skinSh: "#bd8d6a", coat: "#52463d", shade: "#362d27", trim: "#dcd3c0", cravat: "#dcd3c0", type: "butler" }, 284, 72, 1.25, false, tick + 14, true);
-    drawDetailedSprite(ctx, { hair: "#8a6d56", skin: "#ecc1a3", skinSh: "#c79c7f", coat: "#5c4033", shade: "#3d2920", trim: "#f0ebe4", cravat: "#f0ebe4", type: "cook" }, 104, 218, 1.3, false, tick + 21, false);
+    // 5 Non-Conversable Kitchen Staff bustling
+    drawDetailedSprite(ctx, { hair: "#6b4730", skin: "#ecc1a3", skinSh: "#c79c7f", coat: "#6e5144", shade: "#47332b", trim: "#ebe6df", cravat: "#ebe6df", type: "cook" }, 118, 142, 1.3, false, tick + 6, true);
+    drawDetailedSprite(ctx, { hair: "#3d2a20", skin: "#e0b392", skinSh: "#bd8d6a", coat: "#52463d", shade: "#362d27", trim: "#dcd3c0", cravat: "#dcd3c0", type: "butler" }, 288, 76, 1.25, false, tick + 14, true);
+    drawDetailedSprite(ctx, { hair: "#8a6d56", skin: "#ecc1a3", skinSh: "#c79c7f", coat: "#5c4033", shade: "#3d2920", trim: "#f0ebe4", cravat: "#f0ebe4", type: "cook" }, 104, 224, 1.3, false, tick + 21, false);
     drawDetailedSprite(ctx, { hair: "#474340", skin: "#d6a47e", skinSh: "#b0805d", coat: "#3b3532", shade: "#24201e", trim: "#8c7156", cravat: "#8c7156", type: "noble" }, 372, 186, 1.3, false, tick + 3, false, "tray");
-  } else if (scene === "balcony") {
-    // ── Serene, Majestic Moonlit Balcony Overlook (No flashing!) ──
-    // Multi-band midnight sky
+    drawDetailedSprite(ctx, { hair: "#a67c52", skin: "#f0cbb0", skinSh: "#cc9e82", coat: "#6e4e3f", shade: "#473228", trim: "#f0ebe4", cravat: "#f0ebe4", type: "cook" }, 212, 212, 1.25, false, tick + 17, false);
+
+    updatePlayerMovement();
+    const npcs = getAct2NPCs();
+    for (const n of npcs) {
+      drawDetailedSprite(ctx, CHAR_STYLE[n.id], n.x, n.y, 1.35, false, tick, player.x < n.x);
+      if (Math.hypot(player.x - n.x, player.y - n.y) < 42) {
+        ctx.fillStyle = "#e6c15a"; ctx.font = "9px monospace";
+        ctx.fillText(CHAR_STYLE[n.id].label, n.x - 24, n.y - 26);
+      }
+    }
+    drawDetailedSprite(ctx, CHAR_STYLE.viscount, player.x, player.y, 1.35, player.moving, tick, player.dir === 2);
+    return;
+  }
+
+  if (scene === "balcony") {
+    cam.x = 0; cam.y = 0;
     ctx.fillStyle = "#040611"; ctx.fillRect(0, 0, 480, 40);
     ctx.fillStyle = "#070c1e"; ctx.fillRect(0, 40, 480, 40);
     ctx.fillStyle = "#0c1530"; ctx.fillRect(0, 80, 480, 42);
@@ -872,89 +919,150 @@ function renderAct2Manor() {
     }
 
     // Non-Conversable Noble Couple admiring the moonlit valley
-    drawDetailedSprite(ctx, { hair: "#3b2621", skin: "#e3b996", skinSh: "#bd8d6a", coat: "#283954", shade: "#162133", trim: "#e6c15a", cravat: "#f0ebe1", type: "cloak" }, 144, 142, 1.3, false, tick + 5, false);
-    drawDetailedSprite(ctx, { hair: "#b88a4d", skin: "#f2d5c4", skinSh: "#cca995", coat: "#52243b", shade: "#331424", trim: "#e6c15a", cravat: "#f5ebd6", type: "gown" },  162, 143, 1.3, false, tick + 14, true);
-  } else {
-    ctx.fillStyle = "#0d0b14"; ctx.fillRect(0, 0, 480, 270);
-    ctx.fillStyle = "#1f1b2b"; ctx.fillRect(24, 14, 432, 34);
-    // Moonlit tall leaded windows + crimson/gold tapestries + heraldic shields
-    for (const wx of [104, 356]) {
-      ctx.fillStyle = "#162342"; ctx.fillRect(wx, 18, 22, 28);
-      ctx.fillStyle = "#0f1526"; ctx.fillRect(wx + 10, 18, 2, 28); ctx.fillRect(wx, 30, 22, 2);
-    }
-    for (const tx of [64, 148, 310, 394]) {
-      ctx.fillStyle = "#5c1727"; ctx.fillRect(tx, 16, 22, 30);
-      ctx.fillStyle = "#e6c15a"; ctx.fillRect(tx + 9, 22, 4, 12);
-    }
-    // Checkered Marble Floor + Royal Crimson Carpet Runner
-    for (let y = 48; y < 252; y += 24) {
-      for (let x = 24; x < 456; x += 24) {
-        ctx.fillStyle = ((x + y) / 24) % 2 === 0 ? "#241e33" : "#1b1626";
-        ctx.fillRect(x, y, 24, 24);
-      }
-    }
-    ctx.fillStyle = "#541625"; ctx.fillRect(222, 84, 36, 168);
-    ctx.fillStyle = "#c9a349"; ctx.fillRect(222, 84, 2, 168); ctx.fillRect(256, 84, 2, 168);
+    drawDetailedSprite(ctx, { hair: "#3b2621", skin: "#e3b996", skinSh: "#bd8d6a", coat: "#283954", shade: "#162133", trim: "#e6c15a", cravat: "#f0ebe1", type: "cloak" }, 144, 152, 1.3, false, tick + 5, false);
+    drawDetailedSprite(ctx, { hair: "#b88a4d", skin: "#f2d5c4", skinSh: "#cca995", coat: "#52243b", shade: "#331424", trim: "#e6c15a", cravat: "#f5ebd6", type: "gown" },  162, 153, 1.3, false, tick + 14, true);
 
-    // Stone pillars with heraldic shields
-    for (const px of [170, 310]) {
-      ctx.fillStyle = "rgba(0,0,0,0.35)"; ctx.fillRect(px - 4, 48, 12, 10);
-      ctx.fillStyle = "#39334a"; ctx.fillRect(px - 6, 14, 12, 34);
-      ctx.fillStyle = "#c9a349"; ctx.fillRect(px - 3, 24, 6, 7);
-    }
-    // Dais & Treaty Table
-    ctx.fillStyle = "#4d1725"; ctx.fillRect(190, 48, 100, 36);
-    ctx.fillStyle = "#702035"; ctx.fillRect(194, 50, 92, 32);
-    ctx.fillStyle = "#dcd3c0"; ctx.fillRect(208, 56, 64, 14);
-    ctx.fillStyle = "#e6c15a"; ctx.fillRect(236, 59, 8, 6);
-    ctx.fillStyle = "#30232b"; ctx.fillRect(34, 62, 46, 46);
+    updatePlayerMovement();
+    drawDetailedSprite(ctx, CHAR_STYLE.viscount, player.x, player.y, 1.35, player.moving, tick, player.dir === 2);
+    return;
+  }
 
-    const tables = [{ x: 96, y: 92, w: 68, h: 18 }, { x: 54, y: 188, w: 58, h: 18 }, { x: 362, y: 168, w: 62, h: 18 }];
-    for (const t of tables) {
-      ctx.fillStyle = "rgba(0,0,0,0.4)"; ctx.fillRect(t.x + 2, t.y + 3, t.w, t.h);
-      ctx.fillStyle = "#472c26"; ctx.fillRect(t.x, t.y, t.w, t.h);
-      ctx.fillStyle = "#d9cfbe"; ctx.fillRect(t.x + 4, t.y + 3, t.w - 8, t.h - 6);
-      ctx.fillStyle = "#9e1934"; ctx.fillRect(t.x + 12, t.y + 6, 4, 4); ctx.fillRect(t.x + t.w - 18, t.y + 7, 4, 4);
-      ctx.fillStyle = "#e6c15a"; ctx.fillRect(t.x + Math.floor(t.w / 2) - 4, t.y + 5, 8, 6);
-    }
+  // ── SPLENDID 960x540 GRAND BANQUET HALL (Camera-Scrolling) ──
+  updatePlayerMovement();
+  cam.x = Math.max(0, Math.min(480, Math.round(player.x - 240)));
+  cam.y = Math.max(0, Math.min(270, Math.round(player.y - 135)));
 
-    // Grand Overhead Chandelier Light + Wall Candelabras
-    const fl = Math.floor(tick / 7) % 2;
-    drawWarmLight(240, 128, 92, 0.18);
-    for (const [cx, cy] of [[150, 44], [330, 44], [48, 140], [432, 140], [240, 128]]) {
-      drawWarmLight(cx, cy, 58, 0.18);
-      ctx.fillStyle = "#ffd166"; ctx.fillRect(cx - 1, cy - 4 - fl, 3, 4);
-    }
+  ctx.save();
+  ctx.translate(-cam.x, -cam.y);
 
-    // Draw 23 Non-Conversable Ambient Crowd NPCs
-    for (const g of AMBIENT_GUESTS) {
-      const style = {
-        hair: g.hair, skin: "#e3b996", skinSh: "#bd8d6a",
-        coat: g.coat, shade: "#181421", trim: "#9c8559", cravat: "#dcd3c0",
-        type: g.role === "guard" ? "armor" : (g.gown ? "gown" : "noble"),
-      };
-      const prop = g.role === "musician" ? "violin" : (g.role === "guard" ? "halberd" : null);
-      drawDetailedSprite(ctx, style, g.x, g.y, 1.25, false, tick + g.phase, !!g.facingLeft, prop);
-    }
+  // Outer Stone Perimeter & Wainscoted Hall Walls (960x540)
+  ctx.fillStyle = "#0c0a12"; ctx.fillRect(0, 0, 960, 540);
+  ctx.fillStyle = "#211c2e"; ctx.fillRect(28, 14, 904, 52);
+  ctx.fillStyle = "#332b45"; ctx.fillRect(28, 60, 904, 6);
 
-    for (const s of PATROL_SERVANTS) {
-      const t = ((tick * s.speed + s.offset) % 200) / 200;
-      const ping = t < 0.5 ? t * 2 : (1 - t) * 2;
-      const sx = s.x1 + (s.x2 - s.x1) * ping;
-      const sy = s.y1 + (s.y2 - s.y1) * ping;
-      const facingLeft = t >= 0.5 && s.x2 > s.x1;
-      const sStyle = { hair: "#52463d", skin: "#e6bea0", skinSh: "#bf9575", coat: "#2b2833", shade: "#18161f", trim: "#ebe6df", cravat: "#ffffff", type: "butler" };
-      drawDetailedSprite(ctx, sStyle, sx, sy, 1.25, true, tick, facingLeft, "tray");
+  // Checkered Marble Grand Floor (960x540)
+  for (let y = 66; y < 516; y += 24) {
+    for (let x = 28; x < 932; x += 24) {
+      ctx.fillStyle = ((x + y) / 24) % 2 === 0 ? "#241e33" : "#1b1626";
+      ctx.fillRect(x, y, 24, 24);
     }
+  }
+
+  // Royal Crimson Carpet Runner from Grand Entrance to High Dais
+  ctx.fillStyle = "#541625"; ctx.fillRect(450, 148, 60, 368);
+  ctx.fillStyle = "#c9a349"; ctx.fillRect(450, 148, 3, 368); ctx.fillRect(507, 148, 3, 368);
+
+  // Tall Leaded Moonlit Windows + Crimson Banners + Ornate Gilt-Framed Paintings
+  for (const wx of [120, 290, 670, 840]) {
+    ctx.fillStyle = "#162342"; ctx.fillRect(wx, 18, 28, 36);
+    ctx.fillStyle = "#0f1526"; ctx.fillRect(wx + 13, 18, 2, 36); ctx.fillRect(wx, 34, 28, 2);
+  }
+  for (const px of [64, 210, 405, 555, 750, 896]) {
+    ctx.fillStyle = "#c9a349"; ctx.fillRect(px - 14, 20, 28, 22);
+    ctx.fillStyle = px % 2 === 0 ? "#2f4858" : "#5c2735"; ctx.fillRect(px - 11, 23, 22, 16);
+    ctx.fillStyle = "#e6c15a"; ctx.fillRect(px - 4, 28, 8, 6);
+  }
+  for (const bx of [358, 602]) {
+    ctx.fillStyle = "#6e192d"; ctx.fillRect(bx - 10, 16, 20, 42);
+    ctx.fillStyle = "#e6c15a"; ctx.fillRect(bx - 3, 24, 6, 16);
+  }
+
+  // Marble Statues on Pedestals & Porcelain Ming Vases with Flowers
+  for (const [sx, sy] of [[96, 86], [280, 86], [680, 86], [864, 86]]) {
+    ctx.fillStyle = "#3f3b4d"; ctx.fillRect(sx - 10, sy - 6, 20, 14);
+    ctx.fillStyle = "#9da3b3"; ctx.fillRect(sx - 5, sy - 24, 10, 18);
+    drawPixelCircle(ctx, sx, sy - 27, 4, "#c5cad6");
+  }
+  for (const [vx, vy] of [[156, 76], [234, 76], [726, 76], [804, 76], [428, 496], [532, 496]]) {
+    ctx.fillStyle = "#264e70"; ctx.fillRect(vx - 5, vy - 10, 10, 12);
+    ctx.fillStyle = "#e6c15a"; ctx.fillRect(vx - 4, vy - 12, 8, 2);
+    ctx.fillStyle = "#3b7049"; ctx.fillRect(vx - 6, vy - 18, 12, 6);
+    ctx.fillStyle = "#d95b72"; ctx.fillRect(vx - 3, vy - 20, 3, 3); ctx.fillRect(vx + 2, vy - 19, 3, 3);
+  }
+
+  // Grand Roaring East Fireplace (x=888, y=285)
+  ctx.fillStyle = "#3d3345"; ctx.fillRect(888, 278, 42, 92);
+  ctx.fillStyle = "#120c0f"; ctx.fillRect(890, 294, 28, 60);
+  const fl = Math.floor(tick / 6) % 2;
+  drawWarmLight(896, 324, 86, 0.28);
+  ctx.fillStyle = "#ff5e14"; ctx.fillRect(894, 314 - fl, 18, 28);
+  ctx.fillStyle = "#ffd166"; ctx.fillRect(898, 322 - fl, 10, 16);
+
+  // Center Inlaid Parquet Dance Floor Medallion (x=480, y=290)
+  drawPixelCircle(ctx, 480, 290, 88, "#2b2024");
+  drawPixelRing(ctx, 480, 290, 86, 82, "#c9a349");
+  drawPixelRing(ctx, 480, 290, 56, 53, "#541625");
+
+  // Animated Waltzing Couples on Dance Floor
+  for (const dc of DANCING_COUPLES) {
+    const ang = tick * dc.speed + dc.offset;
+    const dx = dc.cx + Math.cos(ang) * dc.rx;
+    const dy = dc.cy + Math.sin(ang) * dc.ry;
+    drawDetailedSprite(ctx, { hair: "#3d261c", skin: "#e6bea0", skinSh: "#bd8d6a", coat: dc.coat1, shade: "#181421", trim: "#e6c15a", cravat: "#f0ebe1", type: "noble" }, dx - 6, dy, 1.25, true, tick, false);
+    drawDetailedSprite(ctx, { hair: "#b88a4d", skin: "#f0cbb0", skinSh: "#cc9e82", coat: dc.coat2, shade: "#26121b", trim: "#e6c15a", cravat: "#f5ebd6", type: "gown" },  dx + 6, dy + 1, 1.25, true, tick, true);
+  }
+
+  // Majestic North Dais & Royal High Table (Duke Aldric & Lady Isolde)
+  ctx.fillStyle = "#4d1725"; ctx.fillRect(344, 68, 272, 82);
+  ctx.fillStyle = "#702035"; ctx.fillRect(350, 72, 260, 74);
+  ctx.fillStyle = "#c9a349"; ctx.fillRect(344, 146, 272, 3);
+  ctx.fillStyle = "rgba(0,0,0,0.45)"; ctx.fillRect(378, 98, 206, 28);
+  ctx.fillStyle = "#472c26"; ctx.fillRect(376, 94, 208, 28);
+  ctx.fillStyle = "#ebe4d5"; ctx.fillRect(382, 98, 196, 18);
+  ctx.fillStyle = "#e6c15a"; ctx.fillRect(410, 102, 10, 8); ctx.fillRect(475, 101, 12, 9); ctx.fillRect(540, 102, 10, 8);
+  ctx.fillStyle = "#9e1934"; ctx.fillRect(442, 104, 6, 6); ctx.fillRect(512, 104, 6, 6);
+
+  // Banquet Wing Tables (Vantrell West, Delegation East, Marrow Southwest)
+  const wingTables = [
+    { x: 120, y: 205, w: 148, h: 36, cloth: "#1f4739", label: "House Vantrell" },
+    { x: 692, y: 205, w: 148, h: 36, cloth: "#5e1e2b", label: "Foreign Delegation" },
+    { x: 130, y: 390, w: 128, h: 34, cloth: "#2d2a38", label: "House Marrow" },
+  ];
+  for (const t of wingTables) {
+    ctx.fillStyle = "rgba(0,0,0,0.45)"; ctx.fillRect(t.x + 3, t.y + 4, t.w, t.h);
+    ctx.fillStyle = "#472c26"; ctx.fillRect(t.x, t.y, t.w, t.h);
+    ctx.fillStyle = t.cloth; ctx.fillRect(t.x + 4, t.y + 4, t.w - 8, t.h - 8);
+    ctx.fillStyle = "#e6dfd3"; ctx.fillRect(t.x + 8, t.y + 7, t.w - 16, t.h - 14);
+    ctx.fillStyle = "#e6c15a";
+    ctx.fillRect(t.x + 24, t.y + 12, 8, 8);
+    ctx.fillRect(t.x + Math.floor(t.w / 2) - 5, t.y + 11, 10, 9);
+    ctx.fillRect(t.x + t.w - 32, t.y + 12, 8, 8);
+    ctx.fillStyle = "#9e1934"; ctx.fillRect(t.x + 48, t.y + 13, 5, 5); ctx.fillRect(t.x + t.w - 54, t.y + 13, 5, 5);
+  }
+
+  // Grand Chandeliers & Warm Candelabra Glows
+  for (const [cx, cy] of [[194, 220], [766, 220], [194, 405], [480, 105], [480, 290]]) {
+    drawWarmLight(cx, cy, 95, 0.16);
+    ctx.fillStyle = "#ffd166"; ctx.fillRect(cx - 1, cy - 4 - fl, 3, 4);
+  }
+
+  // Non-Conversable Ambient Crowd, Musicians & Guards
+  for (const g of AMBIENT_GUESTS) {
+    const style = {
+      hair: g.hair, skin: "#e3b996", skinSh: "#bd8d6a",
+      coat: g.coat, shade: "#181421", trim: "#9c8559", cravat: "#dcd3c0",
+      type: g.role === "guard" ? "armor" : (g.gown ? "gown" : "noble"),
+    };
+    const prop = g.role === "musician" ? "violin" : (g.role === "guard" ? "halberd" : null);
+    drawDetailedSprite(ctx, style, g.x, g.y, 1.25, false, tick + g.phase, !!g.facingLeft, prop);
+  }
+
+  for (const s of PATROL_SERVANTS) {
+    const t = ((tick * s.speed + s.offset) % 200) / 200;
+    const ping = t < 0.5 ? t * 2 : (1 - t) * 2;
+    const sx = s.x1 + (s.x2 - s.x1) * ping;
+    const sy = s.y1 + (s.y2 - s.y1) * ping;
+    const facingLeft = t >= 0.5 && s.x2 > s.x1;
+    const sStyle = { hair: "#52463d", skin: "#e6bea0", skinSh: "#bf9575", coat: "#2b2833", shade: "#18161f", trim: "#ebe6df", cravat: "#ffffff", type: "butler" };
+    drawDetailedSprite(ctx, sStyle, sx, sy, 1.25, true, tick, facingLeft, "tray");
   }
 
   ctx.fillStyle = "rgba(255, 226, 153, 0.28)";
   for (const d of DUST) {
-    const dy = (d.y - tick * d.s) % 240;
-    ctx.fillRect(d.x, dy < 0 ? dy + 240 : dy, 1, 1);
+    const dy = (d.y - tick * d.s) % 520;
+    ctx.fillRect(d.x, dy < 0 ? dy + 520 : dy, 1, 1);
   }
 
-  updatePlayerMovement();
   const npcs = getAct2NPCs();
   let nearest = null, nearestDist = 999;
   for (const n of npcs) {
@@ -962,13 +1070,15 @@ function renderAct2Manor() {
     drawDetailedSprite(ctx, CHAR_STYLE[n.id], n.x, n.y, 1.35, false, tick, facingLeft);
     const d = Math.hypot(player.x - n.x, player.y - n.y);
     if (d < nearestDist) { nearestDist = d; nearest = n; }
-    if (d < 34) {
+    if (d < 56) {
       ctx.fillStyle = "#e6c15a"; ctx.font = "9px monospace";
       ctx.fillText(CHAR_STYLE[n.id].label, n.x - 24, n.y - 26);
     }
   }
-  if (nearest && nearestDist < 34 && nearest.id !== activeNpc) selectNpc(nearest.id);
+  if (nearest && nearestDist < 56 && nearest.id !== activeNpc) selectNpc(nearest.id);
   drawDetailedSprite(ctx, CHAR_STYLE.viscount, player.x, player.y, 1.35, player.moving, tick, player.dir === 2);
+
+  ctx.restore();
 }
 
 function renderAct3Toast() {
@@ -1152,7 +1262,49 @@ function renderDungeonExecution(act) {
   ctx.restore();
 }
 
+function getSceneCollisions(scene) {
+  if (scene === "balcony") {
+    // Restricted strictly to the stone balcony terrace behind the marble balustrade
+    return {
+      bounds: { minX: 46, maxX: 434, minY: 168, maxY: 246 },
+      boxes: [{ x: 222, y: 186, w: 36, h: 36 }],
+    };
+  }
+  if (scene === "kitchen") {
+    return {
+      bounds: { minX: 28, maxX: 452, minY: 74, maxY: 244 },
+      boxes: [
+        { x: 48, y: 94, w: 124, h: 36 },
+        { x: 48, y: 178, w: 110, h: 34 },
+        { x: 186, y: 216, w: 52, h: 30 },
+        { x: 392, y: 164, w: 52, h: 56 },
+      ],
+    };
+  }
+  // Grand Banquet Hall (960x540) — solid banquet tables, dais, statues, fireplace
+  return {
+    bounds: { minX: 42, maxX: 882, minY: 82, maxY: 502 },
+    boxes: [
+      { x: 372, y: 90,  w: 216, h: 34 }, // Royal High Table
+      { x: 116, y: 201, w: 156, h: 42 }, // House Vantrell Table
+      { x: 688, y: 201, w: 156, h: 42 }, // Foreign Delegation Table
+      { x: 126, y: 386, w: 136, h: 40 }, // House Marrow Table
+      { x: 882, y: 274, w: 48,  h: 98 }, // Grand Fireplace
+    ],
+  };
+}
+
+function tryMovePlayer(nx, ny, cfg) {
+  const cx = Math.max(cfg.bounds.minX, Math.min(cfg.bounds.maxX, nx));
+  const cy = Math.max(cfg.bounds.minY, Math.min(cfg.bounds.maxY, ny));
+  const blocked = (px, py) => cfg.boxes.some(b => px + 7 > b.x && px - 7 < b.x + b.w && py + 6 > b.y && py - 6 < b.y + b.h);
+  if (!blocked(cx, player.y)) player.x = cx;
+  if (!blocked(player.x, cy)) player.y = cy;
+}
+
 function updatePlayerMovement() {
+  const scene = gameState ? gameState.current_scene : "party_floor";
+  const cfg = getSceneCollisions(scene);
   let dx = 0, dy = 0;
   if (keys["w"] || keys["arrowup"])    { dy -= player.speed; player.dir = 1; }
   if (keys["s"] || keys["arrowdown"])  { dy += player.speed; player.dir = 0; }
@@ -1161,16 +1313,17 @@ function updatePlayerMovement() {
 
   if (dx !== 0 || dy !== 0) {
     player.targetX = null; player.targetY = null;
-    player.x = Math.max(36, Math.min(444, player.x + dx));
-    player.y = Math.max(55, Math.min(245, player.y + dy));
+    tryMovePlayer(player.x + dx, player.y + dy, cfg);
     player.moving = true;
   } else if (player.targetX !== null) {
     const tx = player.targetX - player.x, ty = player.targetY - player.y;
     const dist = Math.hypot(tx, ty);
     if (dist < 2.5) { player.targetX = null; player.targetY = null; player.moving = false; }
     else {
-      player.x += (tx / dist) * player.speed; player.y += (ty / dist) * player.speed;
-      player.dir = tx < 0 ? 2 : 3; player.moving = true;
+      const prevX = player.x, prevY = player.y;
+      tryMovePlayer(player.x + (tx / dist) * player.speed, player.y + (ty / dist) * player.speed, cfg);
+      if (Math.hypot(player.x - prevX, player.y - prevY) < 0.2) { player.targetX = null; player.targetY = null; player.moving = false; }
+      else { player.dir = tx < 0 ? 2 : 3; player.moving = true; }
     }
   } else {
     player.moving = false;
@@ -1232,18 +1385,25 @@ function syncHUD() {
     selectNpc("reynard");
     addQuickBtn("Enter the Main Hall →", async () => {
       const data = await post("/api/enter_hall", { session_id: sessionId });
+      player.x = 480; player.y = 460; player.targetX = null; player.targetY = null;
       applyResponse(data); selectNpc("fenwick");
     }, "primary");
   } else if (act === "act2") {
-    controlsHint.textContent = "WASD / Arrows or Click to walk · Approach named guests to talk";
+    controlsHint.textContent = "WASD / Arrows or Click to explore the Grand Hall · Approach any table to talk";
     for (const [sid, label] of [["party_floor", "Main Hall"], ["kitchen", "Kitchen & Cellar"], ["balcony", "The Balcony"]]) {
       const b = document.createElement("button");
       b.textContent = label;
       b.onclick = async () => {
-        if (sid === "party_floor") { gameState.current_scene = "party_floor"; syncHUD(); return; }
+        if (sid === "party_floor") {
+          gameState.current_scene = "party_floor";
+          player.x = 480; player.y = 460; player.targetX = null; player.targetY = null;
+          syncHUD(); return;
+        }
         const data = await post("/api/visit_station", { session_id: sessionId, target: sid });
+        if (sid === "kitchen") { player.x = 240; player.y = 195; selectNpc("mrs_alwen"); }
+        if (sid === "balcony") { player.x = 240; player.y = 192; }
+        player.targetX = null; player.targetY = null;
         applyResponse(data);
-        if (sid === "kitchen") selectNpc("mrs_alwen");
       };
       stationBar.appendChild(b);
     }
@@ -1266,7 +1426,25 @@ function syncHUD() {
       applyResponse(data); selectNpc("duke");
     }, "danger");
   } else if (act === "act3") {
-    controlsHint.textContent = "ACT 3 CLIMAX — Type your accusation, evidence, or physical action!";
+    const phase = gameState.act3_phase || "confrontation";
+    const turns = gameState.act3_turns || 0;
+    if (phase === "confrontation") {
+      controlsHint.textContent = `ACT 3 TOAST (Turn ${turns}/6) — Interrupt with evidence/action, or stay silent to let the toast proceed`;
+      addQuickBtn("🤫 Stay Silent / Let Toast Proceed", async () => {
+        const data = await post("/api/act3_action", { session_id: sessionId, npc_id: "duke", message: "" });
+        applyResponse(data);
+      }, "danger");
+      addQuickBtn("✋ Grab / Intercept Glass", async () => {
+        const data = await post("/api/act3_action", { session_id: sessionId, npc_id: "duke", message: "I step between them and grab the glass from Isolde!" });
+        applyResponse(data);
+      }, "primary");
+    } else {
+      controlsHint.textContent = `ACT 3 AFTERMATH (${phase.replace("_", " ").toUpperCase()}) — Speak, or continue in silence`;
+      addQuickBtn("Continue / Say Nothing →", async () => {
+        const data = await post("/api/act3_action", { session_id: sessionId, npc_id: "duke", message: "" });
+        applyResponse(data);
+      }, "primary");
+    }
   } else if (act.startsWith("ending_")) {
     controlsHint.textContent = `THE END — ${act.toUpperCase()}`;
     const delay = (act === "ending_d" || act === "ending_f") ? 2400 : 0;

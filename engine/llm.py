@@ -15,12 +15,12 @@ import requests
 import config
 
 
-def chat(system_prompt: str, messages: list, temperature: float = 0.75, json_mode: bool = False) -> str:
+def chat(system_prompt: str, messages: list, temperature: float = 0.75, json_mode: bool = False, max_tokens: int = 500) -> str:
     res = ""
     if config.LLM_PROVIDER == "ollama":
-        res = _ollama(system_prompt, messages, temperature, json_mode=json_mode)
+        res = _ollama(system_prompt, messages, temperature, json_mode=json_mode, max_tokens=max_tokens)
     elif config.LLM_PROVIDER == "groq":
-        res = _groq(system_prompt, messages, temperature, json_mode=json_mode)
+        res = _groq(system_prompt, messages, temperature, json_mode=json_mode, max_tokens=max_tokens)
     else:
         res = f"[ERROR: Unknown provider '{config.LLM_PROVIDER}']"
 
@@ -208,12 +208,12 @@ def analyze_confrontation(player_msg: str, evidence_log: list) -> dict:
     }
 
 
-def _ollama(system: str, messages: list, temperature: float, json_mode: bool = False) -> str:
+def _ollama(system: str, messages: list, temperature: float, json_mode: bool = False, max_tokens: int = 500) -> str:
     payload = {
         "model": config.OLLAMA_MODEL,
         "messages": [{"role": "system", "content": system}] + messages,
         "stream": False,
-        "options": {"temperature": temperature, "num_predict": 500},
+        "options": {"temperature": temperature, "num_predict": max_tokens},
     }
     if json_mode:
         payload["format"] = "json"
@@ -253,7 +253,7 @@ def _wait_for_groq_rate_limit():
     _GROQ_CALL_TIMESTAMPS.append(time.monotonic())
 
 
-def _groq(system: str, messages: list, temperature: float, json_mode: bool = False) -> str:
+def _groq(system: str, messages: list, temperature: float, json_mode: bool = False, max_tokens: int = 500) -> str:
     global _GROQ_KEY_INVALID
     if not config.GROQ_API_KEY:
         return "[ERROR: GROQ_API_KEY not set.]"
@@ -267,7 +267,7 @@ def _groq(system: str, messages: list, temperature: float, json_mode: bool = Fal
         "model": config.GROQ_MODEL,
         "messages": [{"role": "system", "content": system}] + messages,
         "temperature": temperature,
-        "max_tokens": 500,
+        "max_tokens": max_tokens,
     }
     if json_mode:
         payload["response_format"] = {"type": "json_object"}
@@ -317,14 +317,22 @@ def _smart_fallback(system: str, messages: list, temperature: float) -> str:
     if "You are a test." in system or last_user_msg.lower() in ("say ok.", "ok", "ping"):
         return "OK."
 
-    # 1b. Group Conversation Director
-    if "conversation director" in system.lower():
+    # 1b. Table Conversation Judge / Director (structured JSON)
+    if "table conversation judge" in system.lower() or "conversation director" in system.lower():
         low = last_user_msg.lower()
         if "cassian" in low and "ophelia" in low:
-            return "ophelia" if "primary responder: cassian" in low else "cassian"
+            prim = "ophelia" if "ophelia" in low else "cassian"
+            sec = "cassian" if prim == "ophelia" else "ophelia"
+            return json.dumps({"primary": prim, "secondary": sec, "cue": "reacts briefly to their sibling's remark"})
         if "demir" in low and "kavir" in low:
-            return "kavir" if "primary responder: demir" in low else "NONE"
-        return "NONE"
+            prim = "kavir" if any(w in low for w in ["kavir", "general", "war", "marrow"]) else "demir"
+            sec = "demir" if prim == "kavir" else "kavir"
+            return json.dumps({"primary": prim, "secondary": sec, "cue": "adds a brief guarded aside"})
+        if "duke" in low and "isolde" in low:
+            prim = "isolde" if "isolde" in low else ("reynard" if "reynard" in low else "duke")
+            sec = "duke" if prim == "isolde" else "isolde"
+            return json.dumps({"primary": prim, "secondary": sec, "cue": "glances across the high table and chimes in"})
+        return json.dumps({"primary": "none", "secondary": "none", "cue": ""})
 
     # 2. GM Analysis Exchange (_ANALYSIS_SYSTEM)
     if "You are a game state analyser" in system:
