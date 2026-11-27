@@ -117,9 +117,9 @@ const AMBIENT_GUESTS = [
 ];
 
 const DANCING_COUPLES = [
-  { cx: 432, cy: 258, rx: 22, ry: 12, speed: 0.022, offset: 0.0, coat1: "#2d4563", coat2: "#7d2846" },
-  { cx: 528, cy: 266, rx: 22, ry: 12, speed: 0.020, offset: 2.1, coat1: "#3d2d59", coat2: "#2c6154" },
-  { cx: 480, cy: 326, rx: 24, ry: 13, speed: 0.024, offset: 4.2, coat1: "#5e3a24", coat2: "#6b4c7a" },
+  { cx: 432, cy: 258, rx: 18, ry: 10, speed: 0.012, offset: 0.0, coat1: "#2d4563", coat2: "#7d2846" },
+  { cx: 528, cy: 266, rx: 18, ry: 10, speed: 0.011, offset: 2.1, coat1: "#3d2d59", coat2: "#2c6154" },
+  { cx: 480, cy: 326, rx: 20, ry: 11, speed: 0.013, offset: 4.2, coat1: "#5e3a24", coat2: "#6b4c7a" },
 ];
 
 const PATROL_SERVANTS = [
@@ -423,6 +423,8 @@ function drawWarmLight(x, y, radius, alpha = 0.22) {
 // ── Scene Renderers ──────────────────────────────────────────
 let execTick = 0;
 let execActiveAct = null;
+let balconyEdgePush = 0;
+let balconyFallTick = 0;
 
 function renderScene() {
   tick++;
@@ -430,7 +432,10 @@ function renderScene() {
 
   const act = gameState ? gameState.current_act : "prologue";
   const scene = gameState ? gameState.current_scene : "dream";
-  if (act === "ending_d" || act === "ending_f") {
+  if (act === "ending_balcony") {
+    balconyFallTick++;
+    renderBalconyFall();
+  } else if (act === "ending_d" || act === "ending_f") {
     if (execActiveAct !== act) { execActiveAct = act; execTick = 0; }
     execTick++;
     renderDungeonExecution(act);
@@ -993,13 +998,9 @@ function renderAct2Manor() {
   drawPixelRing(ctx, 480, 290, 86, 82, "#c9a349");
   drawPixelRing(ctx, 480, 290, 56, 53, "#541625");
 
-  // Animated Waltzing Couples on Dance Floor
+  // Animated Waltzing Couples on Dance Floor (graceful ballroom hold, 3/4 sway, no running)
   for (const dc of DANCING_COUPLES) {
-    const ang = tick * dc.speed + dc.offset;
-    const dx = dc.cx + Math.cos(ang) * dc.rx;
-    const dy = dc.cy + Math.sin(ang) * dc.ry;
-    drawDetailedSprite(ctx, { hair: "#3d261c", skin: "#e6bea0", skinSh: "#bd8d6a", coat: dc.coat1, shade: "#181421", trim: "#e6c15a", cravat: "#f0ebe1", type: "noble" }, dx - 6, dy, 1.25, true, tick, false);
-    drawDetailedSprite(ctx, { hair: "#b88a4d", skin: "#f0cbb0", skinSh: "#cc9e82", coat: dc.coat2, shade: "#26121b", trim: "#e6c15a", cravat: "#f5ebd6", type: "gown" },  dx + 6, dy + 1, 1.25, true, tick, true);
+    drawWaltzCouple(ctx, dc, tick);
   }
 
   // Majestic North Dais & Royal High Table (Duke Aldric & Lady Isolde)
@@ -1262,12 +1263,99 @@ function renderDungeonExecution(act) {
   ctx.restore();
 }
 
+function drawWaltzCouple(c, dc, frame) {
+  const ang = frame * dc.speed + dc.offset;
+  const cx = dc.cx + Math.cos(ang) * dc.rx;
+  const cy = dc.cy + Math.sin(ang) * dc.ry;
+  const sway = Math.sin(frame * 0.07 + dc.offset) * 1.5;
+  const rise = Math.abs(Math.sin(frame * 0.105 + dc.offset)) * -2;
+  const spin = Math.cos(frame * 0.045 + dc.offset);
+  const sep = 4.5 + Math.abs(spin) * 1.2;
+
+  c.save();
+  c.translate(Math.round(cx + sway), Math.round(cy + rise));
+
+  // Shared shadow
+  c.fillStyle = "rgba(0,0,0,0.38)";
+  c.fillRect(-10, 7 - rise, 20, 3);
+
+  // Partner 1 (Gentleman, left/leading)
+  const gX = spin >= 0 ? -sep : sep;
+  c.fillStyle = "#1a1721"; c.fillRect(gX - 2, 1, 2, 5); c.fillRect(gX + 1, 1, 2, 5);
+  c.fillStyle = dc.coat1; c.fillRect(gX - 4, -8, 8, 10);
+  c.fillStyle = "#e6c15a"; c.fillRect(gX - 1, -7, 2, 6);
+  c.fillStyle = "#e6bea0"; c.fillRect(gX - 3, -15, 6, 7);
+  c.fillStyle = "#3d261c"; c.fillRect(gX - 3, -17, 6, 3);
+
+  // Partner 2 (Lady, flared swirling gown)
+  const lX = -gX;
+  const flare = Math.round(Math.abs(Math.sin(frame * 0.09 + dc.offset)) * 2);
+  c.fillStyle = "#26121b"; c.fillRect(lX - 5 - flare, -1, 10 + flare * 2, 7);
+  c.fillStyle = dc.coat2; c.fillRect(lX - 4 - Math.floor(flare / 2), -8, 8 + flare, 10);
+  c.fillStyle = "#e6c15a"; c.fillRect(lX - 1, -6, 2, 9);
+  c.fillStyle = "#f0cbb0"; c.fillRect(lX - 3, -15, 6, 7);
+  c.fillStyle = "#b88a4d"; c.fillRect(lX - 3, -17, 6, 4);
+
+  // Joined ballroom arms
+  c.fillStyle = "#f0ebe1";
+  c.fillRect(-3, -6, 6, 2);
+  c.fillStyle = "#e6bea0";
+  c.fillRect(0, -10, 2, 2);
+  c.restore();
+}
+
+function renderBalconyFall() {
+  // Draw moonlit balcony scenery without player standing on terrace
+  ctx.fillStyle = "#040611"; ctx.fillRect(0, 0, 480, 40);
+  ctx.fillStyle = "#070c1e"; ctx.fillRect(0, 40, 480, 40);
+  ctx.fillStyle = "#0c1530"; ctx.fillRect(0, 80, 480, 42);
+  for (const [sx, sy] of [[42, 16], [118, 28], [186, 14], [254, 34], [326, 20], [438, 18]]) {
+    ctx.fillStyle = "#d9e6ff"; ctx.fillRect(sx, sy, 2, 2);
+  }
+  drawPixelCircle(ctx, 368, 44, 18, "#f5f0d6");
+  ctx.fillStyle = "#111b36";
+  ctx.beginPath(); ctx.moveTo(0, 118); ctx.lineTo(90, 74); ctx.lineTo(185, 106); ctx.lineTo(285, 64); ctx.lineTo(395, 102); ctx.lineTo(480, 72); ctx.lineTo(480, 128); ctx.lineTo(0, 128); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = "#0c162b"; ctx.fillRect(0, 118, 480, 32);
+  ctx.fillStyle = "#162d47"; ctx.fillRect(105, 122, 270, 22);
+  ctx.fillStyle = "#312d3d"; ctx.fillRect(0, 142, 480, 14);
+  ctx.fillStyle = "#4c475e"; ctx.fillRect(16, 138, 448, 5);
+  ctx.fillStyle = "#1c1926"; ctx.fillRect(0, 154, 480, 116);
+  drawPixelCircle(ctx, 240, 204, 18, "#4b475c");
+  drawPixelCircle(ctx, 240, 204, 14, "#1e3759");
+
+  // Falling Viscount animation over the balustrade into the valley below
+  const t = Math.min(1, balconyFallTick / 85);
+  const fx = Math.max(48, Math.min(432, player.x)) + Math.sin(t * 9) * 4;
+  const fy = t < 0.2 ? 150 - Math.sin((t / 0.2) * Math.PI) * 16 : 150 - (t - 0.2) * 35;
+  const sc = Math.max(0.25, 1.35 * (1 - t * 0.82));
+  ctx.save();
+  ctx.translate(fx, fy);
+  ctx.rotate(t * 4.2);
+  ctx.scale(sc, sc);
+  ctx.fillStyle = "#243b61"; ctx.fillRect(-5, -8, 10, 12);
+  ctx.fillStyle = "#f0c4a0"; ctx.fillRect(-3, -14, 6, 6);
+  ctx.fillStyle = "#e6c15a"; ctx.fillRect(-6, -4, 12, 2);
+  ctx.restore();
+
+  if (balconyFallTick >= 86 && balconyFallTick <= 94) {
+    ctx.fillStyle = "rgba(163, 20, 46, 0.32)";
+    ctx.fillRect(0, 0, 480, 270);
+  }
+  if (balconyFallTick >= 92) {
+    ctx.fillStyle = "rgba(8, 7, 12, 0.78)";
+    ctx.fillRect(105, 18, 270, 24);
+    ctx.fillStyle = "#ff8a9b";
+    ctx.font = "bold 11px monospace";
+    ctx.fillText("THE VISCOUNT FELL FROM THE BALCONY", 122, 34);
+  }
+}
+
 function getSceneCollisions(scene) {
   if (scene === "balcony") {
-    // Restricted strictly to the stone balcony terrace behind the marble balustrade
+    // Smooth movement across the entire stone balcony terrace; pushing past minY triggers fall
     return {
-      bounds: { minX: 46, maxX: 434, minY: 168, maxY: 246 },
-      boxes: [{ x: 222, y: 186, w: 36, h: 36 }],
+      bounds: { minX: 30, maxX: 450, minY: 152, maxY: 254 },
+      boxes: [{ x: 224, y: 188, w: 32, h: 30 }],
     };
   }
   if (scene === "kitchen") {
@@ -1315,6 +1403,20 @@ function updatePlayerMovement() {
     player.targetX = null; player.targetY = null;
     tryMovePlayer(player.x + dx, player.y + dy, cfg);
     player.moving = true;
+    if (scene === "balcony" && dy < 0 && player.y <= cfg.bounds.minY + 1) {
+      balconyEdgePush++;
+      if (balconyEdgePush === 18) {
+        controlsHint.textContent = "⚠ Careful! Keep pushing over the balustrade and you will fall!";
+      }
+      if (balconyEdgePush >= 52 && gameState && gameState.current_act === "act2") {
+        balconyFallTick = 0;
+        gameState.current_act = "ending_balcony";
+        appendMsg("narration", "You lean too far over the slick stone balustrade, lose your footing, and plunge into the moonlit valley below.");
+        syncHUD();
+      }
+    } else {
+      balconyEdgePush = Math.max(0, balconyEdgePush - 2);
+    }
   } else if (player.targetX !== null) {
     const tx = player.targetX - player.x, ty = player.targetY - player.y;
     const dist = Math.hypot(tx, ty);
@@ -1401,7 +1503,7 @@ function syncHUD() {
         }
         const data = await post("/api/visit_station", { session_id: sessionId, target: sid });
         if (sid === "kitchen") { player.x = 240; player.y = 195; selectNpc("mrs_alwen"); }
-        if (sid === "balcony") { player.x = 240; player.y = 192; }
+        if (sid === "balcony") { player.x = 240; player.y = 240; balconyEdgePush = 0; }
         player.targetX = null; player.targetY = null;
         applyResponse(data);
       };
@@ -1447,7 +1549,7 @@ function syncHUD() {
     }
   } else if (act.startsWith("ending_")) {
     controlsHint.textContent = `THE END — ${act.toUpperCase()}`;
-    const delay = (act === "ending_d" || act === "ending_f") ? 2400 : 0;
+    const delay = (act === "ending_d" || act === "ending_f" || act === "ending_balcony") ? 2200 : 0;
     if (delay > 0) setTimeout(() => { if (gameState && gameState.current_act === act) showEndingModal(act); }, delay);
     else showEndingModal(act);
   }
@@ -1461,6 +1563,7 @@ const ENDING_TITLES = {
   ending_e: "ENDING E — THE CONSPIRACY CODA",
   ending_f: "ENDING F — TOTAL FAILURE",
   ending_g: "ENDING G — SELF-SACRIFICE",
+  ending_balcony: "GAME OVER — FATAL FALL FROM BALCONY",
 };
 
 let shownEnding = null;
@@ -1579,6 +1682,10 @@ document.getElementById("btnNew").onclick = startNewGame;
 async function startNewGame() {
   cancelGroupQueue(false);
   shownEnding = null;
+  balconyEdgePush = 0;
+  balconyFallTick = 0;
+  cam = { x: 0, y: 0 };
+  player.x = 240; player.y = 180; player.targetX = null; player.targetY = null;
   chatLog.innerHTML = "";
   prologueStep = 0;
   const data = await post("/api/new_game", {});
